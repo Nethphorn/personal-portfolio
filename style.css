@@ -1,0 +1,370 @@
+:root {
+  /* 
+    VARIABLES 
+    We use CSS variables to easily manage colors and themes.
+    Changing these values updates the look across the entire app.
+  */
+  --bg-image: url("img/space.png"); /* Background image */
+  --glass-bg: rgba(255, 255, 255, 0.1);       /* Translucent white */
+  --glass-border: rgba(255, 255, 255, 0.2);   /* Subtle border */
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Deep shadow for depth */
+  --text-color: #ffffff;
+  --accent-color: #7b2cbf;
+  --window-header-bg: rgba(0, 0, 0, 0.5);
+  --taskbar-bg: rgba(15, 15, 15, 0.7);
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none; /* Make it feel like an OS, not a website */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+  color: var(--text-color);
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Boot Screen */
+/* Boot Screen - Covers everything initially */
+#boot-screen {
+  position: fixed;            /* Stays in place when scrolling */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 9999;             /* Highest z-index to sit on top of everything */
+  display: flex;             /* Centering content */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 1s ease-out; /* Smooth fade out */
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Desktop */
+#desktop {
+  width: 100%;
+  height: calc(100% - 48px); /* Minus taskbar height */
+  position: relative;
+  padding: 10px;
+}
+
+.desktop-icons {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  height: 100%;
+  width: 100%;
+  gap: 10px;
+}
+
+.desktop-icon {
+  width: 80px;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+}
+
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.desktop-icon i {
+  font-size: 32px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.desktop-icon span {
+  font-size: 12px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  word-break: break-word;
+}
+
+/* Taskbar */
+#taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: var(--taskbar-bg);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  z-index: 5000;
+  border-top: 1px solid var(--glass-border);
+}
+
+.start-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.start-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.start-button i {
+  font-size: 24px;
+  color: #00a8e8;
+}
+
+.taskbar-apps {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  gap: 5px;
+}
+
+.taskbar-app {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.taskbar-app:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.taskbar-app.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.taskbar-app i {
+  font-size: 22px;
+}
+
+.tray-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 12px;
+}
+
+.tray-icon {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Windows */
+/* 
+  Windows 
+  The core of the "OS" feel. We use absolute positioning to let them
+  float anywhere. 'backdrop-filter: blur' creates the frosted glass effect.
+*/
+.window {
+  position: absolute;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);        /* The frosted glass magic */
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 200px;
+  transition: transform 0.2s, opacity 0.2s;
+  overflow: hidden;
+  resize: both;                       /* Native browser resizing */
+}
+
+.window.minimized {
+  transform: scale(0) translate(0, 1000px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.window-header {
+  height: 32px;
+  background: var(--window-header-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  cursor: grab;
+}
+
+.window-header:active {
+  cursor: grabbing;
+}
+
+.window-title {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.close-btn {
+  background: #ff5f56;
+}
+.min-btn {
+  background: #ffbd2e;
+}
+.max-btn {
+  background: #27c93f;
+}
+
+.window-content {
+  flex-grow: 1;
+  padding: 0;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  cursor: text;
+  user-select: text;
+}
+
+/* File Explorer Specifics */
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+.file-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.file-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.file-item i {
+  font-size: 36px;
+}
+.file-item.folder i {
+  color: #f8d775;
+}
+.file-item.file i {
+  color: #a0a0a0;
+}
+.file-item.image i {
+  color: #a48eff;
+}
+.file-item.code i {
+  color: #61dafb;
+}
+
+.file-name {
+  font-size: 12px;
+  text-align: center;
+  word-break: break-word;
+}
+
+/* 
+  MOBILE RESPONSIVENESS 
+  For screens smaller than 768px (phones), we simplify the UI.
+  Windows become full-screen apps to avoid tiny drag handles.
+*/
+@media (max-width: 768px) {
+  /* Increase desktop icon size for touch targets */
+  .desktop-icons {
+    justify-content: center;
+  }
+  
+  .desktop-icon {
+    width: 100px;
+    height: 110px;
+  }
+
+  /* Force Windows to be Full Screen */
+  .window {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: calc(100% - 48px) !important; /* Sit above taskbar */
+    border-radius: 0;
+    transform: none !important; /* Disable drag transforms */
+  }
+
+  /* Hide Maximize button (already maxed) */
+  .max-btn {
+    display: none;
+  }
+
+  /* Ensure dragging is effectively disabled visually even if JS fires */
+  .window-header {
+    cursor: default;
+  }
+  
+  /* Taskbar Improvements */
+  .taskbar-app {
+    width: 50px;
+    height: 100%;
+  }
+
+  /* Hide Start Button text if any, or adjust size */
+  .start-button {
+    width: 50px;
+  }
+}

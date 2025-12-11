@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Portfolio OS | Interactive Desktop Experience</title>
+    <meta name="description" content="An interactive portfolio website simulating a desktop operating system. Explore my projects, skills, and resume in a unique OS-like environment." />
+    <meta name="keywords" content="portfolio, web developer, interactive design, os simulation, javascript projects" />
+    <meta name="author" content="Portfolio Owner" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Portfolio OS | Interactive Desktop Experience" />
+    <meta property="og:description" content="Explore my projects and skills in this interactive web-based operating system." />
+    <meta property="og:image" content="https://raw.githubusercontent.com/brath/portfolio-os/main/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Portfolio OS | Interactive Desktop Experience" />
+    <meta property="twitter:description" content="Explore my projects and skills in this interactive web-based operating system." />
+    
+    <!-- Link to our Custom Styles -->
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2666/2666505.png" />
+    
+    <!-- Google Fonts: 'Inter' is a clean, modern font often used in UIs -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- FontAwesome: Library for icons (folders, start menu, etc.) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    
+    <!-- 
+      BOOT SCREEN 
+      This overlay covers the page initially to simulate an OS booting up.
+      It gets removed by JavaScript after a few seconds.
+    -->
+    <div id="boot-screen">
+      <div class="loader"></div>
+      <div class="boot-text">System Booting...</div>
+    </div>
+
+    <!-- 
+      DESKTOP ENVIRONMENT 
+      This is the main container for the wallpaper, icons, and open windows.
+    -->
+    <div id="desktop">
+      <!-- 
+        Desktop Icons:
+        These are generated dynamically by JavaScript (script.js) based on the 'apps' array.
+      -->
+      <div class="desktop-icons" id="desktop-icons"></div>
+
+      <!-- 
+        Windows Container:
+        When you open an app, the HTML for that "window" is injected here.
+        We use absolute positioning to move them around.
+      -->
+      <div id="windows-container"></div>
+    </div>
+
+    <!-- 
+      TASKBAR
+      Fixed at the bottom of the screen. 
+    -->
+    <div id="taskbar">
+      <!-- Start Button (Left) -->
+      <div class="start-button" id="start-btn">
+        <i class="fa-brands fa-windows"></i>
+      </div>
+
+      <!-- Active Apps (Middle) -->
+      <div class="taskbar-apps" id="taskbar-apps">
+        <!-- App icons appear here when windows are open -->
+      </div>
+
+      <!-- System Tray (Right) - Clock, Wifi, Sound -->
+      <div class="tray-area">
+        <div class="tray-icon"><i class="fa-solid fa-volume-high"></i></div>
+        <div class="tray-icon"><i class="fa-solid fa-wifi"></i></div>
+        <div class="clock" id="clock">12:00 PM</div>
+      </div>
+    </div>
+
+    <!-- Main Logic Script -->
+    <script src="script.js"></script>
+  </body>
+</html>
