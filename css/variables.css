@@ -1,0 +1,22 @@
+:root {
+  /* 
+    VARIABLES 
+    We use CSS variables to easily manage colors and themes.
+    Changing these values updates the look across the entire app.
+  */
+  
+  /* 
+     FALLBACK BACKGROUND
+     This image is shown if the video fails to load or on mobile.
+     Change 'img/space.png' to your preferred static image.
+  */
+  --bg-image: url("../img/space.png"); 
+  
+  --glass-bg: rgba(255, 255, 255, 0.1);       /* Translucent white */
+  --glass-border: rgba(255, 255, 255, 0.2);   /* Subtle border */
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Deep shadow for depth */
+  --text-color: #ffffff;
+  --accent-color: #7b2cbf;
+  --window-header-bg: rgba(0, 0, 0, 0.5);
+  --taskbar-bg: rgba(15, 15, 15, 0.7);
+}

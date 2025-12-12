@@ -20,7 +20,7 @@
     <meta property="twitter:description" content="Explore my projects and skills in this interactive web-based operating system." />
     
     <!-- Link to our Custom Styles -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/main.css" />
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2666/2666505.png" />
@@ -45,9 +45,12 @@
       It gets removed by JavaScript after a few seconds.
     -->
     <div id="boot-screen">
-      <div class="loader"></div>
-      <div class="boot-text">System Booting...</div>
+        <div class="spinner"></div>
+        <h2>Loading OS...</h2>
     </div>
+
+    <!-- Video Background -->
+    <video id="bg-video" autoplay muted loop playsinline></video>
 
     <!-- 
       DESKTOP ENVIRONMENT 
@@ -56,7 +59,7 @@
     <div id="desktop">
       <!-- 
         Desktop Icons:
-        These are generated dynamically by JavaScript (script.js) based on the 'apps' array.
+        These are generated dynamically by JavaScript (js/desktop.js) based on the 'apps' array.
       -->
       <div class="desktop-icons" id="desktop-icons"></div>
 
@@ -91,7 +94,7 @@
       </div>
     </div>
 
-    <!-- Main Logic Script -->
-    <script src="script.js"></script>
+    <!-- Main Logic Script (Module) -->
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,99 @@
+/* Taskbar */
+#taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: var(--taskbar-bg);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  z-index: 9000;
+  border-top: 1px solid var(--glass-border);
+}
+
+.start-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.start-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.start-button i {
+  font-size: 1.5rem;
+  color: #0078d4; /* Windows Blue */
+}
+
+/* Taskbar Apps (Center) */
+.taskbar-apps {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  justify-content: center; /* Center aligned like Win11 */
+}
+
+.taskbar-app {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.taskbar-app:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.taskbar-app.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.taskbar-app i {
+  font-size: 1.5rem;
+}
+
+/* System Tray */
+.tray-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 0.85rem;
+}
+
+.tray-icon {
+  font-size: 1rem;
+}
+
+.clock {
+  font-weight: 500;
+}
+
+.lang-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+.lang-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
