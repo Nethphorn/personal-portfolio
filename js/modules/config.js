@@ -1,5 +1,12 @@
 // Configuration Data
 
+export const config = {
+    audio: {
+        volume: 1,
+        muted: false
+    }
+};
+
 export const apps = [
     { id: 'file-explorer', icon: 'fa-regular fa-folder-open', titleKey: 'apps.explorer' },
     { id: 'browser', icon: 'fa-brands fa-chrome', titleKey: 'apps.browser' },

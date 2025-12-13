@@ -7,8 +7,18 @@ import { fileSystem, apps } from './config.js';
 import { t } from './i18n.js';
 import { openWindow } from './windows.js';
 import { renderFileExplorer, resetExplorerPath } from './apps.js';
+import { audioManager } from './audio.js';
 
 let dragIcon = null;
+
+// Global Click Listener for Sound
+document.addEventListener('click', () => {
+    // Initialize audio context on first user interaction if needed
+    if (!audioManager.initialized) {
+        audioManager.init();
+    }
+    audioManager.playClick();
+});
 
 export function initDesktop() {
     const desktopContainer = document.getElementById('desktop-icons');
