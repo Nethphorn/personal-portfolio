@@ -2,35 +2,63 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Portfolio OS | Interactive Desktop Experience</title>
-    <meta name="description" content="An interactive portfolio website simulating a desktop operating system. Explore my projects, skills, and resume in a unique OS-like environment." />
-    <meta name="keywords" content="portfolio, web developer, interactive design, os simulation, javascript projects" />
+    <meta
+      name="description"
+      content="An interactive portfolio website simulating a desktop operating system. Explore my projects, skills, and resume in a unique OS-like environment."
+    />
+    <meta
+      name="keywords"
+      content="portfolio, web developer, interactive design, os simulation, javascript projects"
+    />
     <meta name="author" content="Portfolio Owner" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Portfolio OS | Interactive Desktop Experience" />
-    <meta property="og:description" content="Explore my projects and skills in this interactive web-based operating system." />
-    <meta property="og:image" content="https://raw.githubusercontent.com/brath/portfolio-os/main/og-image.jpg" />
+    <meta
+      property="og:title"
+      content="Portfolio OS | Interactive Desktop Experience"
+    />
+    <meta
+      property="og:description"
+      content="Explore my projects and skills in this interactive web-based operating system."
+    />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/brath/portfolio-os/main/og-image.jpg"
+    />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="Portfolio OS | Interactive Desktop Experience" />
-    <meta property="twitter:description" content="Explore my projects and skills in this interactive web-based operating system." />
-    
+    <meta
+      property="twitter:title"
+      content="Portfolio OS | Interactive Desktop Experience"
+    />
+    <meta
+      property="twitter:description"
+      content="Explore my projects and skills in this interactive web-based operating system."
+    />
+
     <!-- Link to our Custom Styles -->
     <link rel="stylesheet" href="css/main.css" />
-    
+
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2666/2666505.png" />
-    
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://cdn-icons-png.flaticon.com/512/2666/2666505.png"
+    />
+
     <!-- Google Fonts: 'Inter' is a clean, modern font often used in UIs -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    
+
     <!-- FontAwesome: Library for icons (folders, start menu, etc.) -->
     <link
       rel="stylesheet"
@@ -38,15 +66,14 @@
     />
   </head>
   <body>
-    
     <!-- 
       BOOT SCREEN 
       This overlay covers the page initially to simulate an OS booting up.
       It gets removed by JavaScript after a few seconds.
     -->
     <div id="boot-screen">
-        <div class="spinner"></div>
-        <h2>Loading OS...</h2>
+      <div class="spinner"></div>
+      <h2>Loading OS...</h2>
     </div>
 
     <!-- Video Background -->
@@ -88,7 +115,9 @@
 
       <!-- System Tray (Right) - Clock, Wifi, Sound -->
       <div class="tray-area">
-        <div class="tray-icon"><i class="fa-solid fa-volume-high"></i></div>
+        <div class="tray-icon" id="volume-btn">
+          <i class="fa-solid fa-volume-high" id="volume-icon"></i>
+        </div>
         <div class="tray-icon"><i class="fa-solid fa-wifi"></i></div>
         <div class="clock" id="clock">12:00 PM</div>
       </div>

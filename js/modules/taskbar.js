@@ -6,6 +6,7 @@
 import { apps } from './config.js';
 import { toggleWindow } from './windows.js';
 import { toggleLanguage, updateLanguageButton } from './i18n.js';
+import { audioManager } from './audio.js';
 
 export function initTaskbar() {
     const container = document.getElementById('taskbar-apps');
@@ -40,6 +41,18 @@ export function initTaskbar() {
         }
     }
     updateLanguageButton();
+
+    // Volume Toggle
+    const volumeBtn = document.getElementById('volume-btn');
+    if (volumeBtn) {
+        volumeBtn.onclick = () => {
+            const isMuted = audioManager.toggleMute();
+            const icon = document.getElementById('volume-icon');
+            if (icon) {
+                icon.className = isMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+            }
+        };
+    }
 }
 
 export function initClock() {

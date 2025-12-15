@@ -38,7 +38,7 @@ class AudioManager {
     }
 
     playClick() {
-        if (this.isMuted || !this.clickSound) return;
+        if (!this.clickSound) return;
 
         const sound = this.clickSound.cloneNode();
         sound.volume = config.audio.volume;
