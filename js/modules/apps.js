@@ -158,11 +158,11 @@ function renderContact(container) {
             <h2>Contact Me</h2>
             <div style="display:flex; gap:20px; font-size:2rem;">
                 <!-- Update or add links below -->
-                <a href="https://github.com/YOUR_USERNAME" target="_blank" style="color:white;"><i class="fa-brands fa-github"></i></a>
-                <a href="https://linkedin.com/in/YOUR_USERNAME" target="_blank" style="color:white;"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="mailto:email@example.com" style="color:white;"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://github.com/SterbenIsDed" target="_blank" style="color:white;"><i class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com/in/SterbenIsDed" target="_blank" style="color:white;"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="mailto:nethphorn.tb@gmail.com" style="color:white;"><i class="fa-solid fa-envelope"></i></a>
             </div>
-            <p>email@example.com</p>
+            <p>nethphorn.tb@gmail.com</p>
         </div>
     `;
 }

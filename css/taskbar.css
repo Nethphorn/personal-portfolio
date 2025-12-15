@@ -30,9 +30,18 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-.start-button i {
-  font-size: 1.5rem;
-  color: #0078d4; /* Windows Blue */
+.start-icon {
+  width: 24px;
+  height: 24px;
+  background-color: #0ea5aa; /* Windows Blue */
+  -webkit-mask-image: url('../img/svg/logo.svg');
+  mask-image: url('../img/svg/logo.svg');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 /* Taskbar Apps (Center) */
