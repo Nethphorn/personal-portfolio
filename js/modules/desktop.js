@@ -11,6 +11,9 @@ import { audioManager } from './audio.js';
 
 let dragIcon = null;
 
+// ==========================================
+//  EVENT LISTENERS
+// ==========================================
 // Global Click Listener for Sound
 document.addEventListener('click', () => {
     // Initialize audio context on first user interaction if needed
@@ -20,6 +23,10 @@ document.addEventListener('click', () => {
     audioManager.playClick();
 });
 
+// ==========================================
+//  FUNCTION: initDesktop
+//  Initializes the desktop by rendering icons.
+// ==========================================
 export function initDesktop() {
     const desktopContainer = document.getElementById('desktop-icons');
     desktopContainer.innerHTML = ''; 
@@ -43,8 +50,38 @@ export function initDesktop() {
 
         desktopContainer.appendChild(el);
     });
+
+    setupWelcomeText();
 }
 
+// ==========================================
+//  FUNCTION: setupWelcomeText
+//  Handles animating welcome text.
+// ==========================================
+function setupWelcomeText() {
+    const ids = ['welcome-text-en', 'welcome-text-jp'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            const text = el.innerText;
+            if (el.querySelector('span')) return;
+            
+            // Split by spaces to handle word wrapping
+            const words = text.split(' ');
+            
+            el.innerHTML = words.map(word => {
+                const letters = word.split('').map(char => `<span>${char}</span>`).join('');
+                
+                return `<span class="word-span" style="display: inline-block; white-space: nowrap;">${letters}</span>`;
+            }).join(' ');
+        }
+    });
+}
+
+// ==========================================
+//  FUNCTION: openFileExplorerAt
+//  Opens the file explorer at a specific folder.
+// ==========================================
 function openFileExplorerAt(folderItem) {
     const app = apps.find(a => a.id === 'file-explorer');
     openWindow(app);
@@ -59,6 +96,10 @@ function openFileExplorerAt(folderItem) {
     }
 }
 
+// ==========================================
+//  FUNCTION: startIconDrag
+//  Handles dragging icons.
+// ==========================================
 function startIconDrag(e, el) {
     if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
         // pass
