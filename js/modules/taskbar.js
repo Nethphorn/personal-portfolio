@@ -58,7 +58,13 @@ export function initTaskbar() {
 export function initClock() {
     const clock = document.getElementById('clock');
     setInterval(() => {
-        clock.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const now = new Date();
+        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const date = `${year}/${month}/${day}`;
+        clock.innerHTML = `${time}<br>${date}`;
     }, 1000);
 }
 
