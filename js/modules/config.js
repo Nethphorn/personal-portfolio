@@ -31,10 +31,10 @@ export const fileSystem = {
             children: [
                 { 
                     type: 'file', 
-                    name: 'Portfolio Website', 
+                    name: 'Company employee management app', 
                     icon: 'project', 
                     data: {
-                        description: 'A personal OS-style portfolio.',
+                        description: 'A simple employee management app.',
                         link: '#', // <-- Add your project URL here
                         img: 'https://via.placeholder.com/300' // <-- Add project screenshot URL
                     }
@@ -42,10 +42,10 @@ export const fileSystem = {
                 // --- Copy Below This Line to Add New Project ---
                 { 
                     type: 'file', 
-                    name: 'AI Gesture App', 
+                    name: 'Game app', 
                     icon: 'project', 
                     data: {
-                        description: 'Control robots with hand gestures.',
+                        description: 'A simple game app.',
                         link: '#',
                         img: 'https://via.placeholder.com/300'
                     }
