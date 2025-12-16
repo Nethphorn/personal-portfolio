@@ -44,9 +44,10 @@
 .desktop-icon span {
   font-size: 0.9rem;
   text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-  word-wrap: break-word; /* Wrap long text */
-  overflow-wrap: break-word;
-  white-space: normal;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  white-space: pre-wrap;
+  word-break: keep-all; 
   max-width: 100%;
   line-height: 1.2;
 }
@@ -68,15 +69,9 @@
   gap: 20px;
 }
 
-/* Font Face for Japanese Text */
-@font-face {
-  font-family: 'MadouFutoMaruGothic';
-  src: url('../Font/madou-futo-maru-gothic-font/MadouFutoMaruGothic-d9Xo7.ttf') format('truetype');
-}
-
 #welcome-text-jp {
   display: none;
-  font-family: 'MadouFutoMaruGothic', 'Press Start 2P', monospace; /* Fallback to pixel font if fails */
+  /* Font handled in pixel-theme-fonts.css */
 }
 
 
@@ -85,9 +80,7 @@
   pointer-events: auto; /* Enable hover on text */
 }
 
-.pixel-text {
-  pointer-events: auto; /* Enable hover on text */
-}
+
 
 /* Individual Word Styling */
 .word-span {

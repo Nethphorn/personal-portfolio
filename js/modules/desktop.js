@@ -41,7 +41,16 @@ export function initDesktop() {
         el.style.left = '20px';
 
         el.innerHTML = `
-            <i class="fa-solid fa-folder" style="color: #f8d775;"></i>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated; margin-bottom: 5px;">
+                <path d="M22 6H12L10 4H2V20H22V6Z" fill="#F8D775" stroke="#000" stroke-width="2" shape-rendering="crispEdges"/>
+                <path d="M2 6H22V20H2V6Z" fill="#F8D775"/>
+                <path d="M12 6L10 4H2V6H12Z" fill="#FFE59A"/>
+                <!-- Pixel art detail/highlight -->
+                <rect x="3" y="7" width="18" height="1" fill="#FFE59A"/>
+                <rect x="2" y="6" width="1" height="14" fill="#000"/>
+                <rect x="21" y="6" width="1" height="14" fill="#000"/>
+                <rect x="2" y="20" width="20" height="1" fill="#000"/>
+            </svg>
             <span>${t(item.nameKey)}</span>
         `;
 

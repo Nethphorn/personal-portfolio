@@ -7,6 +7,10 @@ import { apps } from './config.js';
 let explorerPath = [];
 let currentFolder = fileSystem.root;
 
+// ==========================================
+//  FUNCTION: loadAppContent
+//  Loads the content of an app into a container.
+// ==========================================
 export function loadAppContent(app, container, extraData) {
     container.innerHTML = '';
     
@@ -80,7 +84,37 @@ export function renderFileExplorer(container, items) {
 
         const name = item.nameKey ? t(item.nameKey) : item.name;
 
-        el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${name}</span>`;
+        if (item.type === 'folder') {
+             el.innerHTML = `
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated; margin-bottom: 5px;">
+                    <path d="M22 6H12L10 4H2V20H22V6Z" fill="#F8D775" stroke="#000" stroke-width="2" shape-rendering="crispEdges"/>
+                    <path d="M2 6H22V20H2V6Z" fill="#F8D775" stroke="#000" stroke-width="2"/>
+                    <path d="M12 6L10 4H2V6H12Z" fill="#FFE59A"/>
+                    <rect x="3" y="7" width="18" height="1" fill="#FFE59A"/>
+                    <rect x="2" y="6" width="1" height="14" fill="#000"/>
+                    <rect x="21" y="6" width="1" height="14" fill="#000"/>
+                    <rect x="2" y="20" width="20" height="1" fill="#000"/>
+                </svg>
+                <span>${name}</span>
+            `;
+        } else {
+            // Check for specific app types to render pixel icons
+            let pixelIcon = '';
+            // Define pixel art SVGs for file types
+            const projectIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M2 4H22V16H2V4Z" fill="#58a6ff" stroke="black"/><path d="M4 16V18H20V16" fill="black"/><rect x="8" y="18" width="8" height="2" fill="black"/></svg>`;
+            const pdfIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 2H20V22H4V2Z" fill="#ff5555" stroke="black"/><path d="M8 6H16" stroke="white" stroke-width="2"/><path d="M8 10H16" stroke="white" stroke-width="2"/><path d="M8 14H16" stroke="white" stroke-width="2"/></svg>`;
+            const imgIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M2 2H22V22H2V2Z" fill="#ffffff" stroke="black"/><circle cx="8" cy="8" r="3" fill="#ffcc00"/><path d="M2 16L8 10L14 16L18 12L22 16V22H2V16Z" fill="#44aa44"/></svg>`;
+
+            if (item.icon === 'project') pixelIcon = projectIcon;
+            if (item.icon === 'pdf') pixelIcon = pdfIcon;
+            if (item.icon === 'image') pixelIcon = imgIcon;
+
+            if (pixelIcon) {
+                el.innerHTML = `${pixelIcon}<span>${name}</span>`;
+            } else {
+                 el.innerHTML = `<i class="fa-solid ${icon}" style="font-size: 24px;"></i><span>${name}</span>`;
+            }
+        }
         
         el.onclick = () => {
             if (item.type === 'folder') {
