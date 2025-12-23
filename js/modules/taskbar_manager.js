@@ -3,10 +3,10 @@
 //  Handles the bottom bar, start button, and clock.
 // ==========================================
 
-import { apps } from './config.js';
-import { toggleWindow } from './windows.js';
-import { toggleLanguage, updateLanguageButton } from './i18n.js';
-import { audioManager } from './audio.js';
+import { apps } from './system_config.js';
+import { toggleWindow } from './window_manager.js';
+import { toggleLanguage, updateLanguageButton } from './language_manager.js';
+import { audioManager } from './audio_manager.js';
 
 export function initTaskbar() {
     const container = document.getElementById('taskbar-apps');

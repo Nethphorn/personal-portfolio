@@ -3,7 +3,7 @@
 //  Handles sound effects and music.
 // ==========================================
 
-import { config } from './config.js';
+import { config } from './system_config.js';
 
 class AudioManager {
     constructor() {

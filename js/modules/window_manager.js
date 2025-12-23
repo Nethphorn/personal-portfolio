@@ -3,9 +3,9 @@
 //  Handles opening, closing, minimizing, and dragging windows.
 // ==========================================
 
-import { t } from './i18n.js';
-import { loadAppContent } from './apps.js';
-import { updateTaskbarActive } from './taskbar.js';
+import { t } from './language_manager.js';
+import { loadAppContent } from './app_renderer.js';
+import { updateTaskbarActive } from './taskbar_manager.js';
 
 let zIndexCounter = 100;
 let currentWindowDrag = null;

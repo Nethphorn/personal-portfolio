@@ -4,9 +4,9 @@
 //  and updating text on the screen.
 // ==========================================
 
-import { initDesktop } from './desktop.js';
-import { renderFileExplorer } from './apps.js';
-import { apps } from './config.js';
+import { initDesktop } from './desktop_manager.js';
+import { renderFileExplorer } from './app_renderer.js';
+import { apps } from './system_config.js';
 
 export let currentLang = 'en';
 

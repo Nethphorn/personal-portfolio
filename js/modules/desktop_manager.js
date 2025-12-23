@@ -3,11 +3,11 @@
 //  Handles rendering desktop icons and drag/drop.
 // ==========================================
 
-import { fileSystem, apps } from './config.js';
-import { t } from './i18n.js';
-import { openWindow } from './windows.js';
-import { renderFileExplorer, resetExplorerPath } from './apps.js';
-import { audioManager } from './audio.js';
+import { fileSystem, apps } from './system_config.js';
+import { t } from './language_manager.js';
+import { openWindow } from './window_manager.js';
+import { renderFileExplorer, resetExplorerPath } from './app_renderer.js';
+import { audioManager } from './audio_manager.js';
 
 let dragIcon = null;
 

@@ -1,8 +1,8 @@
 // Apps Rendering Module
-import { t } from './i18n.js';
-import { fileSystem } from './config.js';
-import { openWindow } from './windows.js'; // Circular? Check runtime.
-import { apps } from './config.js';
+import { t } from './language_manager.js';
+import { fileSystem } from './system_config.js';
+import { openWindow } from './window_manager.js'; // Circular? Check runtime.
+import { apps } from './system_config.js';
 
 let explorerPath = [];
 let currentFolder = fileSystem.root;
