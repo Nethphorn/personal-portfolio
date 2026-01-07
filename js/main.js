@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initTaskbar();
     removeBootScreen();
     initVideoBackground();
+
+    // Load Risa separately so it doesn't block the OS if it fails or takes time
+    import('./modules/risa_manager.js')
+        .then(m => m.initRisa())
+        .catch(e => console.error("Risa failed to load:", e));
 });
 
 function removeBootScreen() {
