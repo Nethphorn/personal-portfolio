@@ -209,9 +209,22 @@ function renderProjectViewer(container, data) {
             <img src="${data.img}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:20px;">
             <h2>${data.name || 'Project'}</h2>
             <p style="flex:1; margin-top:10px;">${data.description}</p>
-            <a href="${data.link}" target="_blank" style="padding:10px; background:var(--accent-color); color:white; text-align:center; border-radius:4px; text-decoration:none;">View Project</a>
+            <div style="display:flex; gap:10px;">
+                <a href="${data.link}" target="_blank" style="padding:10px; flex:1; background:var(--accent-color); color:white; text-align:center; border-radius:4px; text-decoration:none;">Open in New Tab</a>
+                <button id="btn-open-frame-${data.name}" style="padding:10px; flex:1; background:#333; color:white; border:none; border-radius:4px; cursor:pointer;">Open in Window</button>
+            </div>
         </div>
     `;
+    
+    // Attach listener to new button
+    setTimeout(() => {
+        const btn = document.getElementById(`btn-open-frame-${data.name}`);
+        if(btn) {
+            btn.onclick = () => {
+                container.innerHTML = `<iframe src="${data.link}" style="width:100%; height:100%; border:none;"></iframe>`;
+            };
+        }
+    }, 0);
 }
 
 // --- PHOTO GALLERY ---

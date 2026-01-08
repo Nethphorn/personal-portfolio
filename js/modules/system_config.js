@@ -31,7 +31,7 @@ export const fileSystem = {
             children: [
                 { 
                     type: 'file', 
-                    name: 'Company employee management app', 
+                    name: 'management app', 
                     icon: 'project', 
                     data: {
                         description: 'A simple employee management app.',
@@ -40,6 +40,16 @@ export const fileSystem = {
                     }
                 },
                 // --- Copy Below This Line to Add New Project ---
+                { 
+                    type: 'file', 
+                    name: 'AI Resume Analyzer', 
+                    icon: 'project', 
+                    data: {
+                        description: 'An AI-powered tool to analyze and improve resumes.',
+                        link: 'https://skillslammer.netlify.app/',
+                        img: 'https://via.placeholder.com/300'
+                    }
+                },
                 { 
                     type: 'file', 
                     name: 'Game app', 
