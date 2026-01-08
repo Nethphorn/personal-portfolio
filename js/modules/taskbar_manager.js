@@ -64,16 +64,59 @@ export function initTaskbar() {
     }
     updateLanguageButton();
 
-    // Volume Toggle
+    // Volume Control Popover
     const volumeBtn = document.getElementById('volume-btn');
     if (volumeBtn) {
-        volumeBtn.onclick = () => {
-            const isMuted = audioManager.toggleMute();
+        // Create Volume Slider Popup
+        const pop = document.createElement('div');
+        pop.className = 'volume-popup';
+        // Vertical Layout: High Volume Icon at Top, Slider Middle, Mute/Low at Bottom
+        pop.innerHTML = `
+            <div class="volume-slider-container">
+                <i class="fa-solid fa-volume-high" style="font-size: 14px; color: #fff;"></i>
+                <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="${audioManager.volume}">
+                <i class="fa-solid fa-volume-xmark" style="font-size: 14px; color: #aaa;"></i>
+            </div>
+        `;
+        document.body.appendChild(pop);
+
+        const slider = pop.querySelector('.volume-slider');
+        
+        // Update Icon helper
+        const updateIcon = (vol) => {
             const icon = document.getElementById('volume-icon');
-            if (icon) {
-                icon.className = isMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
-            }
+            if (!icon) return;
+            if (vol <= 0) icon.className = 'fa-solid fa-volume-xmark';
+            else if (vol < 0.5) icon.className = 'fa-solid fa-volume-low';
+            else icon.className = 'fa-solid fa-volume-high';
         };
+
+        // Initialize icon state
+        updateIcon(audioManager.volume);
+
+        // Slider Interaction
+        slider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            audioManager.setVolume(val);
+            updateIcon(val);
+        });
+
+        // Toggle visibility
+        volumeBtn.onclick = (e) => {
+            e.stopPropagation();
+            const rect = volumeBtn.getBoundingClientRect();
+            // Position dynamically
+            pop.style.bottom = '50px'; 
+            pop.style.right = (window.innerWidth - rect.right - 17) + 'px'; // Shift right by 10px
+            pop.classList.toggle('show');
+        };
+
+        // Close on click outside
+        window.addEventListener('click', (e) => {
+            if (!pop.contains(e.target) && !volumeBtn.contains(e.target)) {
+                pop.classList.remove('show');
+            }
+        });
     }
 }
 

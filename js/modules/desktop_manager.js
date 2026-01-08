@@ -72,17 +72,35 @@ function setupWelcomeText() {
     ids.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            const text = el.innerText;
+            const text = el.innerText.trim();
             if (el.querySelector('span')) return;
             
-            // Split by spaces to handle word wrapping
-            const words = text.split(' ');
-            
-            el.innerHTML = words.map(word => {
-                const letters = word.split('').map(char => `<span>${char}</span>`).join('');
+            // Check if Japanese
+            if (id === 'welcome-text-jp') {
+               // Manual segmentation for the specific Japanese greeting to ensure "word-level" wrapping
+               // Original: "こんにちは、ネットポアン テップラタンナーです！"
+               // We split it into logical chunks that should stay together.
+               const jpSegments = ["こんにちは、", "ネットポアン", "テップラタンナー", "です！"];
+               
+               el.innerHTML = jpSegments.map((word, index) => {
+                   // Add a space after "Netporean" (2nd item) if needed to match original spacing
+                   // The original text had a space between ネットポアン and テップラタンナー
+                   const spacing = (index === 1) ? '&nbsp;' : ''; 
+                   
+                   const letters = word.split('').map(char => `<span>${char}</span>`).join('');
+                   // Use word-span to keep these chunks together
+                   return `<span class="word-span" style="display: inline-block; white-space: nowrap;">${letters}</span>${spacing}`;
+               }).join('');
+               
+            } else {
+                // English: Split by spaces to handle word wrapping
+                const words = text.split(' '); // ... existing logic
                 
-                return `<span class="word-span" style="display: inline-block; white-space: nowrap;">${letters}</span>`;
-            }).join(' ');
+                el.innerHTML = words.map(word => {
+                    const letters = word.split('').map(char => `<span>${char}</span>`).join('');
+                    return `<span class="word-span" style="display: inline-block; white-space: nowrap;">${letters}</span>`;
+                }).join(' ');
+            }
         }
     });
 }

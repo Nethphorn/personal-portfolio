@@ -2,7 +2,7 @@
 
 export const config = {
     audio: {
-        volume: 1,
+        volume: 0.3,
         muted: false
     }
 };
