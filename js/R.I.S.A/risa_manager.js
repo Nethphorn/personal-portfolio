@@ -77,8 +77,9 @@ export function initRisa() {
                 
                 // Nudge and Scale
                 wrapper.position.x = 0.5; 
-                wrapper.rotation.y = -0.7; // Face Left (Side Profile)
-                wrapper.rotation.x = -0.1; // Tilt Backward (Negative = Back, Positive = Forward)
+                wrapper.rotation.y = -0.7; // Face Left
+                wrapper.rotation.x = -0.1; // Tilt Backward
+                wrapper.rotation.z = -0.2; // Lean Sideways (Z-axis)
 
                 const maxDim = Math.max(size.x, size.y, size.z);
                 const scale = 3.5 / maxDim; 
