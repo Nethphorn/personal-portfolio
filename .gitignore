@@ -12,7 +12,7 @@ node_modules/
 Thumbs.db
 
 # User Assets (Large files)
-assets/
+assets/3D_model/
 img/
 
 # Build output (if any)
