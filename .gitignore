@@ -12,8 +12,9 @@ node_modules/
 Thumbs.db
 
 # User Assets (Large files)
-assets/
+assets/3D_model/
 img/
+Doc/
 
 # Build output (if any)
 dist/
