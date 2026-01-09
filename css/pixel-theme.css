@@ -1,0 +1,118 @@
+/* Pixel Art Window Controls & Scrollbars */
+
+/* Window Header - Retro Look */
+.window-header {
+  background: #d2cc5c; /* Change Color */
+  color: white;
+  padding: 4px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Press Start 2P', monospace; /* Ensure pixel font */
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.window-title i {
+  margin-right: 8px;
+}
+
+.window-controls {
+  display: flex;
+  gap: 4px;
+}
+
+/* Common Button Style */
+.control-btn {
+  width: 20px;
+  height: 20px;
+  background-color: transparent; 
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0; 
+  border-radius: 0 !important; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', monospace; 
+  font-weight: bold;
+  font-size: 16px; /* Slightly larger symbols */
+  line-height: 1;
+  color: white; /* Symbols should be white to contrast with blue header */
+  transition: none; 
+}
+
+/* Active State (Pressed) */
+.control-btn:active {
+  transform: translate(1px, 1px);
+  opacity: 0.7;
+}
+
+/* Minimize Button */
+.min-btn::before {
+  content: "_";
+  position: relative;
+  top: -3px;
+}
+
+/* Maximize Button */
+.max-btn::before {
+  content: "□";
+  font-size: 16px;
+}
+
+/* Close Button */
+.close-btn::before {
+  content: "×"; 
+  font-size: 18px;
+  font-weight: 900;
+}
+
+/* Hover States */
+.close-btn:hover {
+  background-color: #ff0000; /* Red on hover mostly for close */
+  color: white;
+}
+
+/* Window Content Border */
+.window-content {
+    background: white;
+    color: black;
+    border: 2px solid #808080; /* Inset look */
+    border-right-color: white;
+    border-bottom-color: white;
+    /* Custom Scrollbar for Webkit */
+    scrollbar-width: auto;
+    scrollbar-color: #c0c0c0 #ffffff;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff; 
+  border-left: 1px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+::-webkit-scrollbar-button {
+  display: block;
+  height: 16px;
+  width: 16px;
+  background-color: #c0c0c0;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+}

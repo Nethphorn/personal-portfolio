@@ -4,9 +4,9 @@
 //  and updating text on the screen.
 // ==========================================
 
-import { initDesktop } from './desktop.js';
-import { renderFileExplorer } from './apps.js';
-import { apps } from './config.js';
+import { initDesktop } from './desktop_manager.js';
+import { renderFileExplorer } from './app_renderer.js';
+import { apps } from './system_config.js';
 
 export let currentLang = 'en';
 
@@ -65,6 +65,10 @@ const translations = {
     }
 };
 
+// ==========================================
+//  FUNCTION: t
+//  Translates a key path to a string.
+// ==========================================
 export function t(keyPath) {
     const keys = keyPath.split('.');
     let value = translations[currentLang];
@@ -74,17 +78,29 @@ export function t(keyPath) {
     return value;
 }
 
+// ==========================================
+//  FUNCTION: toggleLanguage
+//  Toggles the language between English and Japanese.
+// ==========================================
 export function toggleLanguage() {
     currentLang = currentLang === 'en' ? 'ja' : 'en';
     updateLanguageButton();
     updateUIStrings();
 }
 
+// ==========================================
+//  FUNCTION: updateLanguageButton
+//  Updates the language toggle button text.
+// ==========================================
 export function updateLanguageButton() {
     const btn = document.getElementById('lang-toggle');
     if (btn) btn.textContent = t('controls.lang');
 }
 
+// ==========================================
+//  FUNCTION: updateUIStrings
+//  Updates all UI strings to the current language.
+// ==========================================
 function updateUIStrings() {
     // Refresh Desktop
     initDesktop();
@@ -110,5 +126,18 @@ function updateUIStrings() {
         // Better: trigger a custom event that apps.js listens to?
         // Or just re-render if we can. 
         // For simplicity: We might skip re-rendering explorer content for now, or use a global state object in a separate state.js.
+    }
+
+    // Toggle Desktop Welcome Text
+    const enText = document.getElementById('welcome-text-en');
+    const jpText = document.getElementById('welcome-text-jp');
+    if (enText && jpText) {
+        if (currentLang === 'en') {
+            enText.style.display = 'block';
+            jpText.style.display = 'none';
+        } else {
+            enText.style.display = 'none';
+            jpText.style.display = 'block';
+        }
     }
 }

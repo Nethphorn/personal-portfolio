@@ -19,10 +19,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Nethphorn.TB"
-    />
+    <meta property="og:title" content="Nethphorn.TB" />
     <meta
       property="og:description"
       content="Explore my projects and skills in this interactive web-based operating system."
@@ -34,10 +31,7 @@
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta
-      property="twitter:title"
-      content="Nethphorn.TB"
-    />
+    <meta property="twitter:title" content="Nethphorn.TB" />
     <meta
       property="twitter:description"
       content="Explore my projects and skills in this interactive web-based operating system."
@@ -45,17 +39,15 @@
 
     <!-- Link to our Custom Styles -->
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/pixel-theme.css" />
+    <link rel="stylesheet" href="css/pixel-theme-fonts.css" />
 
     <!-- Favicon -->
-    <link
-      rel="icon"
-      type="image/png"
-      href="img/svg/logoBlue.svg"
-    />
+    <link rel="icon" type="image/png" href="img/svg/logoBlue.svg" />
 
     <!-- Google Fonts: 'Inter' is a clean, modern font often used in UIs -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
 
@@ -64,6 +56,16 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
+        }
+      }
+    </script>
   </head>
   <body>
     <!-- 
@@ -89,6 +91,16 @@
         These are generated dynamically by JavaScript (js/desktop.js) based on the 'apps' array.
       -->
       <div class="desktop-icons" id="desktop-icons"></div>
+
+      <!-- Center Text -->
+      <div id="center-text">
+        <div class="pixel-text" id="welcome-text-en">
+          Hi!, I'm Nethphorn Tepbrathna!
+        </div>
+        <div class="pixel-text" id="welcome-text-jp">
+          こんにちは、ネットポアン テップラタンナーです！
+        </div>
+      </div>
 
       <!-- 
         Windows Container:

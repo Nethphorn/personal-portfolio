@@ -2,7 +2,7 @@
 
 export const config = {
     audio: {
-        volume: 1,
+        volume: 0.3,
         muted: false
     }
 };
@@ -31,10 +31,10 @@ export const fileSystem = {
             children: [
                 { 
                     type: 'file', 
-                    name: 'Portfolio Website', 
+                    name: 'management app', 
                     icon: 'project', 
                     data: {
-                        description: 'A personal OS-style portfolio.',
+                        description: 'A simple employee management app.',
                         link: '#', // <-- Add your project URL here
                         img: 'https://via.placeholder.com/300' // <-- Add project screenshot URL
                     }
@@ -42,10 +42,20 @@ export const fileSystem = {
                 // --- Copy Below This Line to Add New Project ---
                 { 
                     type: 'file', 
-                    name: 'AI Gesture App', 
+                    name: 'AI Resume Analyzer', 
                     icon: 'project', 
                     data: {
-                        description: 'Control robots with hand gestures.',
+                        description: 'An AI-powered tool to analyze and improve resumes.',
+                        link: 'https://skillslammer.netlify.app/',
+                        img: 'https://via.placeholder.com/300'
+                    }
+                },
+                { 
+                    type: 'file', 
+                    name: 'Game app', 
+                    icon: 'project', 
+                    data: {
+                        description: 'A simple game app.',
                         link: '#',
                         img: 'https://via.placeholder.com/300'
                     }

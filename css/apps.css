@@ -8,7 +8,7 @@
 
 .file-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Increased from 100px to 130px to fit wider pixel fonts */
   gap: 15px;
   padding: 15px;
 }
@@ -25,6 +25,8 @@
   width: 100%;
   height: auto;
   min-height: 90px;
+  /* Ensure content doesn't spill out visually if it technically overflows */
+  overflow: hidden; 
 }
 
 .file-item:hover {
@@ -38,10 +40,13 @@
 
 .file-item span {
   font-size: 0.9rem;
+  /* Restore breaking capabilities for long filenames */
   word-wrap: break-word;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere; /* clearer than break-word in some contexts, ensures "Resume_EN.pdf" breaks if it has to */
   white-space: normal;
+  word-break: normal; 
   max-width: 100%;
+  line-height: 1.2;
 }
 
 /* Terminal */

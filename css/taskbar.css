@@ -109,3 +109,64 @@
 .lang-btn:hover {
   background: rgba(255,255,255,0.2);
 }
+
+/* Volume Popup (Vertical) */
+.volume-popup {
+  position: absolute;
+  bottom: 60px;
+  right: 60px;
+  background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(15px);
+  padding: 15px 10px;
+  border-radius: 25px; /* Pill shape */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+  width: 50px;
+  height: 200px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.volume-popup.show {
+  display: flex;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.volume-slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.volume-slider {
+  flex: 1;
+  /* Rotate the horizontal slider to make it vertical */
+  transform: rotate(-90deg);
+  width: 120px; /* This becomes the height visual */
+  height: 4px; /* Thickness */
+  margin: 60px -50px; /* Compensate for rotation layout shift */
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+

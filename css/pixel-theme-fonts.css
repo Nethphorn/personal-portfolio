@@ -1,0 +1,53 @@
+/* Font Face for Japanese Text */
+@font-face {
+  font-family: 'MadouFutoMaruGothic';
+  src: url('../Font/madou-futo-maru-gothic-font/MadouFutoMaruGothic-d9Xo7.ttf') format('truetype');
+  /* Adjust Japanese glyph size relative to English pixel font. 
+     Press Start 2P is very blocky/large. This helps balance them. */
+  size-adjust: 150%; 
+}
+
+/* Apply Pixel Font Globally, but exclude elements that need specific fonts like Japanese text */
+body, button, input, textarea, select, .window-title, .desktop-icon span, .taskbar-time, .start-menu-item, .file-item span {
+  font-family: 'Press Start 2P', 'MadouFutoMaruGothic', cursive, monospace !important; 
+  text-shadow: none !important; 
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+/* Explicit rule for explicit Japanese text containers */
+#welcome-text-jp {
+    font-family: 'MadouFutoMaruGothic', 'Press Start 2P', monospace !important;
+    font-size: 2rem !important; /* Larger for Japanese legibility */
+}
+
+#welcome-text-en {
+    font-size: 2rem !important; /* Match size or adjust */
+}
+
+/* Fix Font Sizes for Readability with big pixel font */
+.desktop-icon span {
+  font-size: 10px !important; /* Press Start 2P is large */
+  line-height: 1.4;
+  background: rgba(0,0,0,0.5); /* Contrast background for text on wallpaper */
+  padding: 2px 4px;
+  color: white !important;
+}
+
+/* File Explorer Items */
+.file-item span {
+  font-family: 'Press Start 2P', cursive, monospace !important;
+  font-size: 10px !important; 
+  color: black;
+}
+
+/* Taskbar Clock */
+.clock {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    font-size: 10px !important;
+}
+
+/* Window Title */
+.window-title {
+    font-size: 10px !important;
+}

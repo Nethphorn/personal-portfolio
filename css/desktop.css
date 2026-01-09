@@ -44,9 +44,66 @@
 .desktop-icon span {
   font-size: 0.9rem;
   text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-  word-wrap: break-word; /* Wrap long text */
-  overflow-wrap: break-word;
-  white-space: normal;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  white-space: pre-wrap;
+  word-break: keep-all; 
   max-width: 100%;
   line-height: 1.2;
 }
+
+/* Center Text */
+#center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 2rem;
+  text-align: center;
+  pointer-events: none; /* Let clicks pass through to potential underlying icons */
+  z-index: 0; /* Behind windows, but check if icons have z-index */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#welcome-text-jp {
+  display: none;
+  /* Font handled in pixel-theme-fonts.css */
+}
+
+
+
+.pixel-text {
+  pointer-events: auto; /* Enable hover on text */
+}
+
+
+
+/* Individual Word Styling */
+.word-span {
+  display: inline-block;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.word-span span {
+  display: inline-block;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Hover Effect on the LETTER */
+.word-span span:hover {
+  transform: scale(1.5);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  color: #fff;
+  z-index: 10; /* Bring forward */
+  position: relative;
+}
+
+
+/* Optional: Pop color if desired, currently white glow */
+/* .word-span:hover { color: #ff0055; } */
+
