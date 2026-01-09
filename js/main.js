@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initVideoBackground();
 
     // Load Risa separately so it doesn't block the OS if it fails or takes time
-    import('./R.I.S.A/risa_manager.js')
+    import('./I.R.I.S/iris_manager.js')
         .then(m => m.initRisa())
         .catch(e => console.error("Risa failed to load:", e));
 });

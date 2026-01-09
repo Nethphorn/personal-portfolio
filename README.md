@@ -1,52 +1,83 @@
-# Portfolio OS
+# Portfolio OS (Web operating System)
 
-An interactive portfolio website that simulates a modern desktop operating system, built with vanilla HTML, CSS, and JavaScript.
+**Portfolio OS** is a highly interactive, simulated Operating System built entirely in the browser using **Vanilla JavaScript**, **CSS**, and **Three.js**. It is designed to showcase advanced front-end development skills by treating "web pages" as "applications" within a windowed desktop environment.
 
-![Project Screenshot](https://raw.githubusercontent.com/brath/portfolio-os/main/og-image.jpg)
+![Project Screenshot](https://via.placeholder.com/800x450?text=Portfolio+OS+Screenshot)
 
-## Features
+## 🌟 Key Features
 
-- **Window Management**: Drag, drop, minimize, and maximize windows.
-- **Taskbar**: Switch between active apps.
-- **File System**: Simulated file explorer with navigation.
-- **Glassmorphism**: Modern UI transparency effects.
-- **Mobile Responsive**: Adapts to phone screens by maximizing apps automatically.
+### 🖥️ Desktop Environment
 
-## Deployment Guide
+- **Complete Window System**: Drag, resize, minimize, maximize, and stack windows just like a real OS.
+- **Taskbar**: Shows open apps, allows minimizing/restoring, and includes a functional Start Menu and digital clock.
+- **Boot Sequence**: Simulate a retro BIOS boot screen that transitions smoothly into the desktop.
 
-This project is a static site (HTML/CSS/JS only), making it incredibly easy to deploy for free.
+### 🤖 I.R.I.S (Intelligent Robotic Interface System)
 
-### Option 1: Vercel (Recommended)
+- **3D Integration**: Features a live 3D avatar rendered directly in the browser using `Three.js`.
+- **windowed App**: I.R.I.S runs inside her own window (`iris-app`), demonstrating the ability to embed WebGL contexts into dynamic DOM elements.
+- **High Quality**: Uses PBR (Physically Based Rendering) materials, dynamic lighting, and skeletal animation.
 
-1.  Push this code to a GitHub repository.
-2.  Go to [Vercel](https://vercel.com) and sign up/login.
-3.  Click **"Add New Project"** -> **"Project"**.
-4.  Import your GitHub repository.
-5.  Click **"Deploy"**.
-    - _Build Command:_ (Leave empty)
-    - _Output Directory:_ (Leave empty)
+### 📂 File System Simulation
 
-### Option 2: Netlify
+- **File Explorer**: Browse virtual directories (Projects, Resume, Pictures).
+- **Project Viewer**: Click on project files to open them in dedicated viewer windows.
+- **Terminal**: A functional CLI that accepts commands like `help`, `clear`, and `about`.
 
-1.  Go to [Netlify](https://netlify.com).
-2.  Click **"Add new site"** -> **"Import an existing project"**.
-3.  Select GitHub and choose your repository.
-4.  Click **"Deploy site"**.
+## 🛠️ Technology Stack
 
-### Option 3: GitHub Pages
+- **Core**: HTML5, CSS3, Vanilla JavaScript (ES6+ Modules)
+- **3D Graphics**: Three.js (WebGL)
+- **Styling**: Pure CSS Variables (Custom Properties) for theming.
+- **No Frameworks**: Built without React, Vue, or Angular to demonstrate core engineering skills.
 
-1.  In your repository, go to **Settings** > **Pages**.
-2.  Under **Build and deployment**, select **Source**: `Deploy from a branch`.
-3.  Select branch: `main` (or master).
-4.  Click **Save**. Your site will be live at `username.github.io/repo-name`.
+## 🚀 How to Run
 
-## Customization
+1.  **Clone the Repository**
 
-To add your own apps or files, edit `script.js`:
+    ```bash
+    git clone https://github.com/yourusername/portfolio-os.git
+    cd portfolio-os
+    ```
 
-- `const apps`: Add new applications here.
-- `const fileSystem`: Add your own "files" and folders.
+2.  **Start a Local Server**
+    Since this project uses ES Modules and 3D assets, it requires a local server (CORS policy).
 
-## License
+    - **VS Code**: Right-click `index.html` → "Open with Live Server".
+    - **Python**: `python -m http.server 8000`
+    - **Node**: `npx serve .`
 
-MIT License. Feel free to use this for your own portfolio!
+3.  **Open in Browser**
+    Navigate to `http://localhost:8000`.
+
+## 📂 Project Structure
+
+```
+Portfolio-OS/
+├── assets/             # 3D models, audio files
+├── css/                # Stylesheets (modularized)
+│   ├── main.css        # Global styles
+│   ├── taskbar.css     # Taskbar specific styles
+│   └── window.css      # Window system styles
+├── img/                # Images and icons
+├── js/
+│   ├── main.js         # Entry point (Boot sequence)
+│   ├── modules/        # Core System Logic
+│   │   ├── app_renderer.js   # Content generation for apps
+│   │   ├── system_config.js  # App registry & File System data
+│   │   ├── window_manager.js # Window Logic (Drag/Resize)
+│   │   └── ...
+│   └── I.R.I.S/        # 3D Avatar Logic
+│       └── iris_app.js # Three.js Scene for Windowed App
+├── index.html          # Main HTML structure
+└── README.md           # This file
+```
+
+## 📝 Configuration
+
+- **Add Projects**: Edit `js/modules/system_config.js` to add new projects to the `fileSystem` object.
+- **Change Language**: Edit translations in `js/modules/language_manager.js`.
+
+---
+
+© 2026 Your Name. Built with 💻 and ☕.
