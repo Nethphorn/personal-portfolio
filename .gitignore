@@ -14,6 +14,7 @@ Thumbs.db
 # User Assets (Large files)
 assets/3D_model/
 img/
+Doc/
 
 # Build output (if any)
 dist/
