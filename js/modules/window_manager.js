@@ -1,29 +1,17 @@
-// ==========================================
-//  MODULE: WINDOWS
-//  Handles opening, closing, minimizing, and dragging windows.
-// ==========================================
-
 import { t } from './language_manager.js';
 import { loadAppContent } from './app_renderer.js';
 import { updateTaskbarActive } from './taskbar_manager.js';
 
-let zIndexCounter = 100;
-let currentWindowDrag = null;
-let winDragOffset = {x:0, y:0};
+let zIndex = 100;
+let drag = null, offset = { x: 0, y: 0 };
 
 export function toggleWindow(app) {
     const win = document.getElementById(`window-${app.id}`);
     if (win) {
-        if (win.classList.contains('minimized')) {
-            win.classList.remove('minimized');
-            bringToFront(win);
-        } else {
-            win.classList.add('minimized');
-            updateTaskbarActive(app.id, false);
-        }
-    } else {
-        openWindow(app);
-    }
+        win.classList.toggle('minimized');
+        if (!win.classList.contains('minimized')) bringToFront(win);
+        else updateTaskbarActive(app.id, false);
+    } else openWindow(app);
 }
 
 export function openWindow(app, extraData = null) {
@@ -31,199 +19,70 @@ export function openWindow(app, extraData = null) {
     if (existing) {
         existing.classList.remove('minimized');
         bringToFront(existing);
-        if (extraData) loadAppContent(app, document.getElementById(`content-${app.id}`), extraData);
+        if (extraData) loadAppContent(app, existing.querySelector('.window-content'), extraData);
         return;
     }
 
     const win = document.createElement('div');
     win.className = 'window';
     win.id = `window-${app.id}`;
-    win.style.zIndex = ++zIndexCounter;
+    const count = document.querySelectorAll('.window').length;
+    const pos = 15 + (count % 10) * 5;
+    Object.assign(win.style, { zIndex: ++zIndex, top: `${pos}%`, left: `${pos + 5}%`, width: '60%', height: '60%' });
     
-    // Cascading Offset Logic
-    // We start at 15% / 20% and add a bit for each new window
-    // Reset if it goes too far down/right
-    const baseTop = 15;
-    const baseLeft = 20;
-    const offsetStep = 5; // %
-    let currentOffsetCount = document.querySelectorAll('.window').length; // simple count based approach
-
-    // Better simple cascading:
-    // Let's use the number of windows currently open to prevent full overlap
-    
-    const offset = (currentOffsetCount % 10) * offsetStep; 
-
-    win.style.top = `${baseTop + offset}%`;
-    win.style.left = `${baseLeft + offset}%`;
-    win.style.width = '60%';
-    win.style.height = '60%';
-
-    win.innerHTML = `
-        <div class="window-header">
-            <div class="window-title"><i class="${app.icon}"></i> ${t(app.titleKey)}</div>
-            <div class="window-controls">
-                <button class="control-btn min-btn" id="btn-min-${app.id}"></button>
-                <button class="control-btn max-btn" id="btn-max-${app.id}"></button>
-                <button class="control-btn close-btn" id="btn-close-${app.id}"></button>
-            </div>
-        </div>
-        <div class="window-content" id="content-${app.id}"></div>
-        
-        <!-- Resize Handles -->
-        <div class="resizer n"></div>
-        <div class="resizer e"></div>
-        <div class="resizer s"></div>
-        <div class="resizer w"></div>
-        <div class="resizer ne"></div>
-        <div class="resizer se"></div>
-        <div class="resizer sw"></div>
-        <div class="resizer nw"></div>
-    `;
+    win.appendChild(document.getElementById('tpl-window').content.cloneNode(true));
+    win.querySelector('.window-title').innerHTML = `<i class="${app.icon}"></i> ${t(app.titleKey)}`;
+    const content = win.querySelector('.window-content');
+    content.id = `content-${app.id}`;
 
     document.getElementById('windows-container').appendChild(win);
     
-    // Event Listeners
-    win.querySelector(`#btn-min-${app.id}`).onclick = () => minimizeWindow(app.id);
-    win.querySelector(`#btn-max-${app.id}`).onclick = () => maximizeWindow(app.id);
-    win.querySelector(`#btn-close-${app.id}`).onclick = () => closeWindow(app.id);
-    win.querySelector('.window-header').onmousedown = (e) => startWindowDrag(e, win.id);
+    win.querySelector('.min-btn').onclick = () => { win.classList.add('minimized'); updateTaskbarActive(app.id, false); };
+    win.querySelector('.max-btn').onclick = () => maximizeWindow(app.id);
+    win.querySelector('.close-btn').onclick = () => { win.remove(); updateTaskbarActive(app.id, false); };
+    win.querySelector('.window-header').onmousedown = (e) => startDrag(e, win);
+    win.querySelectorAll('.resizer').forEach(r => r.onmousedown = (e) => startResize(e, win, r.className.split(' ')[1]));
 
-    // Resizer Listeners
-    win.querySelectorAll('.resizer').forEach(resizer => {
-        resizer.onmousedown = (e) => startResize(e, win, resizer);
-    });
-
-    loadAppContent(app, document.getElementById(`content-${app.id}`), extraData);
-    
+    loadAppContent(app, content, extraData);
     updateTaskbarActive(app.id, true);
     win.onmousedown = () => bringToFront(win);
 }
 
-export function closeWindow(id) {
-    const win = document.getElementById(`window-${id}`);
-    if (win) win.remove();
-    updateTaskbarActive(id, false);
-}
-
-export function minimizeWindow(id) {
-    document.getElementById(`window-${id}`)?.classList.add('minimized');
-    updateTaskbarActive(id, false);
-}
-
 export function maximizeWindow(id) {
     const win = document.getElementById(`window-${id}`);
-    if (!win) return;
-    if (win.style.width === '100%') {
-        win.style.width = '60%';
-        win.style.height = '60%';
-        win.style.top = '15%';
-        win.style.left = '20%';
-    } else {
-        win.style.width = '100%';
-        win.style.height = 'calc(100% - 48px)'; 
-        win.style.top = '0';
-        win.style.left = '0';
-    }
+    const isMax = win.style.width === '100%';
+    Object.assign(win.style, isMax ? { width: '60%', height: '60%', top: '15%', left: '20%' } : { width: '100%', height: 'calc(100% - 48px)', top: '0', left: '0' });
 }
 
 export function bringToFront(win) {
-    win.style.zIndex = ++zIndexCounter;
+    win.style.zIndex = ++zIndex;
     updateTaskbarActive(win.id.replace('window-', ''), true);
 }
 
-// DRAGGING
-function startWindowDrag(e, id) {
+function startDrag(e, win) {
     if (e.target.closest('button')) return;
-    currentWindowDrag = document.getElementById(id);
-    bringToFront(currentWindowDrag);
-    const rect = currentWindowDrag.getBoundingClientRect();
-    winDragOffset.x = e.clientX - rect.left;
-    winDragOffset.y = e.clientY - rect.top;
-    
-    document.addEventListener('mousemove', onWindowMove);
-    document.addEventListener('mouseup', onWindowUp);
-}
-
-function onWindowMove(e) {
-    if (!currentWindowDrag) return;
-    currentWindowDrag.style.left = `${e.clientX - winDragOffset.x}px`;
-    currentWindowDrag.style.top = `${e.clientY - winDragOffset.y}px`;
-    currentWindowDrag.style.transform = 'none';
-}
-
-function onWindowUp() {
-    currentWindowDrag = null;
-    document.removeEventListener('mousemove', onWindowMove);
-    document.removeEventListener('mouseup', onWindowUp);
-}
-
-// RESIZING
-let currentResizer = null;
-let currentResizeWin = null;
-let resizeStart = { x: 0, y: 0, w: 0, h: 0, top: 0, left: 0 };
-let resizeDir = '';
-
-function startResize(e, win, resizer) {
-    e.stopPropagation(); // Prevent drag
-    currentResizeWin = win;
-    currentResizer = resizer;
-    
-    // Determine direction from class (e.g., "resizer nw")
-    resizeDir = resizer.className.replace('resizer', '').trim();
-
+    drag = win;
+    bringToFront(win);
     const rect = win.getBoundingClientRect();
-    resizeStart = {
-        x: e.clientX,
-        y: e.clientY,
-        w: rect.width,
-        h: rect.height,
-        top: rect.top,
-        left: rect.left
+    offset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    const move = (ev) => { win.style.left = `${ev.clientX - offset.x}px`; win.style.top = `${ev.clientY - offset.y}px`; win.style.transform = 'none'; };
+    const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); };
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
+}
+
+function startResize(e, win, dir) {
+    e.stopPropagation();
+    const rect = win.getBoundingClientRect();
+    const start = { x: e.clientX, y: e.clientY, w: rect.width, h: rect.height, t: rect.top, l: rect.left };
+    const move = (ev) => {
+        const dx = ev.clientX - start.x, dy = ev.clientY - start.y;
+        if (dir.includes('e')) win.style.width = `${Math.max(200, start.w + dx)}px`;
+        if (dir.includes('w')) { const w = Math.max(200, start.w - dx); win.style.width = `${w}px`; win.style.left = `${start.l + (start.w - w)}px`; }
+        if (dir.includes('s')) win.style.height = `${Math.max(150, start.h + dy)}px`;
+        if (dir.includes('n')) { const h = Math.max(150, start.h - dy); win.style.height = `${h}px`; win.style.top = `${start.t + (start.h - h)}px`; }
     };
-
-    document.addEventListener('mousemove', onResize);
-    document.addEventListener('mouseup', stopResize);
-}
-
-function onResize(e) {
-    if (!currentResizeWin) return;
-    
-    const dx = e.clientX - resizeStart.x;
-    const dy = e.clientY - resizeStart.y;
-    
-    const minW = 200;
-    const minH = 150;
-
-    let newW = resizeStart.w;
-    let newH = resizeStart.h;
-    let newTop = resizeStart.top;
-    let newLeft = resizeStart.left;
-
-    // Handle E / W (Width)
-    if (resizeDir.includes('e')) {
-        newW = Math.max(minW, resizeStart.w + dx);
-    } else if (resizeDir.includes('w')) {
-        newW = Math.max(minW, resizeStart.w - dx);
-        newLeft = resizeStart.left + (resizeStart.w - newW);
-    }
-
-    // Handle S / N (Height)
-    if (resizeDir.includes('s')) {
-        newH = Math.max(minH, resizeStart.h + dy);
-    } else if (resizeDir.includes('n')) {
-        newH = Math.max(minH, resizeStart.h - dy);
-        newTop = resizeStart.top + (resizeStart.h - newH);
-    }
-
-    // Apply
-    if (resizeDir.includes('w')) currentResizeWin.style.left = `${newLeft}px`;
-    if (resizeDir.includes('n')) currentResizeWin.style.top = `${newTop}px`;
-    currentResizeWin.style.width = `${newW}px`;
-    currentResizeWin.style.height = `${newH}px`;
-}
-
-function stopResize() {
-    currentResizeWin = null;
-    document.removeEventListener('mousemove', onResize);
-    document.removeEventListener('mouseup', stopResize);
+    const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); };
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
 }

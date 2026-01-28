@@ -50,13 +50,138 @@
 }
 
 /* Terminal */
+.window-content[id^="content-terminal"] {
+    background: #0d1117;
+    color: #58a6ff;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    padding: 20px;
+    overflow-y: auto;
+}
+
 .term-output p {
     margin: 5px 0;
 }
+
 .term-input-line {
     display: flex;
+    align-items: center;
 }
+
 .term-input-line input {
     flex: 1;
-    font-family: monospace;
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+/* Contact App */
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+}
+
+.contact-links {
+    display: flex;
+    gap: 30px;
+}
+
+.contact-links a {
+    color: white;
+    font-size: 2.5rem;
+    transition: transform 0.2s;
+}
+
+.contact-links a:hover {
+    transform: scale(1.1);
+    color: var(--accent-color);
+}
+
+/* Project Viewer */
+.project-viewer-container {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+.project-desc {
+    flex: 1;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.project-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-btn {
+    padding: 12px;
+    flex: 1;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.action-btn:hover {
+    opacity: 0.9;
+}
+
+.action-btn.primary {
+    background: var(--accent-color);
+    color: white;
+}
+
+.action-btn.secondary {
+    background: #333;
+    color: white;
+}
+
+/* Photo Gallery */
+.photo-gallery {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.gallery-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.gallery-item i {
+    font-size: 2.5rem;
+    color: white;
 }

@@ -1,74 +1,55 @@
-// ==========================================
-//  MODULE: AUDIO MANAGER
-//  Handles sound effects and music.
-// ==========================================
-
 import { config } from './system_config.js';
 
 class AudioManager {
     constructor() {
-        this.clickSound = null;
-        this.bgMusic = null;
+        const savedVol = localStorage.getItem('os_volume');
+        this.volume = (savedVol !== null && !isNaN(parseFloat(savedVol))) ? parseFloat(savedVol) : config.audio.volume;
         
-        // Load settings from localStorage
-        const savedVolume = localStorage.getItem('os_volume');
-        const savedMuted = localStorage.getItem('os_muted');
-
-        this.volume = savedVolume ? parseFloat(savedVolume) : config.audio.volume;
-        this.isMuted = savedMuted ? JSON.parse(savedMuted) : config.audio.muted;
+        const savedMute = localStorage.getItem('os_muted');
+        this.isMuted = savedMute !== null ? JSON.parse(savedMute) : config.audio.muted;
         
         this.initialized = false;
+        this.clickSound = null;
+        this.bgMusic = null;
     }
 
     init() {
         if (this.initialized) return;
         
-        // Preload 'click' sound
-        // User customized path:
+        // Ensure relative paths from the root where index.html is located
         this.clickSound = new Audio('audio/mixkit-cool-interface-click-tone-2568.wav');
-        this.clickSound.volume = this.volume;
-        
-        // Setup Background Music
         this.bgMusic = new Audio('audio/cozy-lofi-beat-sunset-stars-253833.mp3');
         this.bgMusic.loop = true;
-        this.bgMusic.volume = this.volume; 
-
-        // Load assets
-        this.clickSound.load();
-        this.bgMusic.load();
+        
+        this.setVolume(this.volume);
+        [this.clickSound, this.bgMusic].forEach(a => a.load());
         
         this.initialized = true;
-        console.log('Audio Manager Initialized');
-
-        if (!this.isMuted) {
-             this.playMusic();
-        }
+        if (!this.isMuted) this.playMusic();
+        console.log("Audio system initialized with volume:", this.volume);
     }
 
     playClick() {
         if (!this.clickSound) return;
-
-        const sound = this.clickSound.cloneNode();
-        sound.volume = this.volume;
-        
-        sound.play().catch(() => {});
+        // Reset and play is often more reliable than cloning for simple sounds
+        this.clickSound.currentTime = 0;
+        this.clickSound.volume = this.volume;
+        this.clickSound.play().catch(e => console.warn("Click sound failed:", e));
     }
 
     playMusic() {
-        if (this.isMuted || !this.bgMusic) return;
-        this.bgMusic.play().catch(e => console.warn('Music autoplay prevented:', e));
+        if (!this.isMuted && this.bgMusic) {
+            this.bgMusic.play().catch(e => console.warn('Music playback failed:', e));
+        }
     }
 
     stopMusic() {
-        if (this.bgMusic) {
-            this.bgMusic.pause();
-        }
+        this.bgMusic?.pause();
     }
     
     setVolume(val) {
-        this.volume = Math.max(0, Math.min(1, val));
+        this.volume = Math.max(0, Math.min(1, parseFloat(val) || 0));
         localStorage.setItem('os_volume', this.volume);
-        
         if (this.bgMusic) this.bgMusic.volume = this.volume;
         if (this.clickSound) this.clickSound.volume = this.volume;
     }
@@ -76,13 +57,7 @@ class AudioManager {
     toggleMute() {
         this.isMuted = !this.isMuted;
         localStorage.setItem('os_muted', this.isMuted);
-        
-        if (this.isMuted) {
-            this.stopMusic();
-        } else {
-            if (this.initialized) this.playMusic();
-        }
-
+        this.isMuted ? this.stopMusic() : this.playMusic();
         return this.isMuted;
     }
 }

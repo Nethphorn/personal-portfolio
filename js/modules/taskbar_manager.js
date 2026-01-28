@@ -1,122 +1,85 @@
-// ==========================================
-//  MODULE: TASKBAR
-//  Handles the bottom bar, start button, and clock.
-// ==========================================
-
 import { apps } from './system_config.js';
 import { toggleWindow } from './window_manager.js';
 import { toggleLanguage, updateLanguageButton } from './language_manager.js';
 import { audioManager } from './audio_manager.js';
 
+const SVGS = {
+    terminal: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" fill="black" stroke="white" stroke-width="2"/><path d="M6 8L10 12L6 16" stroke="white" stroke-width="2"/><rect x="12" y="14" width="6" height="2" fill="white"/></svg>`,
+    browser: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="2"/><path d="M2 12H22" stroke="white" stroke-width="2"/><path d="M12 2C14.5 5 16 8.5 16 12C16 15.5 14.5 19 12 22" stroke="white" stroke-width="2"/><path d="M12 2C9.5 5 8 8.5 8 12C8 15.5 9.5 19 12 22" stroke="white" stroke-width="2"/></svg>`,
+    contact: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" fill="white" stroke="black" stroke-width="2"/><path d="M2 4L12 14L22 4" stroke="black" stroke-width="2"/><path d="M2 20L8 14" stroke="black" stroke-width="2"/><path d="M22 20L16 14" stroke="black" stroke-width="2"/></svg>`
+};
+
 export function initTaskbar() {
     const container = document.getElementById('taskbar-apps');
     container.innerHTML = '';
     
-    // CHANGE THIS: Add 'id's here to pin more apps to the taskbar
-    const pinnedIds = ['file-explorer', 'photos', 'contact', 'terminal', 'browser'];
-
-    pinnedIds.forEach(id => {
+    ['file-explorer', 'photos', 'contact', 'terminal', 'browser'].forEach(id => {
         const app = apps.find(a => a.id === id);
-        if (app) {
-            const btn = document.createElement('div');
-            btn.className = 'taskbar-app';
-            btn.id = `taskbar-btn-${app.id}`;
-            if (app.id === 'file-explorer') {
-                 btn.innerHTML = `
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated;">
-                        <path d="M22 6H12L10 4H2V20H22V6Z" fill="#F8D775" stroke="#000" stroke-width="2" shape-rendering="crispEdges"/>
-                        <path d="M2 6H22V20H2V6Z" fill="#F8D775"/>
-                        <path d="M12 6L10 4H2V6H12Z" fill="#FFE59A"/>
-                        <rect x="3" y="7" width="18" height="1" fill="#FFE59A"/>
-                        <rect x="2" y="6" width="1" height="14" fill="#000"/>
-                        <rect x="21" y="6" width="1" height="14" fill="#000"/>
-                        <rect x="2" y="20" width="20" height="1" fill="#000"/>
-                    </svg>
-                `;
-            } else if (app.id === 'terminal') {
-                btn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" fill="black" stroke="white" stroke-width="2"/><path d="M6 8L10 12L6 16" stroke="white" stroke-width="2"/><rect x="12" y="14" width="6" height="2" fill="white"/></svg>`;
-            } else if (app.id === 'browser') {
-                 btn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="2"/><path d="M2 12H22" stroke="white" stroke-width="2"/><path d="M12 2C14.5 5 16 8.5 16 12C16 15.5 14.5 19 12 22" stroke="white" stroke-width="2"/><path d="M12 2C9.5 5 8 8.5 8 12C8 15.5 9.5 19 12 22" stroke="white" stroke-width="2"/></svg>`;
-            } else if (app.id === 'contact') {
-                 btn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" fill="white" stroke="black" stroke-width="2"/><path d="M2 4L12 14L22 4" stroke="black" stroke-width="2"/><path d="M2 20L8 14" stroke="black" stroke-width="2"/><path d="M22 20L16 14" stroke="black" stroke-width="2"/></svg>`;
-            } else if (app.id === 'photos') {
-                btn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M2 2H22V22H2V2Z" fill="#ffffff" stroke="black"/><circle cx="8" cy="8" r="3" fill="#ffcc00"/><path d="M2 16L8 10L14 16L18 12L22 16V22H2V16Z" fill="#44aa44"/></svg>`;
-            } else {
-                btn.innerHTML = `<i class="${app.icon}" style="font-size: 20px;"></i>`;
-            }
-            btn.onclick = () => toggleWindow(app);
-            container.appendChild(btn);
+        if (!app) return;
+
+        const btn = document.createElement('div');
+        btn.className = 'taskbar-app';
+        btn.id = `taskbar-btn-${app.id}`;
+        
+        const iconId = { 'file-explorer': 'icon-folder', 'photos': 'icon-image' }[app.id];
+        const template = iconId ? document.getElementById(iconId) : null;
+
+        if (template) {
+            const svg = template.cloneNode(true);
+            svg.setAttribute('width', '24');
+            svg.setAttribute('height', '24');
+            btn.appendChild(svg);
+        } else {
+            btn.innerHTML = SVGS[app.id] || `<i class="${app.icon}" style="font-size: 20px;"></i>`;
         }
+
+        btn.onclick = () => toggleWindow(app);
+        container.appendChild(btn);
     });
 
-    // Language Toggle
-    let langBtn = document.getElementById('lang-toggle');
-    if (!langBtn) {
-        langBtn = document.createElement('button');
+    if (!document.getElementById('lang-toggle')) {
+        const langBtn = document.createElement('button');
         langBtn.id = 'lang-toggle';
         langBtn.className = 'lang-btn';
         langBtn.onclick = toggleLanguage;
-        
-        const clock = document.getElementById('clock');
-        if (clock) {
-            clock.parentNode.insertBefore(langBtn, clock);
-        }
+        document.getElementById('clock')?.parentNode.insertBefore(langBtn, document.getElementById('clock'));
     }
     updateLanguageButton();
 
-    // Volume Control Popover
     const volumeBtn = document.getElementById('volume-btn');
     if (volumeBtn) {
-        // Create Volume Slider Popup
         const pop = document.createElement('div');
         pop.className = 'volume-popup';
-        // Vertical Layout: High Volume Icon at Top, Slider Middle, Mute/Low at Bottom
-        pop.innerHTML = `
-            <div class="volume-slider-container">
-                <i class="fa-solid fa-volume-high" style="font-size: 14px; color: #fff;"></i>
-                <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="${audioManager.volume}">
-                <i class="fa-solid fa-volume-xmark" style="font-size: 14px; color: #aaa;"></i>
-            </div>
-        `;
+        pop.appendChild(document.getElementById('tpl-volume-popup').content.cloneNode(true));
         document.body.appendChild(pop);
 
         const slider = pop.querySelector('.volume-slider');
+        slider.value = audioManager.volume;
         
-        // Update Icon helper
         const updateIcon = (vol) => {
             const icon = document.getElementById('volume-icon');
             if (!icon) return;
-            if (vol <= 0) icon.className = 'fa-solid fa-volume-xmark';
-            else if (vol < 0.5) icon.className = 'fa-solid fa-volume-low';
-            else icon.className = 'fa-solid fa-volume-high';
+            icon.className = `fa-solid fa-volume-${vol <= 0 ? 'xmark' : vol < 0.5 ? 'low' : 'high'}`;
         };
 
-        // Initialize icon state
         updateIcon(audioManager.volume);
 
-        // Slider Interaction
-        slider.addEventListener('input', (e) => {
-            const val = parseFloat(e.target.value);
-            audioManager.setVolume(val);
-            updateIcon(val);
-        });
+        slider.oninput = (e) => {
+            audioManager.setVolume(parseFloat(e.target.value));
+            updateIcon(e.target.value);
+        };
 
-        // Toggle visibility
         volumeBtn.onclick = (e) => {
             e.stopPropagation();
             const rect = volumeBtn.getBoundingClientRect();
-            // Position dynamically
             pop.style.bottom = '50px'; 
-            pop.style.right = (window.innerWidth - rect.right - 17) + 'px'; // Shift right by 10px
+            pop.style.right = (window.innerWidth - rect.right - 17) + 'px';
             pop.classList.toggle('show');
         };
 
-        // Close on click outside
-        window.addEventListener('click', (e) => {
-            if (!pop.contains(e.target) && !volumeBtn.contains(e.target)) {
-                pop.classList.remove('show');
-            }
-        });
+        window.onclick = (e) => {
+            if (!pop.contains(e.target) && !volumeBtn.contains(e.target)) pop.classList.remove('show');
+        };
     }
 }
 
@@ -125,15 +88,11 @@ export function initClock() {
     setInterval(() => {
         const now = new Date();
         const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const date = `${year}/${month}/${day}`;
+        const date = now.toISOString().split('T')[0].replace(/-/g, '/');
         clock.innerHTML = `${time}<br>${date}`;
     }, 1000);
 }
 
 export function updateTaskbarActive(id, active) {
-    document.querySelectorAll('.taskbar-app').forEach(el => el.classList.remove('active'));
-    if (active) document.getElementById(`taskbar-btn-${id}`)?.classList.add('active');
+    document.querySelectorAll('.taskbar-app').forEach(el => el.classList.toggle('active', active && el.id === `taskbar-btn-${id}`));
 }
