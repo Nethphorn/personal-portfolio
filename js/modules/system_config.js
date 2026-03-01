@@ -87,8 +87,8 @@ export const fileSystem = {
             nameKey: 'desktop.resume', 
             icon: 'folder-user',
             children: [
-                { type: 'file', name: 'Resume_EN.pdf', icon: 'pdf', data: { path: 'img/resume/Nethphorn Tepbrathna CV.pdf' } },
-                { type: 'file', name: 'Resume_JP.pdf', icon: 'pdf' }
+                { type: 'file', name: 'Resume_EN.pdf', icon: 'pdf', data: { path: 'img/resume/Nethphorn Tepbrathna.cv.pdf' } },
+                { type: 'file', name: 'Resume_JP.pdf', icon: 'pdf', data: { path: 'img/resume/Nethphorn Tepbrathna.cv.pdf' } }
             ]
         },
 
