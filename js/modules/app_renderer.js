@@ -13,6 +13,7 @@ export function loadAppContent(app, container, extraData) {
         'contact': () => container.appendChild(document.getElementById('tpl-contact').content.cloneNode(true)),
         'photos': () => renderGallery(container, fileSystem.root.find(f => f.nameKey === 'desktop.pictures').children),
         'project-viewer': () => renderProjectViewer(container, extraData),
+        'resume-viewer': () => renderResumeViewer(container, extraData),
         'browser': () => container.innerHTML = '<iframe src="https://www.google.com/webhp?igu=1" style="width:100%; height:100%; border:none;"></iframe>'
     };
     (appsMap[app.id] || (() => container.innerHTML = '<div>App Content</div>'))();
@@ -52,6 +53,8 @@ export function renderFileExplorer(container, items) {
                 renderFileExplorer(container, currentFolder);
             } else if (item.icon === 'project') {
                 openWindow(apps.find(a => a.id === 'project-viewer'), item.data);
+            } else if (item.icon === 'pdf' && item.data?.path) {
+                openWindow({ id: 'resume-viewer', icon: 'fa-solid fa-file-pdf', titleKey: 'Resume' }, item.data);
             }
         };
         grid.appendChild(el);
@@ -88,12 +91,25 @@ function renderTerminal(container) {
 
 function renderProjectViewer(container, data) {
     if (!data) return;
-    container.appendChild(document.getElementById('tpl-project-viewer').content.cloneNode(true));
+    const template = document.getElementById('tpl-project-viewer');
+    container.appendChild(template.content.cloneNode(true));
+
     container.querySelector('.project-img').src = data.img;
     container.querySelector('.project-title').innerText = data.name || 'Project';
     container.querySelector('.project-desc').innerText = data.description;
-    container.querySelector('.btn-tab').href = data.link;
-    container.querySelector('.btn-window').onclick = () => container.innerHTML = `<iframe src="${data.link}" style="width:100%; height:100%; border:none;"></iframe>`;
+    
+    const repoBtn = container.querySelector('.btn-repo');
+    if (data.repo) repoBtn.href = data.repo;
+    else repoBtn.style.display = 'none';
+
+    const demoBtn = container.querySelector('.btn-demo');
+    if (data.demo) demoBtn.href = data.demo;
+    else demoBtn.style.display = 'none';
+}
+
+function renderResumeViewer(container, data) {
+    if (!data || !data.path) return;
+    container.innerHTML = `<iframe src="${data.path}" style="width:100%; height:100%; border:none;"></iframe>`;
 }
 
 function renderGallery(container, items) {
