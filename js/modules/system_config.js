@@ -57,9 +57,9 @@ export const fileSystem = {
                     name: 'Game app', 
                     icon: 'project', 
                     data: {
-                        description: 'Coming Soon.',
-                        repo: '#',
-                        demo: '#',
+                        description: 'A space shooter game. This project is a practice project for game development using Godot.',
+                        repo: 'https://github.com/Nethphorn/space-shooter-game',
+                        demo: 'https://nethphorn.github.io/space-shooter-game/',
                         img: 'https://via.placeholder.com/300'
                     }
                 },
