@@ -89,18 +89,66 @@
 
 .contact-links {
     display: flex;
-    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 10px;
+    width: 100%;
 }
 
-.contact-links a {
-    color: white;
-    font-size: 2.5rem;
-    transition: transform 0.2s;
+.contact-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Increased gap slightly for better breathing room */
+    color: black;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+    width: 100px; /* Give each link a fixed width to keep spacing even */
 }
 
-.contact-links a:hover {
-    transform: scale(1.1);
+/* This container ensures both FA icons and SVGs are aligned to the same baseline */
+.contact-link .icon-box {
+    display: flex;
+    align-items: flex-end; /* Align icons to the 'bottom' of the box */
+    justify-content: center;
+    height: 60px; /* Fixed height for all logo placeholders */
+    width: 60px;
+}
+
+.contact-link:hover {
+    transform: translateY(-5px);
+    opacity: 0.8;
     color: var(--accent-color);
+}
+
+.contact-link i {
+    font-size: 3rem; /* FA icons */
+    line-height: 1;
+    display: block;
+}
+
+.contact-link svg {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    image-rendering: pixelated;
+    display: block;
+}
+
+.contact-link span {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    font-family: inherit; 
+    white-space: nowrap;
+}
+
+.contact-email {
+    margin-top: 20px;
+    font-size: 1rem;
+    font-family: 'Press Start 2P', monospace;
+    opacity: 0.8;
 }
 
 /* Project Viewer */
@@ -156,6 +204,18 @@
 .action-btn.secondary {
     background: #333;
     color: white;
+}
+
+.icon-placeholder-inline {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.icon-placeholder-inline svg {
+    width: 20px;
+    height: 20px;
+    image-rendering: pixelated;
 }
 
 /* Photo Gallery */

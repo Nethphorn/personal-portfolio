@@ -74,6 +74,17 @@ export const fileSystem = {
                         img: 'https://via.placeholder.com/300'
                     }
                 },
+                { 
+                    type: 'file', 
+                    name: 'Social Media App', 
+                    icon: 'project', 
+                    data: {
+                        description: 'A social media application. This project is a practice project. The project use Svelte, TypeScript, and better-auth.',
+                        repo: 'https://github.com/pich-reamrachna/social-media',
+                        demo: 'https://social-media-one-virid.vercel.app/',
+                        img: 'https://via.placeholder.com/300'
+                    }
+                },
                 // --- Copy Above This Line ---
             ]
         },

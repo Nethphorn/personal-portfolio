@@ -10,7 +10,14 @@ export function loadAppContent(app, container, extraData) {
     const appsMap = {
         'file-explorer': () => renderFileExplorer(container, currentFolder),
         'terminal': () => renderTerminal(container),
-        'contact': () => container.appendChild(document.getElementById('tpl-contact').content.cloneNode(true)),
+        'contact': () => {
+             container.appendChild(document.getElementById('tpl-contact').content.cloneNode(true));
+             container.querySelectorAll('.icon-placeholder').forEach(p => {
+                 const iconId = p.dataset.icon;
+                 const svg = document.getElementById(iconId);
+                 if (svg) p.appendChild(svg.cloneNode(true));
+             });
+        },
         'photos': () => renderGallery(container, fileSystem.root.find(f => f.nameKey === 'desktop.pictures').children),
         'project-viewer': () => renderProjectViewer(container, extraData),
         'resume-viewer': () => renderResumeViewer(container, extraData),
@@ -105,6 +112,13 @@ function renderProjectViewer(container, data) {
     const demoBtn = container.querySelector('.btn-demo');
     if (data.demo) demoBtn.href = data.demo;
     else demoBtn.style.display = 'none';
+
+    // Inject inline SVGs if any
+    container.querySelectorAll('.icon-placeholder-inline').forEach(p => {
+        const iconId = p.dataset.icon;
+        const svg = document.getElementById(iconId);
+        if (svg) p.appendChild(svg.cloneNode(true));
+    });
 }
 
 function renderResumeViewer(container, data) {
