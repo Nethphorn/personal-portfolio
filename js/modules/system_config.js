@@ -29,17 +29,6 @@ export const fileSystem = {
             nameKey: 'desktop.projects', 
             icon: 'folder-code',
             children: [
-                { 
-                    type: 'file', 
-                    name: 'management app', 
-                    icon: 'project', 
-                    data: {
-                        description: 'Coming Soon.',
-                        repo: '#', // <-- Your GitHub link
-                        demo: '#', // <-- Your Live Demo link
-                        img: 'https://via.placeholder.com/300'
-                    }
-                },
                 // --- Copy Below This Line to Add New Project ---
                 { 
                     type: 'file', 
