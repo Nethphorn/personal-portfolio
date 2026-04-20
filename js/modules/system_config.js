@@ -88,7 +88,7 @@ export const fileSystem = {
             icon: 'folder-user',
             children: [
                 { type: 'file', name: 'Resume_EN.pdf', icon: 'pdf', data: { path: 'img/resume/Nethphorn Tepbrathna.cv.pdf' } },
-                { type: 'file', name: 'Resume_JP.pdf', icon: 'pdf', data: { path: 'img/resume/Nethphorn Tepbrathna.cv.pdf' } }
+                { type: 'file', name: 'Resume_JP.pdf', icon: 'pdf', data: { path: 'img/resume/ネトポーン・テプラットナー.cv.pdf' } }
             ]
         },
 
