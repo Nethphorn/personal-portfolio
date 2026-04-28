@@ -50,13 +50,198 @@
 }
 
 /* Terminal */
+.window-content[id^="content-terminal"] {
+    background: #0d1117;
+    color: #58a6ff;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    padding: 20px;
+    overflow-y: auto;
+}
+
 .term-output p {
     margin: 5px 0;
 }
+
 .term-input-line {
     display: flex;
+    align-items: center;
 }
+
 .term-input-line input {
     flex: 1;
-    font-family: monospace;
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+/* Contact App */
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.contact-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Increased gap slightly for better breathing room */
+    color: black;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+    width: 100px; /* Give each link a fixed width to keep spacing even */
+}
+
+/* This container ensures both FA icons and SVGs are aligned to the same baseline */
+.contact-link .icon-box {
+    display: flex;
+    align-items: flex-end; /* Align icons to the 'bottom' of the box */
+    justify-content: center;
+    height: 60px; /* Fixed height for all logo placeholders */
+    width: 60px;
+}
+
+.contact-link:hover {
+    transform: translateY(-5px);
+    opacity: 0.8;
+    color: var(--accent-color);
+}
+
+.contact-link i {
+    font-size: 3rem; /* FA icons */
+    line-height: 1;
+    display: block;
+}
+
+.contact-link svg {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    image-rendering: pixelated;
+    display: block;
+}
+
+.contact-link span {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    font-family: inherit; 
+    white-space: nowrap;
+}
+
+.contact-email {
+    margin-top: 20px;
+    font-size: 1rem;
+    font-family: 'Press Start 2P', monospace;
+    opacity: 0.8;
+}
+
+/* Project Viewer */
+.project-viewer-container {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+.project-desc {
+    flex: 1;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.project-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-btn {
+    padding: 12px;
+    flex: 1;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.action-btn:hover {
+    opacity: 0.9;
+}
+
+.action-btn.primary {
+    background: var(--accent-color);
+    color: white;
+}
+
+.action-btn.secondary {
+    background: #333;
+    color: white;
+}
+
+.icon-placeholder-inline {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.icon-placeholder-inline svg {
+    width: 20px;
+    height: 20px;
+    image-rendering: pixelated;
+}
+
+/* Photo Gallery */
+.photo-gallery {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.gallery-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.gallery-item i {
+    font-size: 2.5rem;
+    color: white;
 }

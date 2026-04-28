@@ -29,24 +29,15 @@ export const fileSystem = {
             nameKey: 'desktop.projects', 
             icon: 'folder-code',
             children: [
-                { 
-                    type: 'file', 
-                    name: 'management app', 
-                    icon: 'project', 
-                    data: {
-                        description: 'A simple employee management app.',
-                        link: '#', // <-- Add your project URL here
-                        img: 'https://via.placeholder.com/300' // <-- Add project screenshot URL
-                    }
-                },
                 // --- Copy Below This Line to Add New Project ---
                 { 
                     type: 'file', 
-                    name: 'AI Resume Analyzer', 
+                    name: 'Japanese Quiz Game', 
                     icon: 'project', 
                     data: {
-                        description: 'An AI-powered tool to analyze and improve resumes.',
-                        link: 'https://skillslammer.netlify.app/',
+                        description: 'A Japanese quiz game. A collaborative project with my friend. The project use TypeScript, Svelte, and Turso.',
+                        repo: 'https://github.com/pich-reamrachna/quiz-game',
+                        demo: 'https://quiz-game-flame-alpha.vercel.app/',
                         img: 'https://via.placeholder.com/300'
                     }
                 },
@@ -55,11 +46,34 @@ export const fileSystem = {
                     name: 'Game app', 
                     icon: 'project', 
                     data: {
-                        description: 'A simple game app.',
-                        link: '#',
+                        description: 'A space shooter game. This project is a practice project for game development using Godot.',
+                        repo: 'https://github.com/Nethphorn/space-shooter-game',
+                        demo: 'https://nethphorn.github.io/space-shooter-game/',
                         img: 'https://via.placeholder.com/300'
                     }
-                }
+                },
+                { 
+                    type: 'file', 
+                    name: 'Pokedex Mobile', 
+                    icon: 'project', 
+                    data: {
+                        description: 'A mobile-first Pokedex application. This project is a practice project. The project use React native, Expo, and Pokemon API.',
+                        repo: 'https://github.com/Nethphorn/pokedex-mobile',
+                        demo: 'https://pokedex-mobile-s8gt.vercel.app/',
+                        img: 'https://via.placeholder.com/300'
+                    }
+                },
+                { 
+                    type: 'file', 
+                    name: 'Social Media App', 
+                    icon: 'project', 
+                    data: {
+                        description: 'A social media application. This project is a practice project. The project use Svelte, TypeScript, and better-auth.',
+                        repo: 'https://github.com/pich-reamrachna/social-media',
+                        demo: 'https://social-media-one-virid.vercel.app/',
+                        img: 'https://via.placeholder.com/300'
+                    }
+                },
                 // --- Copy Above This Line ---
             ]
         },
@@ -73,8 +87,8 @@ export const fileSystem = {
             nameKey: 'desktop.resume', 
             icon: 'folder-user',
             children: [
-                { type: 'file', name: 'Resume_EN.pdf', icon: 'pdf' },
-                { type: 'file', name: 'Resume_JP.pdf', icon: 'pdf' }
+                { type: 'file', name: 'Resume_EN.pdf', icon: 'pdf', data: { path: 'img/resume/Nethphorn Tepbrathna.cv.pdf' } },
+                { type: 'file', name: 'Resume_JP.pdf', icon: 'pdf', data: { path: 'img/resume/履歴書.pdf' } }
             ]
         },
 
