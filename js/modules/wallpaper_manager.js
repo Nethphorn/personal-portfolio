@@ -15,8 +15,8 @@ function updateDayNightVideo() {
     const endDayHour = 18;   // 6 PM
 
     // Change these paths to your video files
-    const dayVideo = 'img/vid/day.webm';
-    const nightVideo = 'img/vid/night.webm';
+    const dayVideo = 'assets/wallpaper/summer-day.webm';
+    const nightVideo = 'assets/wallpaper/summer-night.webm';
     // ---------------------
 
     const isDay = hour >= startDayHour && hour < endDayHour;
