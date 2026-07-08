@@ -12,7 +12,7 @@ const CFG = {
   flipY: true,            // ← flip vertically
   rotation: 340,          // ← rotation in degrees
   colorBg: '#FD77D9',     // ← background layer color
-  colorFg: '#FFFFFF',     // ← foreground layer color
+  colorFg: '#B03A74',     // ← foreground layer color
 }
 // ==================================================== //
 

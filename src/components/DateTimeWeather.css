@@ -1,0 +1,38 @@
+.dw-time {
+  position: fixed;
+  bottom: 40px;
+  left: 450px;
+  z-index: 25;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 55px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.dw-date {
+  position: fixed;
+  bottom: 15px;
+  left: 560px;
+  z-index: 25;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(0,0,0,0.6);
+}
+
+.dw-weather {
+  position: fixed;
+  bottom: 15px;
+  left: 400px;
+  z-index: 25;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  text-shadow: 0 0 8px rgba(0,0,0,0.6);
+}
