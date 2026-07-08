@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
@@ -32,11 +31,6 @@ export default function AboutScene() {
     renderer.setSize(w, h)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     el.appendChild(renderer.domElement)
-
-    const controls = new OrbitControls(camera, renderer.domElement)
-    controls.target.set(0, 0, 0)
-    controls.enableDamping = true
-    controls.dampingFactor = 0.05
 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
@@ -107,7 +101,6 @@ export default function AboutScene() {
       if (animBones.neck) animBones.neck.rotation.x = -0.15
       if (animBones.kneeL) animBones.kneeL.rotation.x = (Math.sin(t * 0.8) + 1) * 0.7
       if (animBones.kneeR) animBones.kneeR.rotation.x = (Math.sin(t * 0.8 + Math.PI) + 1) * 0.7
-      controls.update()
       composer.render()
     }
     animate()
@@ -135,7 +128,6 @@ export default function AboutScene() {
       running = false
       window.removeEventListener('keydown', onKey)
       ro.disconnect()
-      controls.dispose()
       renderer.dispose()
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement)
     }
