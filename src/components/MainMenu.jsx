@@ -15,6 +15,7 @@ const SEL_BG_PATH = 'M 12.7428765,95.50088 144.25712,47.499123 116.75625,95.4657
 
 export default function MainMenu() {
   const [hovered, setHovered] = useState(0)
+  const navigate = useNavigate()
   const soundRef = useRef(null)
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function MainMenu() {
 }
 
 function P3Option({ opt, idx, isActive, onHover }) {
+  const navigate = useNavigate()
   const maskId = `sel-mask-${idx}`
   const nameLen = opt.name.replace(/\s/g, '').length
   const cursorScaleX = nameLen * 0.5 + 1.5
@@ -63,7 +65,7 @@ function P3Option({ opt, idx, isActive, onHover }) {
         marginTop: idx === 0 ? 0 : -50,
       }}
     >
-      <button className="p3-option-hitbox" onMouseEnter={onHover} title={opt.desc} />
+      <button className="p3-option-hitbox" onMouseEnter={onHover} onClick={() => navigate(opt.path)} title={opt.desc} />
 
       <svg
         width="950" height="200"

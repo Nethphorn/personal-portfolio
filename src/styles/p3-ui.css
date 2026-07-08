@@ -70,4 +70,75 @@ body {
   animation: p3-beat 1s ease-in-out infinite;
 }
 
+.about-back {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+  text-shadow: 0 0 8px rgba(0,0,0,0.6);
+}
+
+.about-back:hover {
+  opacity: 1;
+}
+
+.p3-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 25;
+  font-family: 'Inter', system-ui, sans-serif;
+  text-align: center;
+  pointer-events: none;
+}
+
+.p3-panel-title {
+  font-size: 3rem;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.04em;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(0,0,0,0.7);
+  margin-bottom: 16px;
+}
+
+.p3-panel-text {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.9);
+  text-shadow: 0 0 12px rgba(0,0,0,0.7);
+  max-width: 500px;
+  line-height: 1.6;
+  margin: 0 auto;
+}
+
+.p3-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.p3-tag {
+  padding: 6px 16px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
+}
+
 

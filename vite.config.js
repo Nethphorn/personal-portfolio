@@ -33,7 +33,7 @@ function copyToDist(sourceDir, filePatterns) {
 export default defineConfig({
   plugins: [
     react(),
-    copyToDist('assets', ['.glb', '.gltf', '.bin', '.png', '.webm', '.wav', '.mp3']),
+    copyToDist('assets', ['.glb', '.gltf', '.bin', '.png', '.webm', '.wav', '.mp3', '.fbx']),
     copyToDist('img', ['.pdf']),
   ],
   build: {
