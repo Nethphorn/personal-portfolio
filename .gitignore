@@ -13,9 +13,6 @@ logs
 .DS_Store
 Thumbs.db
 
-# User Assets (Large files)
-assets/3D_model/
-img/
 Doc/
 
 # Environment variables

@@ -13,9 +13,9 @@ export function initRisa() {
     container.id = 'risa-container';
     // --- POSITIONING ---
     container.style.position = 'fixed';
-    container.style.bottom = '-290px'; // Adjust to hide feet/stand
-    container.style.right = '100px'; 
-    container.style.width = '600px';     
+    container.style.bottom = '-330px'; // Nudged down to sit on the taskbar
+    container.style.right = '60px'; // Brought back on screen
+    container.style.width = '600px'; 
     container.style.height = '600px';
     container.style.pointerEvents = 'none';
     container.style.zIndex = '9999';
@@ -53,8 +53,8 @@ export function initRisa() {
 
     // 4. Loading
     const loader = new GLTFLoader();
-    const rawPath = 'assets/3D_model/I.R.I.S_v0.12.glb';
-    const encodedPath = 'assets/3D_model/' + encodeURIComponent('I.R.I.S_v0.12.glb');
+    const rawPath = 'assets/3D_model/risa-sitting.glb';
+    const encodedPath = 'assets/3D_model/' + encodeURIComponent('risa-sitting.glb');
     
     const tryLoad = (path, isFallback = false) => {
         loader.load(
@@ -75,11 +75,13 @@ export function initRisa() {
                 model.position.y = -center.y;
                 model.position.z = -center.z;
                 
-                // Nudge and Scale
-                wrapper.position.x = 0.5; 
-                wrapper.rotation.y = -0.7; // Face Left
-                wrapper.rotation.x = -0.1; // Tilt Backward
-                wrapper.rotation.z = -0.2; // Lean Sideways (Z-axis)
+                // --- CHARACTER POSE ---
+                wrapper.position.x = 2.0; // Moved right inside the box to prevent slicing
+                wrapper.position.y = 1.0; // Move UP/DOWN in the box (Prevents slicing)
+                
+                wrapper.rotation.x = -0.3; // TILT Forward (-) / Backward (+)
+                wrapper.rotation.y = -0.4; // SPIN Left (-) / Right (+)
+                wrapper.rotation.z = -0.2; // LEAN Side-to-Side (-) / (+)
 
                 const maxDim = Math.max(size.x, size.y, size.z);
                 const scale = 3.5 / maxDim; 
