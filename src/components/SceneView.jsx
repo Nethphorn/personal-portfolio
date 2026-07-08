@@ -17,24 +17,79 @@ function centerModel(model) {
 }
 
 // ============ BACKGROUND CONFIG — adjust these ============ //
-const BG_HOT_PINK = '#FF66B2'   // ← left side color
-const BG_DARK_PINK = '#8B004B'  // ← right side color
+const BG_HOT_PINK = '#FF88CC'   // ← left rectangle color
+const BG_DARK_PINK = '#8B004B'  // ← right rectangle fallback color
 const BG_SPLIT = 9              // ← split position (0-20)
+const BG_Z = -5                 // ← background planes depth
 // ========================================================== //
 
-function createBackground(scene) {
-  const canvas = document.createElement('canvas')
-  canvas.width = 20
-  canvas.height = 1
-  const ctx = canvas.getContext('2d')
-  ctx.fillStyle = BG_HOT_PINK
-  ctx.fillRect(0, 0, BG_SPLIT, 1)
-  ctx.fillStyle = BG_DARK_PINK
-  ctx.fillRect(BG_SPLIT, 0, canvas.width - BG_SPLIT, 1)
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.magFilter = THREE.NearestFilter
-  texture.minFilter = THREE.NearestFilter
-  scene.background = texture
+function createBackground(scene, w, h) {
+  const aspect = w / h
+  const fovRad = 38 * Math.PI / 180
+  const dist = 8 - BG_Z
+  const vh = 2 * dist * Math.tan(fovRad / 2)
+  const vw = vh * aspect
+  const splitRatio = BG_SPLIT / 20
+
+  const video = document.createElement('video')
+  video.src = '/assets/wallpaper/summer-day.webm'
+  video.loop = true
+  video.muted = true
+  video.playsInline = true
+  video.play().catch(() => {})
+
+  const videoMat = new THREE.MeshBasicMaterial({
+    map: new THREE.VideoTexture(video),
+    transparent: true,
+    opacity: 0.15,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  })
+  const videoPlane = new THREE.Mesh(new THREE.PlaneGeometry(vw, vh), videoMat)
+  videoPlane.position.set(0, 0, BG_Z)
+  scene.add(videoPlane)
+
+  video.addEventListener('loadedmetadata', () => {
+    const vAspect = video.videoWidth / video.videoHeight
+    const sAspect = vw / vh
+    let gw, gh
+    if (vAspect > sAspect) {
+      gw = vw
+      gh = vw / vAspect
+    } else {
+      gw = vh * vAspect
+      gh = vh
+    }
+    videoPlane.geometry = new THREE.PlaneGeometry(gw, gh)
+  })
+
+  const leftW = vw * splitRatio
+  const rightW = vw * (1 - splitRatio)
+  const leftX = -vw / 2 + leftW / 2
+  const rightX = -vw / 2 + leftW + rightW / 2
+
+  const leftCanvas = document.createElement('canvas')
+  leftCanvas.width = 64
+  leftCanvas.height = 64
+  const lctx = leftCanvas.getContext('2d')
+  lctx.fillStyle = '#FF66B2'
+  lctx.fillRect(0, 0, 64, 64)
+  const leftTex = new THREE.CanvasTexture(leftCanvas)
+  const leftMat = new THREE.SpriteMaterial({
+    map: leftTex,
+    depthWrite: false,
+  })
+  const leftSprite = new THREE.Sprite(leftMat)
+  leftSprite.position.set(leftX, 0, BG_Z + 1)
+  leftSprite.scale.set(leftW, vh, 1)
+  scene.add(leftSprite)
+
+  const rightPlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(rightW, vh),
+    new THREE.MeshBasicMaterial({ color: BG_DARK_PINK, transparent: true, opacity: 0.15, side: THREE.DoubleSide, depthWrite: false })
+  )
+  rightPlane.position.set(rightX, 0, BG_Z + 0.5)
+  scene.add(rightPlane)
 }
 
 function loadModel(scene, clock, mixerRef) {
@@ -79,7 +134,7 @@ export default function SceneView() {
     const h = el.clientHeight
 
     const scene = new THREE.Scene()
-    createBackground(scene)
+    createBackground(scene, w, h)
 
     const camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 50)
     camera.position.set(0, 0.5, 8)

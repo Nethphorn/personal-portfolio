@@ -9,7 +9,7 @@ const CFG = {
   speed: 0.8,                 // ← scroll speed
   textRotation: 1,            // ← text tilt in radians
   color: '#FF66B2',           // ← fill color
-  outline: '#000',            // ← outline color
+  outline: '#000000',            // ← outline color
   fontSize: 76,               // ← font size (px on canvas)
   count: 20,                  // ← how many texts
   gap: 2.8,                   // ← spacing between each
@@ -27,17 +27,8 @@ export default function createWelcomeText(scene) {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
 
-  const bevelLayers = [
-    [5, '#3a0018'], [4, '#4f0022'],
-    [3, '#66002b'], [2, '#800035'],
-    [1, '#a30045'],
-  ]
-  for (const [off, col] of bevelLayers) {
-    ctx.fillStyle = col
-    ctx.fillText(CFG.text, 256 + off, 64 + off)
-  }
   ctx.strokeStyle = CFG.outline
-  ctx.lineWidth = 3
+  ctx.lineWidth = 5
   ctx.lineJoin = 'round'
   ctx.strokeText(CFG.text, 256, 64)
   ctx.fillStyle = CFG.color
