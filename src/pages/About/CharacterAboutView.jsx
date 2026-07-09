@@ -31,12 +31,13 @@ export default function CharacterAboutView() {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(w, h)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     el.appendChild(renderer.domElement)
 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
-    const bloom = new UnrealBloomPass(new THREE.Vector2(w, h), 0.15, 0.1, 0.05)
+    const bloomRes = new THREE.Vector2(Math.floor(w / 2), Math.floor(h / 2))
+    const bloom = new UnrealBloomPass(bloomRes, 0.15, 0.1, 0.05)
     composer.addPass(bloom)
     composer.addPass(new OutputPass())
 
@@ -47,57 +48,62 @@ export default function CharacterAboutView() {
       'assets/3D_model/risa-laying-pose.glb',
       (gltf) => {
         if (!running) return
-        const m = gltf.scene
-        const grp = new THREE.Group()
-        scene.add(grp)
-        grp.add(m)
+        setupModel(gltf)
+      },
+      undefined,
+      (err) => console.error('Model load failed:', err)
+    )
 
-        const box = new THREE.Box3().setFromObject(m)
-        const size = box.getSize(new THREE.Vector3())
-        const center = box.getCenter(new THREE.Vector3())
-        m.position.set(-center.x, -center.y, -center.z)
-        const s = 1.8 / Math.max(size.x, size.y, size.z)
-        grp.scale.set(s, s, s)
-        grp.position.set(3, -0.7, 0)
+    function setupModel(gltf) {
+      const m = gltf.scene
+      const grp = new THREE.Group()
+      scene.add(grp)
+      grp.add(m)
 
-        unregDebug = registerDebug({ scene, camera, target: grp })
+      const box = new THREE.Box3().setFromObject(m)
+      const size = box.getSize(new THREE.Vector3())
+      const center = box.getCenter(new THREE.Vector3())
+      m.position.set(-center.x, -center.y, -center.z)
+      const s = 1.8 / Math.max(size.x, size.y, size.z)
+      grp.scale.set(s, s, s)
+      grp.position.set(3, -0.7, 0)
 
-        m.traverse((ch) => {
-          if (!ch.isMesh || !ch.material) return
-          const arr = Array.isArray(ch.material) ? ch.material : [ch.material]
-          ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: 0xffffff }))
-          ch.material = ch.material.length === 1 ? ch.material[0] : ch.material
-        })
+      unregDebug = registerDebug({ scene, camera, target: grp })
 
-        m.traverse((ch) => {
-          if (ch.isBone) {
-            const name = ch.name.toLowerCase()
-            if (!animBones.neck && name.includes('neck')) animBones.neck = ch
-            if (!animBones.head && name.includes('head')) animBones.head = ch
-            if (name.includes('_l_')) {
-              if (!animBones.legL && name.includes('upperleg')) animBones.legL = ch
-              if (!animBones.kneeL && name.includes('lowerleg')) animBones.kneeL = ch
-            }
-            if (name.includes('_r_')) {
-              if (!animBones.legR && name.includes('upperleg')) animBones.legR = ch
-              if (!animBones.kneeR && name.includes('lowerleg')) animBones.kneeR = ch
-            }
+      m.traverse((ch) => {
+        if (!ch.isMesh || !ch.material) return
+        const arr = Array.isArray(ch.material) ? ch.material : [ch.material]
+        ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: 0xffffff }))
+        ch.material = ch.material.length === 1 ? ch.material[0] : ch.material
+      })
+
+      m.traverse((ch) => {
+        if (ch.isBone) {
+          const name = ch.name.toLowerCase()
+          if (!animBones.neck && name.includes('neck')) animBones.neck = ch
+          if (!animBones.head && name.includes('head')) animBones.head = ch
+          if (name.includes('_l_')) {
+            if (!animBones.legL && name.includes('upperleg')) animBones.legL = ch
+            if (!animBones.kneeL && name.includes('lowerleg')) animBones.kneeL = ch
           }
-        })
+          if (name.includes('_r_')) {
+            if (!animBones.legR && name.includes('upperleg')) animBones.legR = ch
+            if (!animBones.kneeR && name.includes('lowerleg')) animBones.kneeR = ch
+          }
+        }
+      })
 
         if (gltf.animations && gltf.animations.length > 0) {
           mixer = new THREE.AnimationMixer(m)
           const action = mixer.clipAction(gltf.animations[0])
           action.play()
         }
-      },
-      undefined,
-      (err) => console.error('Model error:', err)
-    )
+      }
 
     function animate() {
       if (!running) return
       requestAnimationFrame(animate)
+      if (document.hidden) return
       const dt = clock.getDelta()
       if (mixer) mixer.update(dt)
       const t = clock.getElapsedTime()
@@ -123,7 +129,6 @@ export default function CharacterAboutView() {
 
     function onKey(e) {
       if (e.key === 'p') {
-        console.log(`camera.position.set(${camera.position.x}, ${camera.position.y}, ${camera.position.z})`)
       }
     }
     window.addEventListener('keydown', onKey)

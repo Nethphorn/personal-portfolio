@@ -18,6 +18,7 @@ export default function CharacterScene({
   bloomStrength = 0.15,
   positionControls = false,
   onAnimate = null,
+  onSceneReady = null,
 }) {
   const containerRef = useRef(null)
 
@@ -44,14 +45,15 @@ export default function CharacterScene({
     camera.position.set(...cameraPosition)
     camera.lookAt(0, 0, 0)
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    const renderer = new THREE.WebGLRenderer({ antialias: false })
     renderer.setSize(w, h)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(1)
     el.appendChild(renderer.domElement)
 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
-    const bloom = new UnrealBloomPass(new THREE.Vector2(w, h), bloomStrength, 0.1, 0.05)
+    const bloomRes = new THREE.Vector2(Math.floor(w / 4), Math.floor(h / 4))
+    const bloom = new UnrealBloomPass(bloomRes, bloomStrength, 0.1, 0.05)
     composer.addPass(bloom)
 
     const clock = new THREE.Clock()
@@ -63,79 +65,80 @@ export default function CharacterScene({
       dragRef = { current: { active: false, sx: 0, sy: 0, startPos: new THREE.Vector3(), startRotY: 0, startRotX: 0 } }
     }
 
+    if (onSceneReady) onSceneReady({ scene, camera, renderer })
+
     const loader = new GLTFLoader()
     loader.load(
       modelPath,
       (gltf) => {
         if (!running) return
-        gltfResult = gltf
-        const m = gltf.scene
-        mesh = m
-
-        outer = new THREE.Group()
-        scene.add(outer)
-        tiltGrp = new THREE.Group()
-        outer.add(tiltGrp)
-        spinGrp = new THREE.Group()
-        tiltGrp.add(spinGrp)
-        inner = new THREE.Group()
-        spinGrp.add(inner)
-        inner.add(m)
-
-        const box = new THREE.Box3().setFromObject(m)
-        const size = box.getSize(new THREE.Vector3())
-        const center = box.getCenter(new THREE.Vector3())
-        m.position.set(-center.x, -center.y, -center.z)
-        const s = scaleDivisor / Math.max(size.x, size.y, size.z)
-        inner.scale.set(s, s, s)
-        outer.position.set(defaultPosition[0], defaultPosition[1], 0)
-        tiltGrp.rotation.x = THREE.MathUtils.degToRad(defaultTilt)
-        spinGrp.rotation.y = THREE.MathUtils.degToRad(defaultSpin)
-
-        if (positionControls) {
-          outerRef.current = outer
-          tiltRef.current = tiltGrp
-        }
-
-        const unregDebug = registerDebug({
-          scene,
-          camera,
-          target: {
-            position: outer.position,
-            rotation: {
-              get x() { return tiltGrp.rotation.x },
-              get y() { return spinGrp.rotation.y },
-              get z() { return 0 },
-            },
-          },
-        })
-        cleanupFns.push(unregDebug)
-
-        const boneNames = []
-        m.traverse((ch) => {
-          if (ch.isBone) boneNames.push(ch.name)
-          if (!ch.isMesh || !ch.material) return
-          const arr = Array.isArray(ch.material) ? ch.material : [ch.material]
-          ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: 0xffffff }))
-          ch.material = ch.material.length === 1 ? ch.material[0] : ch.material
-        })
-        console.log(`[${modelPath}] Bones:`, boneNames)
-
-        if (gltf.animations && gltf.animations.length > 0) {
-          mixer = new THREE.AnimationMixer(m)
-          const fallClip = gltf.animations[Math.min(animationIndex, gltf.animations.length - 1)]
-          if (fallClip) {
-            const fallAction = mixer.clipAction(fallClip)
-            fallAction.setLoop(THREE.LoopOnce)
-            fallAction.clampWhenFinished = true
-            fallAction.play()
-          }
-        }
-
+        setupModel(gltf)
       },
       undefined,
-      (err) => console.error('Model error:', err)
+      (err) => console.error('Model load failed:', err)
     )
+
+    function setupModel(gltf) {
+      const m = gltf.scene
+      mesh = m
+
+      outer = new THREE.Group()
+      scene.add(outer)
+      tiltGrp = new THREE.Group()
+      outer.add(tiltGrp)
+      spinGrp = new THREE.Group()
+      tiltGrp.add(spinGrp)
+      inner = new THREE.Group()
+      spinGrp.add(inner)
+      inner.add(m)
+
+      const box = new THREE.Box3().setFromObject(m)
+      const size = box.getSize(new THREE.Vector3())
+      const center = box.getCenter(new THREE.Vector3())
+      m.position.set(-center.x, -center.y, -center.z)
+      const s = scaleDivisor / Math.max(size.x, size.y, size.z)
+      inner.scale.set(s, s, s)
+      outer.position.set(defaultPosition[0], defaultPosition[1], 0)
+      tiltGrp.rotation.x = THREE.MathUtils.degToRad(defaultTilt)
+      spinGrp.rotation.y = THREE.MathUtils.degToRad(defaultSpin)
+
+      if (positionControls) {
+        outerRef.current = outer
+        tiltRef.current = tiltGrp
+      }
+
+      const unregDebug = registerDebug({
+        scene,
+        camera,
+        target: {
+          position: outer.position,
+          rotation: {
+            get x() { return tiltGrp.rotation.x },
+            get y() { return spinGrp.rotation.y },
+            get z() { return 0 },
+          },
+        },
+      })
+      cleanupFns.push(unregDebug)
+
+      m.traverse((ch) => {
+        if (!ch.isMesh || !ch.material) return
+        const arr = Array.isArray(ch.material) ? ch.material : [ch.material]
+        ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: 0xffffff }))
+        ch.material = ch.material.length === 1 ? ch.material[0] : ch.material
+      })
+
+      if (gltf.animations && gltf.animations.length > 0) {
+        mixer = new THREE.AnimationMixer(m)
+        const fallClip = gltf.animations[Math.min(animationIndex, gltf.animations.length - 1)]
+        if (fallClip) {
+          const fallAction = mixer.clipAction(fallClip)
+          fallAction.setLoop(THREE.LoopOnce)
+          fallAction.clampWhenFinished = true
+          fallAction.play()
+        }
+      }
+    }
 
     let cleanupFns = []
 
@@ -256,18 +259,11 @@ export default function CharacterScene({
           if (clip) {
             const action = mixer.clipAction(clip)
             action.play()
-            console.log(`Animation[${animIdx}]: "${clip.name || 'unnamed'}"`)
           }
         }
         if (e.key === 'l' && gltfResult) {
-          console.log(`Animations (${gltfResult.animations.length}):`, gltfResult.animations.map((a, i) => `${i}: ${a.name || 'unnamed'}`).join(', '))
         }
         if (e.key === 's' && outer && tiltGrp && spinGrp) {
-          console.log(`// Saved state for: ${modelPath}`)
-          console.log(`cameraPosition: [${camera.position.x.toFixed(2)}, ${camera.position.y.toFixed(2)}, ${camera.position.z.toFixed(2)}]`)
-          console.log(`defaultPosition: [${outer.position.x.toFixed(2)}, ${outer.position.y.toFixed(2)}]`)
-          console.log(`defaultSpin: ${THREE.MathUtils.radToDeg(spinGrp.rotation.y).toFixed(1)}`)
-          console.log(`defaultTilt: ${THREE.MathUtils.radToDeg(tiltGrp.rotation.x).toFixed(1)}`)
         }
       }
       window.addEventListener('keydown', onKey)
@@ -278,6 +274,7 @@ export default function CharacterScene({
     function animate() {
       if (!running) return
       requestAnimationFrame(animate)
+      if (document.hidden) return
       const dt = clock.getDelta()
       const t = clock.getElapsedTime()
       if (mixer) mixer.update(dt)

@@ -26,7 +26,7 @@ function createBackground(scene, w, h) {
   const aspect = w / h
   const fovRad = 38 * Math.PI / 180
   const dist = 8 - BG_Z
-  const vh = 2 * dist * Math.tan(fovRad / 2)
+  const vh = 2.1 * dist * Math.tan(fovRad / 2)
   const vw = vh * aspect
   const splitRatio = BG_SPLIT / 20
 
@@ -91,43 +91,54 @@ function createBackground(scene, w, h) {
   scene.add(rightPlane)
 }
 
-function loadModel(scene, camera, clock, mixerRef, cleanupFns) {
+function loadModel(scene, camera, clock, mixerRef, cleanupFns, getRunning) {
+  const path = 'assets/3D_model/risa-sitting.glb'
   const loader = new GLTFLoader()
   loader.load(
-    'assets/3D_model/risa-sitting.glb',
+    path,
     (gltf) => {
-      const m = gltf.scene
-      const grp = new THREE.Group()
-      scene.add(grp)
-      grp.add(m)
-
-      const s = centerModel(m)
-      grp.scale.set(s, s, s)
-      grp.position.set(0, -7.5, 0)
-      grp.rotation.set(-0.1, -0.3, 0)
-
-      m.traverse((ch) => {
-        if (!ch.isMesh || !ch.material) return
-        const arr = Array.isArray(ch.material) ? ch.material : [ch.material]
-        ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: 0xffffff }))
-        ch.material = ch.material.length === 1 ? ch.material[0] : ch.material
-      })
-
-      mixerRef.current = new THREE.AnimationMixer(m)
-      if (gltf.animations.length) mixerRef.current.clipAction(gltf.animations[0]).play()
-      console.log('Model loaded, meshes:', m.children.length)
-
-      cleanupFns.push(registerDebug({ scene, camera, target: grp }))
+      if (!getRunning()) return
+      setupModel(gltf)
     },
     undefined,
-    (err) => console.error('Model error:', err)
+    (err) => {
+      console.error('Model load failed:', err)
+    }
   )
+
+function setupModel(gltf) {
+    const m = gltf.scene
+    m.position.set(0, 0, 0)
+    m.rotation.set(0, 0, 0)
+    m.scale.set(1, 1, 1)
+
+    const s = centerModel(m)
+    const grp = new THREE.Group()
+    scene.add(grp)
+    grp.add(m)
+    grp.scale.set(s, s, s)
+    grp.position.set(0, -7.5, 0)
+    grp.rotation.set(-0.1, -0.3, 0)
+
+    m.traverse((ch) => {
+      if (!ch.isMesh || !ch.material) return
+      const arr = Array.isArray(ch.material) ? ch.material : [ch.material]
+      ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: 0xffffff }))
+      ch.material = ch.material.length === 1 ? ch.material[0] : ch.material
+    })
+
+    mixerRef.current = new THREE.AnimationMixer(m)
+    if (gltf.animations.length) mixerRef.current.clipAction(gltf.animations[0]).play()
+
+    cleanupFns.push(registerDebug({ scene, camera, target: grp }))
+  }
 }
 
 export default function CharacterHomeView() {
   const containerRef = useRef(null)
 
   useEffect(() => {
+    console.log('[Home] useEffect running')
     const el = containerRef.current
     if (!el) return
 
@@ -143,27 +154,28 @@ export default function CharacterHomeView() {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(w, h)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     el.appendChild(renderer.domElement)
 
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
-    const bloom = new UnrealBloomPass(new THREE.Vector2(w, h), 0.15, 0.1, 0.05)
+    const bloomRes = new THREE.Vector2(Math.floor(w / 2), Math.floor(h / 2))
+    const bloom = new UnrealBloomPass(bloomRes, 0.15, 0.1, 0.05)
     composer.addPass(bloom)
     composer.addPass(new OutputPass())
 
     const clock = new THREE.Clock()
     const mixerRef = { current: null }
     const cleanupFns = []
+    let running = true
 
-    loadModel(scene, camera, clock, mixerRef, cleanupFns)
+    loadModel(scene, camera, clock, mixerRef, cleanupFns, () => running)
     const welcome = createWelcomeText(scene)
     createShape(scene)
-
-    let running = true
     function animate() {
       if (!running) return
       requestAnimationFrame(animate)
+      if (document.hidden) return
       if (mixerRef.current) mixerRef.current.update(clock.getDelta())
       welcome.update(clock.getElapsedTime())
       composer.render()

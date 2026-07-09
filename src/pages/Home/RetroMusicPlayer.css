@@ -3,17 +3,20 @@
   bottom: 80px;
   left: 40px;
   z-index: 20;
-  width: 340px;
+  width: 18vw;
+  min-width: 200px;
+  max-width: 340px;
   padding: 16px 20px;
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(176, 58, 116, 0.5), inset 0 0 10px rgba(0,0,0,0.15);
   font-family: 'Inter', system-ui, sans-serif;
   transform: rotate(20deg);
+  will-change: transform;
 }
 
 .music-now-playing {
   text-align: center;
-  font-size: 14px;
+  font-size: 0.75vw;
   color: rgba(255,255,255,0.95);
   margin-bottom: 10px;
   letter-spacing: 0.3px;
@@ -35,7 +38,7 @@
   background: none;
   border: 2px solid rgba(255,255,255,0.3);
   color: #fff;
-  font-size: 14px;
+  font-size: 0.7vw;
   width: 28px;
   height: 28px;
   border-radius: 5px;
@@ -59,7 +62,7 @@
 .play-btn {
   width: 34px;
   height: 34px;
-  font-size: 16px;
+  font-size: 0.85vw;
 }
 
 .music-progress {
@@ -92,7 +95,7 @@
 .music-time {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 0.65vw;
   color: rgba(255,255,255,0.8);
   margin-bottom: 6px;
 }
@@ -198,4 +201,28 @@
   cursor: pointer;
   border: none;
   box-shadow: 0 0 4px rgba(255,255,255,0.4);
+}
+
+@media (max-width: 768px) {
+  .music-player {
+    width: 45vw;
+    bottom: 40px;
+    left: 20px;
+  }
+
+  .music-now-playing {
+    font-size: 2.5vw;
+  }
+
+  .music-btn {
+    font-size: 2.5vw;
+  }
+
+  .play-btn {
+    font-size: 3vw;
+  }
+
+  .music-time {
+    font-size: 2vw;
+  }
 }

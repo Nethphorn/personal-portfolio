@@ -38,5 +38,19 @@ export default defineConfig({
   ],
   build: {
     outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three'],
+          'three-addons': [
+            'three/addons/loaders/GLTFLoader.js',
+            'three/addons/postprocessing/EffectComposer.js',
+            'three/addons/postprocessing/RenderPass.js',
+            'three/addons/postprocessing/UnrealBloomPass.js',
+            'three/addons/postprocessing/OutputPass.js',
+          ],
+        },
+      },
+    },
   },
 })

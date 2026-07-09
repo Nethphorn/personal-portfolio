@@ -1,6 +1,17 @@
+import { useRef, useEffect } from 'react'
 import CharacterScene from '../../components/CharacterScene'
 
-export default function CharacterProjectView() {
+export default function CharacterProjectView({ onProjectClick }) {
+  const scrollRef = useRef(null)
+
+  useEffect(() => {
+    return () => {
+      if (scrollRef.current) {
+        scrollRef.current = null
+      }
+    }
+  }, [])
+
   function onAnimate(t, mesh) {
     if (mesh._initY === undefined) mesh._initY = mesh.position.y
     mesh.position.y = mesh._initY + Math.sin(t * 0.3) * 0.015
@@ -14,10 +25,9 @@ export default function CharacterProjectView() {
     const ruArm = mesh.getObjectByName('J_Bip_R_UpperArm')
     const rlArm = mesh.getObjectByName('J_Bip_R_LowerArm')
 
-    // Thigh offset (adds to animation) — adjust these
-    const thighX = -0.5   // forward/back
-    const thighY = 0   // twist
-    const thighZ = 0   // side
+    const thighX = -0.5
+    const thighY = 0
+    const thighZ = 0
     const thighAnim = Math.sin(t * 0.3) * 0.06
     if (lu) {
       if (lu._ix === undefined) lu._ix = lu.rotation.x
@@ -36,7 +46,6 @@ export default function CharacterProjectView() {
       ru.rotation.z = ru._iz + thighZ
     }
 
-    // Knee offset
     const kneeX = 0.5
     const kneeY = 0
     const kneeZ = 0
@@ -58,7 +67,6 @@ export default function CharacterProjectView() {
       rl.rotation.z = rl._iz + kneeZ
     }
 
-    // Neck offset
     const neckX = -1
     const neckY = 0
     const neckZ = 0
@@ -71,7 +79,6 @@ export default function CharacterProjectView() {
       neck.rotation.z = neck._iz + neckZ + Math.sin(t * 0.5) * 0.04
     }
 
-    // Shoulder offset (UpperArm) — left/right separate
     const shoulderLX = -0.2
     const shoulderLY = 0
     const shoulderLZ = -0.2
@@ -96,7 +103,6 @@ export default function CharacterProjectView() {
       ruArm.rotation.z = ruArm._iz + shoulderRZ
     }
 
-    // Elbow offset (LowerArm) — left/right separate
     const elbowLX = 0.3
     const elbowLY = 0.1
     const elbowLZ = 0.2
@@ -121,13 +127,11 @@ export default function CharacterProjectView() {
       rlArm.rotation.z = rlArm._iz + elbowRZ
     }
 
-    // Whole body offsets
     const bones = {
       hips: 'J_Bip_C_Hips', spine: 'J_Bip_C_Spine',
       chest: 'J_Bip_C_Chest', upperChest: 'J_Bip_C_UpperChest',
       head: 'J_Bip_C_Head',
     }
-    // Set these to non-zero to tilt whole body segments
     const bodyX = 0
     const bodyY = 0
     const bodyZ = 0

@@ -1,9 +1,11 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import About from './pages/About'
-import Projects from './pages/Projects'
-import Contact from './pages/Contact'
-import Resume from './pages/Resume'
+
+const Home = lazy(() => import('./pages/Home'))
+const About = lazy(() => import('./pages/About'))
+const Projects = lazy(() => import('./pages/Projects'))
+const Contact = lazy(() => import('./pages/Contact'))
+const Resume = lazy(() => import('./pages/Resume'))
 
 const ROUTES = [
   { path: '/', element: <Home /> },
@@ -17,11 +19,13 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="p3-root">
-        <Routes>
-          {ROUTES.map(r => (
-            <Route key={r.path} path={r.path} element={r.element} />
-          ))}
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            {ROUTES.map(r => (
+              <Route key={r.path} path={r.path} element={r.element} />
+            ))}
+          </Routes>
+        </Suspense>
       </div>
     </BrowserRouter>
   )
