@@ -6,8 +6,8 @@ const COLORS = ['#16CFFB', '#7DE6FD', '#77FEFC']
 const OPTIONS = [
   { name: 'About Me',   rotation: -25, offsetX: 40, offsetY: 55,  desc: 'About me',   path: '/about' },
   { name: 'Projects',   rotation: -15, offsetX: 90, offsetY: 30,  desc: 'Projects',   path: '/projects' },
-  { name: 'Contact',    rotation: -8,  offsetX: 70, offsetY: 35,  desc: 'Contact',    path: '/contact' },
-  { name: 'Resume',     rotation: -0.7,offsetX: 70, offsetY: 40,  desc: 'Resume',     path: '/resume' },
+  { name: 'Resume',     rotation: -8,  offsetX: 70, offsetY: 35,  desc: 'Resume',     path: '/resume' },
+  { name: 'Contact',    rotation: -0.7,offsetX: 70, offsetY: 40,  desc: 'Contact',    path: '/contact' },
 ]
 
 const SEL_PATH = 'M 24.853754,93.31573 135.14625,49.684266 114.14751,97.331142 Z'

@@ -235,11 +235,14 @@ export default function CharacterScene({
       )
 
       function onWheel(e) {
-        if (!isCamMode) return
         e.preventDefault()
-        camSph.distance += e.deltaY * 0.02
-        camSph.distance = Math.max(2, Math.min(50, camSph.distance))
-        applyCamSph(camSph)
+        if (isCamMode) {
+          camSph.distance += e.deltaY * 0.02
+          camSph.distance = Math.max(2, Math.min(50, camSph.distance))
+          applyCamSph(camSph)
+        } else if (outer) {
+          outer.position.z += e.deltaY * 0.02
+        }
       }
       el.addEventListener('wheel', onWheel, { passive: false })
       cleanupFns.push(() => el.removeEventListener('wheel', onWheel))
@@ -284,7 +287,7 @@ export default function CharacterScene({
         const c2 = box2.getCenter(new THREE.Vector3())
         mesh.position.set(-c2.x, -c2.y, -c2.z)
       }
-      if (onAnimate && mesh) onAnimate(t, mesh)
+      if (onAnimate && mesh) onAnimate(t, mesh, camera, scene)
       composer.render()
     }
     animate()
