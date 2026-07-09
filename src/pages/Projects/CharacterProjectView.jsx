@@ -1,6 +1,6 @@
 import CharacterScene from '../../components/CharacterScene'
 
-export default function ProjectScene() {
+export default function CharacterProjectView() {
   return (
     <CharacterScene
       modelPath="assets/3D_model/risa-falling.glb"

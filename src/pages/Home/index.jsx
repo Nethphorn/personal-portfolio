@@ -1,12 +1,12 @@
-import SceneView from '../../components/SceneView'
-import MainMenu from '../../components/MainMenu'
-import RetroMusicPlayer from '../../components/RetroMusicPlayer'
-import DateTimeWeather from '../../components/DateTimeWeather'
+import CharacterHomeView from './CharacterHomeView'
+import MainMenu from './MainMenu'
+import RetroMusicPlayer from './RetroMusicPlayer'
+import DateTimeWeather from './DateTimeWeather'
 
 export default function Home() {
   return (
     <>
-      <SceneView />
+      <CharacterHomeView />
       <RetroMusicPlayer />
       <MainMenu />
       <DateTimeWeather />

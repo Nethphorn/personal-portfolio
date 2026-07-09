@@ -5,8 +5,9 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
+import { registerDebug } from '../../lib/debugStore'
 
-export default function AboutScene() {
+export default function CharacterAboutView() {
   const containerRef = useRef(null)
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function AboutScene() {
     let running = true
     let mixer = null
     const animBones = { head: null, neck: null, legL: null, legR: null, kneeL: null, kneeR: null }
+    let unregDebug = null
 
     const w = el.clientWidth
     const h = el.clientHeight
@@ -57,6 +59,8 @@ export default function AboutScene() {
         const s = 1.8 / Math.max(size.x, size.y, size.z)
         grp.scale.set(s, s, s)
         grp.position.set(3, -0.7, 0)
+
+        unregDebug = registerDebug({ scene, camera, target: grp })
 
         m.traverse((ch) => {
           if (!ch.isMesh || !ch.material) return
@@ -126,6 +130,7 @@ export default function AboutScene() {
 
     return () => {
       running = false
+      if (unregDebug) unregDebug()
       window.removeEventListener('keydown', onKey)
       ro.disconnect()
       renderer.dispose()

@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
+import { registerDebug, subscribeCameraMode } from '../lib/debugStore'
 
 export default function CharacterScene({
   modelPath,
@@ -16,6 +17,7 @@ export default function CharacterScene({
   backgroundColor = '#2D0A1E',
   bloomStrength = 0.15,
   positionControls = false,
+  onAnimate = null,
 }) {
   const containerRef = useRef(null)
 
@@ -31,7 +33,6 @@ export default function CharacterScene({
     let spinGrp = null
     let mesh = null
     let gltfResult = null
-    let limbBones = { legL: null, legR: null, neck: null }
 
     const w = el.clientWidth
     const h = el.clientHeight
@@ -96,12 +97,29 @@ export default function CharacterScene({
           tiltRef.current = tiltGrp
         }
 
+        const unregDebug = registerDebug({
+          scene,
+          camera,
+          target: {
+            position: outer.position,
+            rotation: {
+              get x() { return tiltGrp.rotation.x },
+              get y() { return spinGrp.rotation.y },
+              get z() { return 0 },
+            },
+          },
+        })
+        cleanupFns.push(unregDebug)
+
+        const boneNames = []
         m.traverse((ch) => {
+          if (ch.isBone) boneNames.push(ch.name)
           if (!ch.isMesh || !ch.material) return
           const arr = Array.isArray(ch.material) ? ch.material : [ch.material]
           ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: 0xffffff }))
           ch.material = ch.material.length === 1 ? ch.material[0] : ch.material
         })
+        console.log(`[${modelPath}] Bones:`, boneNames)
 
         if (gltf.animations && gltf.animations.length > 0) {
           mixer = new THREE.AnimationMixer(m)
@@ -114,13 +132,6 @@ export default function CharacterScene({
           }
         }
 
-        limbBones = { legL: null, legR: null, neck: null }
-        m.traverse((ch) => {
-          if (!ch.isBone) return
-          if (ch.name === 'J_Bip_L_UpperLeg') limbBones.legL = ch
-          if (ch.name === 'J_Bip_R_UpperLeg') limbBones.legR = ch
-          if (ch.name === 'J_Bip_C_Neck') limbBones.neck = ch
-        })
       },
       undefined,
       (err) => console.error('Model error:', err)
@@ -128,37 +139,85 @@ export default function CharacterScene({
 
     let cleanupFns = []
 
+    let isCamMode = false
+    let camSph = { theta: 0, phi: 0, distance: 17 }
+
+    function posToSph(pos) {
+      const r = pos.length()
+      return {
+        theta: Math.atan2(pos.x, pos.z),
+        phi: Math.asin(THREE.MathUtils.clamp(pos.y / r, -1, 1)),
+        distance: r,
+      }
+    }
+
+    function applyCamSph(sph) {
+      const x = sph.distance * Math.sin(sph.theta) * Math.cos(sph.phi)
+      const y = sph.distance * Math.sin(sph.phi)
+      const z = sph.distance * Math.cos(sph.theta) * Math.cos(sph.phi)
+      camera.position.set(x, y, z)
+      camera.lookAt(0, 0, 0)
+    }
+
     if (positionControls) {
+      const unsubCam = subscribeCameraMode((enabled) => {
+        isCamMode = enabled
+        if (enabled) camSph = posToSph(camera.position)
+      })
+      cleanupFns.push(unsubCam)
+
       function onPointerDown(e) {
-        const o = outerRef.current
-        const t = tiltRef.current
-        if (!o || !t || !spinGrp) return
-        dragRef.current = {
-          active: true,
-          sx: e.clientX,
-          sy: e.clientY,
-          startPos: o.position.clone(),
-          startRotY: spinGrp.rotation.y,
-          startRotX: t.rotation.x,
+        if (isCamMode) {
+          dragRef.current = {
+            active: true,
+            mode: 'cam',
+            sx: e.clientX, sy: e.clientY,
+            startTheta: camSph.theta,
+            startPhi: camSph.phi,
+            startDist: camSph.distance,
+          }
+        } else {
+          const o = outerRef.current
+          if (!o || !spinGrp) return
+          dragRef.current = {
+            active: true,
+            mode: 'char',
+            sx: e.clientX, sy: e.clientY,
+            startPos: o.position.clone(),
+            startRotY: spinGrp.rotation.y,
+            startTilt: tiltGrp.rotation.x,
+          }
         }
       }
 
       function onPointerMove(e) {
         const d = dragRef.current
         if (!d.active) return
-        const o = outerRef.current
-        const t = tiltRef.current
-        if (!o || !t || !spinGrp) return
         const dx = e.clientX - d.sx
         const dy = e.clientY - d.sy
 
-        if (e.shiftKey) {
-          spinGrp.rotation.y = d.startRotY + dx * 0.01
-        } else if (e.altKey) {
-          t.rotation.x = d.startRotX + dy * 0.01
+        if (d.mode === 'cam') {
+          if (e.shiftKey) {
+            camSph.distance = d.startDist + dy * 0.05
+            camSph.distance = Math.max(2, camSph.distance)
+          } else {
+            camSph.theta = d.startTheta - dx * 0.01
+            camSph.phi = d.startPhi + dy * 0.01
+            camSph.phi = THREE.MathUtils.clamp(camSph.phi, -Math.PI / 2 + 0.01, Math.PI / 2 - 0.01)
+          }
+          applyCamSph(camSph)
         } else {
-          o.position.x = d.startPos.x + dx * 0.04
-          o.position.y = d.startPos.y - dy * 0.04
+          const o = outerRef.current
+          if (!o || !spinGrp) return
+          if (e.altKey) {
+            e.preventDefault()
+            tiltGrp.rotation.x = d.startTilt + dy * 0.01
+          } else if (e.shiftKey) {
+            spinGrp.rotation.y = d.startRotY + dx * 0.01
+          } else {
+            o.position.x = d.startPos.x + dx * 0.04
+            o.position.y = d.startPos.y - dy * 0.04
+          }
         }
       }
 
@@ -174,6 +233,16 @@ export default function CharacterScene({
         () => window.removeEventListener('pointermove', onPointerMove),
         () => window.removeEventListener('pointerup', onPointerUp),
       )
+
+      function onWheel(e) {
+        if (!isCamMode) return
+        e.preventDefault()
+        camSph.distance += e.deltaY * 0.02
+        camSph.distance = Math.max(2, Math.min(50, camSph.distance))
+        applyCamSph(camSph)
+      }
+      el.addEventListener('wheel', onWheel, { passive: false })
+      cleanupFns.push(() => el.removeEventListener('wheel', onWheel))
 
       let animIdx = animationIndex
       function onKey(e) {
@@ -209,16 +278,13 @@ export default function CharacterScene({
       const dt = clock.getDelta()
       const t = clock.getElapsedTime()
       if (mixer) mixer.update(dt)
-      if (limbBones.legL) limbBones.legL.rotation.x = THREE.MathUtils.degToRad(130 + Math.sin(t * 1.2 + Math.PI) * 2)
-      if (limbBones.legR) limbBones.legR.rotation.x = THREE.MathUtils.degToRad(130 + Math.sin(t * 1.2 + Math.PI) * 2)
-      if (limbBones.neck) limbBones.neck.rotation.x = Math.sin(t * 1.2) * 0.04
-      if (outer) outer.position.y = defaultPosition[1] + Math.sin(t * 2.5) * 0.02
       if (mixer && mesh && !centered) {
         centered = true
         const box2 = new THREE.Box3().setFromObject(mesh)
         const c2 = box2.getCenter(new THREE.Vector3())
         mesh.position.set(-c2.x, -c2.y, -c2.z)
       }
+      if (onAnimate && mesh) onAnimate(t, mesh)
       composer.render()
     }
     animate()

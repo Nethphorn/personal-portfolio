@@ -6,15 +6,13 @@ export default function ResumePanel() {
         Download my resume to learn more about my experience and qualifications.
       </p>
       <div className="p3-resume-links">
-        <a href="img/resume/CV_Nethphorn_Tepbrathna_EN.pdf" target="_blank" className="p3-resume-btn">
+        <a href="img/resume/Nethphorn Tepbrathna.cv.pdf" target="_blank" className="p3-resume-btn">
           English
         </a>
-        <a href="img/resume/CV_Nethphorn_Tepbrathna_JP.pdf" target="_blank" className="p3-resume-btn">
+        <a href="img/resume/ネトポーン・テプラットナー.cv.pdf" target="_blank" className="p3-resume-btn">
           日本語
         </a>
-        <a href="img/resume/CV_Nethphorn_Tepbrathna_TH.pdf" target="_blank" className="p3-resume-btn">
-          ภาษาไทย
-        </a>
+
       </div>
     </div>
   )

@@ -7,6 +7,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import createWelcomeText from './WelcomeText'
 import createShape from './ShapeOverlay'
+import { registerDebug } from '../../lib/debugStore'
 
 function centerModel(model) {
   const box = new THREE.Box3().setFromObject(model)
@@ -16,12 +17,10 @@ function centerModel(model) {
   return 3.0 / Math.max(size.x, size.y, size.z)
 }
 
-// ============ BACKGROUND CONFIG — adjust these ============ //
-const BG_HOT_PINK = '#FF88CC'   // ← left rectangle color
-const BG_DARK_PINK = '#8B004B'  // ← right rectangle fallback color
-const BG_SPLIT = 9              // ← split position (0-20)
-const BG_Z = -5                 // ← background planes depth
-// ========================================================== //
+const BG_HOT_PINK = '#FF88CC'
+const BG_DARK_PINK = '#8B004B'
+const BG_SPLIT = 9
+const BG_Z = -5
 
 function createBackground(scene, w, h) {
   const aspect = w / h
@@ -92,7 +91,7 @@ function createBackground(scene, w, h) {
   scene.add(rightPlane)
 }
 
-function loadModel(scene, clock, mixerRef) {
+function loadModel(scene, camera, clock, mixerRef, cleanupFns) {
   const loader = new GLTFLoader()
   loader.load(
     'assets/3D_model/risa-sitting.glb',
@@ -117,13 +116,15 @@ function loadModel(scene, clock, mixerRef) {
       mixerRef.current = new THREE.AnimationMixer(m)
       if (gltf.animations.length) mixerRef.current.clipAction(gltf.animations[0]).play()
       console.log('Model loaded, meshes:', m.children.length)
+
+      cleanupFns.push(registerDebug({ scene, camera, target: grp }))
     },
     undefined,
     (err) => console.error('Model error:', err)
   )
 }
 
-export default function SceneView() {
+export default function CharacterHomeView() {
   const containerRef = useRef(null)
 
   useEffect(() => {
@@ -153,8 +154,9 @@ export default function SceneView() {
 
     const clock = new THREE.Clock()
     const mixerRef = { current: null }
+    const cleanupFns = []
 
-    loadModel(scene, clock, mixerRef)
+    loadModel(scene, camera, clock, mixerRef, cleanupFns)
     const welcome = createWelcomeText(scene)
     createShape(scene)
 
@@ -182,6 +184,7 @@ export default function SceneView() {
 
     return () => {
       running = false
+      cleanupFns.forEach(fn => fn())
       ro.disconnect()
       renderer.dispose()
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement)
