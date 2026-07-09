@@ -1,40 +1,57 @@
 import * as THREE from 'three'
 
 const CFG = {
-  x: 6,
-  y: -1,
-  z: -4,
-  topWidth: 1.2,
-  bottomWidth: 0.4,
-  height: 1.6,
-  color1: '#ff66b2',
-  color2: '#cc3388',
-  rotation: -0.3,
-  flipX: 1,
+  x: -3,
+  y: -3,
+  w: 500,
+  h: 200,
+  diag: 120,
+  scale: 0.014,
+  flipX: false,
+  flipY: true,
+  rotation: 340,
+  colorBg: '#FD77D9',
+  colorFg: '#B03A74',
 }
 
 export default function createShape(scene) {
-  const c = document.createElement('canvas')
-  c.width = 128
-  c.height = 256
-  const ctx = c.getContext('2d')
-  const grad = ctx.createLinearGradient(0, 0, 128, 256)
-  grad.addColorStop(0, CFG.color1)
-  grad.addColorStop(1, CFG.color2)
-  ctx.fillStyle = grad
-  ctx.beginPath()
-  ctx.moveTo(0, 0)
-  ctx.lineTo(128, 0)
-  ctx.lineTo(128 - 32, 256)
-  ctx.lineTo(32, 256)
-  ctx.closePath()
-  ctx.fill()
+  const res = 4
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.ceil((CFG.w + 20) * res)
+  canvas.height = Math.ceil((CFG.h + 20) * res)
+  const ctx = canvas.getContext('2d')
 
-  const tex = new THREE.CanvasTexture(c)
-  const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0.35 })
+  ctx.save()
+  ctx.scale(res, res)
+  ctx.translate(CFG.w / 2 + 10, CFG.h / 2 + 10)
+  ctx.scale(CFG.flipX ? -1 : 1, CFG.flipY ? -1 : 1)
+  ctx.translate(-(CFG.w / 2 + 10), -(CFG.h / 2 + 10))
+
+  const draw = (xOff, yOff) => {
+    ctx.beginPath()
+    ctx.moveTo(10 + xOff, 15 + yOff)
+    ctx.lineTo(10 + CFG.w - xOff, 15 + yOff)
+    ctx.lineTo(10 + CFG.w - CFG.diag - xOff, 15 + CFG.h - yOff)
+    ctx.lineTo(10 + xOff, 15 + CFG.h - yOff)
+    ctx.closePath()
+    ctx.fill()
+  }
+
+  ctx.fillStyle = CFG.colorBg
+  draw(0, 0)
+  ctx.fillStyle = CFG.colorFg
+  draw(10, 5)
+  ctx.restore()
+
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.magFilter = THREE.LinearFilter
+  const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false })
   const sprite = new THREE.Sprite(mat)
-  sprite.position.set(CFG.x * CFG.flipX, CFG.y, CFG.z)
-  sprite.scale.set(CFG.topWidth, CFG.height, 1)
-  sprite.rotation.z = CFG.rotation
+  sprite.position.set(CFG.x, CFG.y, 0.5)
+  sprite.scale.set(CFG.w * CFG.scale, CFG.h * CFG.scale, 1)
+  sprite.material.rotation = CFG.rotation * Math.PI / 180
+  sprite.material.depthTest = false
   scene.add(sprite)
+
+  return sprite
 }
