@@ -15,6 +15,7 @@ export default function CharacterScene({
   scaleDivisor = 10.0,
   animationIndex = 1,
   backgroundColor = '#2D0A1E',
+  modelColor = 0xffffff,
   bloomStrength = 0.15,
   positionControls = false,
   onAnimate = null,
@@ -124,7 +125,7 @@ export default function CharacterScene({
       m.traverse((ch) => {
         if (!ch.isMesh || !ch.material) return
         const arr = Array.isArray(ch.material) ? ch.material : [ch.material]
-        ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: 0xffffff }))
+        ch.material = arr.map(() => new THREE.MeshBasicMaterial({ color: modelColor }))
         ch.material = ch.material.length === 1 ? ch.material[0] : ch.material
       })
 
@@ -308,7 +309,7 @@ export default function CharacterScene({
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement)
       cleanupFns.forEach(fn => fn())
     }
-  }, [modelPath, cameraPosition, defaultPosition, defaultSpin, defaultTilt, scaleDivisor, animationIndex, backgroundColor, bloomStrength, positionControls])
+  }, [modelPath, cameraPosition, defaultPosition, defaultSpin, defaultTilt, scaleDivisor, animationIndex, backgroundColor, modelColor, bloomStrength, positionControls])
 
   return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
 }

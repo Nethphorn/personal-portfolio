@@ -16,7 +16,7 @@ export default function Projects() {
         </svg>
         <span>Back</span>
       </div>
-      <ProjectsPanel selected={selected} onClose={() => setSelected(null)} />
+      <ProjectsPanel selected={selected} onClose={() => setSelected(null)} onSelect={setSelected} />
     </>
   )
 }

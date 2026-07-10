@@ -1,5 +1,14 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 import CharacterScene from '../../components/CharacterScene'
+
+const CAM_POS = [2.86, 0.61, 9.78]
+const DEF_POS = [-4.68, -5.99]
+const DEF_SPIN = 35.5
+const DEF_TILT = -4.5
+const SCALE_DIV = 3.0
+const ANIM_IDX = 2
+const BG_COLOR = '#ffffff'
+const MODEL_COLOR = 0xFD77D9
 
 export default function CharacterProjectView({ onProjectClick }) {
   const scrollRef = useRef(null)
@@ -12,7 +21,7 @@ export default function CharacterProjectView({ onProjectClick }) {
     }
   }, [])
 
-  function onAnimate(t, mesh) {
+  const onAnimate = useCallback((t, mesh) => {
     if (mesh._initY === undefined) mesh._initY = mesh.position.y
     mesh.position.y = mesh._initY + Math.sin(t * 0.3) * 0.015
     const lu = mesh.getObjectByName('J_Bip_L_UpperLeg')
@@ -146,17 +155,19 @@ export default function CharacterProjectView({ onProjectClick }) {
         b.rotation.z = b._iz + bodyZ
       }
     }
-  }
+  }, [])
 
   return (
     <CharacterScene
       modelPath="assets/3D_model/risa-falling.glb"
-      cameraPosition={[2.86, 0.61, 9.78]}
-      defaultPosition={[-4.68, -5.99]}
-      defaultSpin={35.5}
-      defaultTilt={-4.5}
-      scaleDivisor={3.0}
-      animationIndex={2}
+      cameraPosition={CAM_POS}
+      defaultPosition={DEF_POS}
+      defaultSpin={DEF_SPIN}
+      defaultTilt={DEF_TILT}
+      scaleDivisor={SCALE_DIV}
+      animationIndex={ANIM_IDX}
+      backgroundColor={BG_COLOR}
+      modelColor={MODEL_COLOR}
       onAnimate={onAnimate}
     />
   )
