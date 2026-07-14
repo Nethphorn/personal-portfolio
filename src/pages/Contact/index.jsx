@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { NavContext } from '../../lib/navContext'
 import CharacterContactView from './CharacterContactView'
 import ContactPanel from './ContactPanel'
@@ -6,14 +6,18 @@ import ContactPanel from './ContactPanel'
 export default function Contact() {
   const startTransition = useContext(NavContext)
 
+  useEffect(() => {
+    const handler = (e) => { if (e.key === 'Escape') startTransition?.('/') }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [startTransition])
+
   return (
     <>
       <CharacterContactView />
       <div className="about-back" onClick={() => startTransition?.('/')}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M19 12H5M12 19l-7-7 7-7" />
-        </svg>
-        <span>Back</span>
+        <span className="about-back-key">ESC</span>
+        <span className="about-back-label">Back</span>
       </div>
       <ContactPanel />
     </>

@@ -23,6 +23,39 @@ export default function MainMenu() {
     soundRef.current.volume = 0.3
   }, [])
 
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        setHovered((prev) => {
+          const next = Math.min(prev + 1, OPTIONS.length - 1)
+          if (next !== prev && soundRef.current) {
+            soundRef.current.currentTime = 0
+            soundRef.current.play().catch(() => {})
+          }
+          return next
+        })
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        setHovered((prev) => {
+          const next = Math.max(prev - 1, 0)
+          if (next !== prev && soundRef.current) {
+            soundRef.current.currentTime = 0
+            soundRef.current.play().catch(() => {})
+          }
+          return next
+        })
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        startTransition?.(OPTIONS[hovered].path)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [hovered, startTransition])
+
   return (
     <div className="p3-menu-container">
       <div className="p3-menu-stack">
