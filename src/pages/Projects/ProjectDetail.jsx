@@ -1,8 +1,8 @@
 import { useWeather } from './useWeather'
 import RectTriangle from './RectTriangle'
-import './ProjectPanel.css'
+import './ProjectDetail.css'
 
-export default function ProjectPanel({ selected, closing, onClose }) {
+export default function ProjectDetail({ selected, closing, onClose }) {
   const { timeStr, dateStr, temp, emoji } = useWeather()
 
   function handleClose() {

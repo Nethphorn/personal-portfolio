@@ -74,8 +74,8 @@ body {
 
 .about-back {
   position: fixed;
-  bottom: 36px;
-  right: 36px;
+  bottom: 3.33vh;
+  right: 1.875vw;
   z-index: 30;
   display: flex;
   align-items: center;
@@ -208,8 +208,47 @@ body {
   border-color: rgba(255,255,255,0.6);
 }
 
+.page-title {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 20;
+  padding: 8px 14px 8px 20px;
+  background: #FD77D9;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-title-bar {
+  width: 3px;
+  height: 18px;
+  background: rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.page-title-text {
+  background: linear-gradient(to right, rgba(255,255,255,0.45), #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .album-svg {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+@media (max-width: 768px) {
+  .about-back { bottom: 20px; right: 20px; padding: 6px 0; gap: 10px; }
+  .about-back-label { font-size: 14px; }
+  .about-back-key { min-width: 32px; height: 24px; font-size: 10px; padding: 0 6px; }
 }
