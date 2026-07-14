@@ -9,6 +9,7 @@ const SCALE_DIV = 3.0
 const ANIM_IDX = 2
 const BG_COLOR = '#ffffff'
 const MODEL_COLOR = 0xFD77D9
+const ANIM_SPEED = 2
 
 export default function CharacterProjectView({ onProjectClick }) {
   const scrollRef = useRef(null)
@@ -168,6 +169,7 @@ export default function CharacterProjectView({ onProjectClick }) {
       animationIndex={ANIM_IDX}
       backgroundColor={BG_COLOR}
       modelColor={MODEL_COLOR}
+      animSpeed={ANIM_SPEED}
       onAnimate={onAnimate}
     />
   )

@@ -1,0 +1,130 @@
+.film-wrap {
+  --bottom: 550px;
+  --x: -5%;
+  --width: 160%;
+  --angle: 4deg;
+  --card-size: 100px;
+  --gap: 30px;
+
+  position: fixed;
+  bottom: var(--bottom);
+  left: var(--x);
+  width: var(--width);
+  z-index: 20;
+  overflow: visible;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.film-wrap.dimmed {
+  opacity: 0.2;
+  filter: blur(3px);
+  pointer-events: none;
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.film-wrap.dimmed .film-track {
+  pointer-events: none;
+}
+
+.film-strip {
+  position: relative;
+  width: 100%;
+  background: #1a1a1a;
+  padding: 8px 0;
+  border-radius: 4px;
+  transform: rotate(var(--angle));
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+.film-strip::before,
+.film-strip::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    #000 0px,
+    #000 8px,
+    transparent 8px,
+    transparent 22px
+  );
+  opacity: 0.5;
+  border-radius: 2px;
+}
+
+.film-strip::before { top: 6px; }
+.film-strip::after { bottom: 6px; }
+
+.film-track {
+  display: flex;
+  gap: var(--gap);
+  width: max-content;
+  pointer-events: auto;
+  padding: 12px 20px;
+  align-items: center;
+  will-change: transform;
+}
+
+.film-frame {
+  flex-shrink: 0;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.film-frame-inner {
+  width: var(--card-size);
+  height: var(--card-size);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border: 3px solid rgba(255,255,255,0.25);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+}
+
+.film-frame.hovered {
+  transform: scale(1.25);
+}
+
+.film-frame.hovered .film-frame-inner {
+  border-color: #fff;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+}
+
+.film-frame-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.65);
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 5px;
+}
+
+.film-frame.hovered .film-frame-overlay {
+  opacity: 1;
+}
+
+.film-frame-title {
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 8px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.album-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

@@ -18,6 +18,7 @@ export default function CharacterScene({
   modelColor = 0xffffff,
   bloomStrength = 0.15,
   positionControls = false,
+  animSpeed = 1,
   onAnimate = null,
   onSceneReady = null,
 }) {
@@ -285,7 +286,7 @@ export default function CharacterScene({
         const c2 = box2.getCenter(new THREE.Vector3())
         mesh.position.set(-c2.x, -c2.y, -c2.z)
       }
-      if (onAnimate && mesh) onAnimate(t, mesh, camera, scene)
+      if (onAnimate && mesh) onAnimate(t * animSpeed, mesh, camera, scene)
       composer.render()
     }
     animate()
@@ -309,7 +310,7 @@ export default function CharacterScene({
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement)
       cleanupFns.forEach(fn => fn())
     }
-  }, [modelPath, cameraPosition, defaultPosition, defaultSpin, defaultTilt, scaleDivisor, animationIndex, backgroundColor, modelColor, bloomStrength, positionControls])
+  }, [modelPath, cameraPosition, defaultPosition, defaultSpin, defaultTilt, scaleDivisor, animationIndex, backgroundColor, modelColor, bloomStrength, positionControls, animSpeed])
 
   return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
 }
