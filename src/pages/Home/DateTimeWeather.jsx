@@ -54,8 +54,10 @@ export default function DateTimeWeather() {
   return (
     <div className="dw-container">
       <span className="dw-time">{timeStr}</span>
-      <span className="dw-date">{dateStr}</span>
-      {temp && <span className="dw-weather">{temp} {emoji} {label}</span>}
+      <div className="dw-row">
+        {temp && <span className="dw-weather">{temp} {emoji} {label}</span>}
+        <span className="dw-date">{dateStr}</span>
+      </div>
     </div>
   )
 }

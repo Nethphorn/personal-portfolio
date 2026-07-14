@@ -34,14 +34,12 @@ body {
 
 .p3-menu-stack {
   pointer-events: auto;
-  transform-origin: right center;
-  transform: scale(clamp(0.35, (100vw - 200px) / 1800, 1));
 }
 
 .p3-option-wrap {
   position: relative;
-  width: 950px;
-  height: 200px;
+  width: 49.48vw;
+  height: 18.52vh;
 }
 
 .p3-option-hitbox {
@@ -56,7 +54,7 @@ body {
 
 .p3-option-svg {
   width: 100%;
-  height: 200px;
+  height: 100%;
   pointer-events: none;
   display: block;
   will-change: transform;

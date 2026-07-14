@@ -1,17 +1,14 @@
-.music-player {
-  position: fixed;
-  bottom: 80px;
-  left: 40px;
-  z-index: 20;
+.home-para .music-player {
   width: 18vw;
-  min-width: 200px;
-  max-width: 340px;
-  padding: 16px 20px;
+  margin-bottom: 20vh;   /* up (higher value = more up) */
+  margin-left: 13vw;
+  min-width: 140px;
+  max-width: 280px;
+  padding: 6px 10px;
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(176, 58, 116, 0.5), inset 0 0 10px rgba(0,0,0,0.15);
   font-family: 'Inter', system-ui, sans-serif;
-  transform: rotate(20deg);
-  will-change: transform;
+  flex-shrink: 0;
 }
 
 .music-now-playing {
@@ -203,26 +200,4 @@
   box-shadow: 0 0 4px rgba(255,255,255,0.4);
 }
 
-@media (max-width: 768px) {
-  .music-player {
-    width: 45vw;
-    bottom: 40px;
-    left: 20px;
-  }
 
-  .music-now-playing {
-    font-size: 2.5vw;
-  }
-
-  .music-btn {
-    font-size: 2.5vw;
-  }
-
-  .play-btn {
-    font-size: 3vw;
-  }
-
-  .music-time {
-    font-size: 2vw;
-  }
-}

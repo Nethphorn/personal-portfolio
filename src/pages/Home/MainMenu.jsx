@@ -95,7 +95,7 @@ function P3Option({ opt, idx, isActive, onHover }) {
       className="p3-option-wrap"
       style={{
         zIndex: zIdx,
-        marginTop: idx === 0 ? 0 : -50,
+        marginTop: idx === 0 ? 0 : '-4.63vh',
       }}
     >
       <button className="p3-option-hitbox" onMouseEnter={onHover} onClick={() => startTransition?.(opt.path)} title={opt.desc} />
