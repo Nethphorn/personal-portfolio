@@ -14,7 +14,7 @@
 .home-para-bg {
   position: absolute;
   inset: 0;
-  background: #FD77D9;
+  background: #ededed;
   clip-path: polygon(1.9% 2.3%, 75% 2.3%, 98.1% 100%, 1.9% 100%);
 }
 
@@ -24,7 +24,7 @@
   left: 5px;
   right: 5px;
   bottom: 5px;
-  background: #B03A74;
+  background: #f49dfa;
   pointer-events: auto;
   clip-path: polygon(1.9% 2.3%, 75% 2.3%, 98.1% 100%, 1.9% 100%);
 }
