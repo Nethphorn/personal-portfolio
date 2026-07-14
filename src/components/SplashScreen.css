@@ -1,0 +1,54 @@
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 10vw;
+  transition: opacity 0.8s ease;
+}
+
+.splash-exit {
+  opacity: 0;
+}
+
+.splash-inner {
+  text-align: left;
+}
+
+.splash-line {
+  overflow: hidden;
+}
+
+.splash-line + .splash-line {
+  margin-top: 8px;
+}
+
+.splash-text {
+  display: block;
+  white-space: nowrap;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #16CFFB;
+  transform: translateX(-120px);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease;
+}
+
+.splash-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.splash-name {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+}
+
+.splash-sub {
+  font-size: clamp(1.4rem, 3vw, 2.8rem);
+}

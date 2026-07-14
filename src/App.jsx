@@ -2,6 +2,7 @@ import { lazy, Suspense, useState, useCallback } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { NavContext } from './lib/navContext'
 import TransitionOverlay from './components/TransitionOverlay'
+import SplashScreen from './components/SplashScreen'
 
 const ROUTE_NAMES = {
   '/': 'Home',
@@ -68,8 +69,11 @@ function AppContent() {
 }
 
 export default function App() {
+  const [splashDone, setSplashDone] = useState(false)
+
   return (
     <BrowserRouter>
+      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
       <AppContent />
     </BrowserRouter>
   )
