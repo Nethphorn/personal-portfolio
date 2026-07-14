@@ -1,0 +1,74 @@
+.dw-container {
+  position: fixed;
+  bottom: 1.5vh;
+  left: 21vw;
+  z-index: 25;
+}
+
+.dw-time {
+  position: absolute;
+  bottom: 1.3vh;
+  left: 4.2vw;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 2.2vw;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0,0,0,0.6);
+  white-space: nowrap;
+}
+
+.dw-date {
+  position: absolute;
+  bottom: 0;
+  left: 8.3vw;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7vw;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(0,0,0,0.6);
+  white-space: nowrap;
+}
+
+.dw-weather {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7vw;
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  text-shadow: 0 0 8px rgba(0,0,0,0.6);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .dw-container {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 6vh;
+  }
+
+  .dw-time {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 9vh;
+    font-size: 8vw;
+  }
+
+  .dw-date {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 4vh;
+    font-size: 2.5vw;
+  }
+
+  .dw-weather {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    font-size: 2.5vw;
+  }
+}
