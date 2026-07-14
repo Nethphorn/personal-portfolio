@@ -6,6 +6,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import { registerDebug } from '../../lib/debugStore'
+import { onTransition, signalPageReady } from '../../lib/transitionBus'
 
 export default function CharacterAboutView() {
   const containerRef = useRef(null)
@@ -15,6 +16,7 @@ export default function CharacterAboutView() {
     if (!el) return
 
     let running = true
+    const unsubTransition = onTransition(() => { running = false })
     let mixer = null
     const animBones = { head: null, neck: null, legL: null, legR: null, kneeL: null, kneeR: null }
     let unregDebug = null
@@ -98,6 +100,8 @@ export default function CharacterAboutView() {
           const action = mixer.clipAction(gltf.animations[0])
           action.play()
         }
+
+        signalPageReady()
       }
 
     function animate() {
@@ -135,6 +139,7 @@ export default function CharacterAboutView() {
 
     return () => {
       running = false
+      unsubTransition()
       if (unregDebug) unregDebug()
       window.removeEventListener('keydown', onKey)
       ro.disconnect()

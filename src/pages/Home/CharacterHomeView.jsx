@@ -8,6 +8,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import createWelcomeText from './WelcomeText'
 import createShape from './ShapeOverlay'
 import { registerDebug } from '../../lib/debugStore'
+import { onTransition, signalPageReady } from '../../lib/transitionBus'
 
 function centerModel(model) {
   const box = new THREE.Box3().setFromObject(model)
@@ -131,6 +132,8 @@ function setupModel(gltf) {
     if (gltf.animations.length) mixerRef.current.clipAction(gltf.animations[0]).play()
 
     cleanupFns.push(registerDebug({ scene, camera, target: grp }))
+
+    signalPageReady()
   }
 }
 
@@ -168,6 +171,7 @@ export default function CharacterHomeView() {
     const mixerRef = { current: null }
     const cleanupFns = []
     let running = true
+    const unsubTransition = onTransition(() => { running = false })
 
     loadModel(scene, camera, clock, mixerRef, cleanupFns, () => running)
     const welcome = createWelcomeText(scene)
@@ -196,6 +200,7 @@ export default function CharacterHomeView() {
 
     return () => {
       running = false
+      unsubTransition()
       cleanupFns.forEach(fn => fn())
       ro.disconnect()
       renderer.dispose()

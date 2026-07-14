@@ -1,5 +1,15 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { lazy, Suspense, useState, useCallback } from 'react'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import { NavContext } from './lib/navContext'
+import TransitionOverlay from './components/TransitionOverlay'
+
+const ROUTE_NAMES = {
+  '/': 'Home',
+  '/about': 'About',
+  '/projects': 'Projects',
+  '/contact': 'Contact',
+  '/resume': 'Resume',
+}
 
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
@@ -15,10 +25,36 @@ const ROUTES = [
   { path: '/resume', element: <Resume /> },
 ]
 
-export default function App() {
+function AppContent() {
+  const navigate = useNavigate()
+  const [transition, setTransition] = useState(null)
+
+  const startTransition = useCallback((path) => {
+    const name = ROUTE_NAMES[path] || 'Page'
+    setTransition({ path, name })
+  }, [])
+
+  const handleNavigate = useCallback(() => {
+    setTransition((t) => {
+      if (t) setTimeout(() => navigate(t.path), 0)
+      return t
+    })
+  }, [navigate])
+
+  const endTransition = useCallback(() => {
+    setTransition(null)
+  }, [])
+
   return (
-    <BrowserRouter>
+    <NavContext.Provider value={startTransition}>
       <div className="p3-root">
+        {transition && (
+          <TransitionOverlay
+            targetName={transition.name}
+            onNavigate={handleNavigate}
+            onComplete={endTransition}
+          />
+        )}
         <Suspense fallback={null}>
           <Routes>
             {ROUTES.map(r => (
@@ -27,6 +63,14 @@ export default function App() {
           </Routes>
         </Suspense>
       </div>
+    </NavContext.Provider>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   )
 }

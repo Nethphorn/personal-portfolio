@@ -5,6 +5,7 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { registerDebug, subscribeCameraMode } from '../lib/debugStore'
+import { onTransition, signalPageReady } from '../lib/transitionBus'
 
 export default function CharacterScene({
   modelPath,
@@ -29,6 +30,7 @@ export default function CharacterScene({
     if (!el) return
 
     let running = true
+    const unsubTransition = onTransition(() => { running = false })
     let mixer = null
     let outer = null
     let inner = null
@@ -140,6 +142,8 @@ export default function CharacterScene({
           fallAction.play()
         }
       }
+
+      signalPageReady()
     }
 
     let cleanupFns = []
@@ -305,6 +309,7 @@ export default function CharacterScene({
 
     return () => {
       running = false
+      unsubTransition()
       ro.disconnect()
       renderer.dispose()
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement)

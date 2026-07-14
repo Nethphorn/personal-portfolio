@@ -1,0 +1,83 @@
+.p3t {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+.p3t.active {
+  pointer-events: auto;
+}
+
+/* ====== DIAGONAL WIPE (MASK-SIZE HARD EDGE) ====== */
+/* A gradient with a hard diagonal edge is anchored at TR and
+   grows via mask-size from 0%→200%. The hard edge at 50% sweeps
+   from TR to BL, creating a clean gapless diagonal wipe. */
+.p3t-curtain {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  -webkit-mask-image: linear-gradient(to bottom left, #000 50%, transparent 50%);
+  mask-image: linear-gradient(to bottom left, #000 50%, transparent 50%);
+  -webkit-mask-position: top right;
+  mask-position: top right;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 0% 0%;
+  mask-size: 0% 0%;
+  transition: -webkit-mask-size 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+              mask-size 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.p3t.cover .p3t-curtain {
+  -webkit-mask-size: 200% 200%;
+  mask-size: 200% 200%;
+}
+
+/* ====== FULL-WIDTH HORIZONTAL BAR ====== */
+.p3t-panel-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 10vh;
+  z-index: 6;
+  will-change: transform;
+  transform: translate(-200%, -50%);
+  transition: none;
+  background: #FD77D9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.p3t.panel-in .p3t-panel-wrap {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translate(-50%, -50%);
+}
+.p3t.panel-out .p3t-panel-wrap {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translate(100%, -50%);
+}
+
+/* ====== TEXT ====== */
+.p3t-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 4rem;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.06em;
+  color: #fff;
+  text-shadow: none;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: none;
+}
+.p3t.panel-in .p3t-label {
+  transition: opacity 0.3s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: 0.15s;
+  opacity: 1;
+  transform: scale(1);
+}
+.p3t.panel-out .p3t-label {
+  transition: opacity 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: scale(1.15);
+}
