@@ -25,7 +25,7 @@ export default function CharacterAboutView() {
     const h = el.clientHeight
 
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color('#2D0A1E')
+    scene.background = new THREE.Color('#4ac3f7')
 
     const camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 50)
     camera.position.set(-0.98, 0.85, 5.86)

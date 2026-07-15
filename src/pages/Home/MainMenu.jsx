@@ -28,7 +28,7 @@ export default function MainMenu() {
       if (e.key === 'ArrowDown') {
         e.preventDefault()
         setHovered((prev) => {
-          const next = Math.min(prev + 1, OPTIONS.length - 1)
+          const next = (prev + 1) % OPTIONS.length
           if (next !== prev && soundRef.current) {
             soundRef.current.currentTime = 0
             soundRef.current.play().catch(() => {})
@@ -39,7 +39,7 @@ export default function MainMenu() {
       if (e.key === 'ArrowUp') {
         e.preventDefault()
         setHovered((prev) => {
-          const next = Math.max(prev - 1, 0)
+          const next = (prev - 1 + OPTIONS.length) % OPTIONS.length
           if (next !== prev && soundRef.current) {
             soundRef.current.currentTime = 0
             soundRef.current.play().catch(() => {})
