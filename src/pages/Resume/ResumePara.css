@@ -1,0 +1,81 @@
+.resume-stack {
+  position: fixed;
+  top: 15vh;
+  left: 5vw;
+  z-index: 50;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.resume-stack > * + * {
+  margin-top: -3vh;
+}
+
+.flip {
+  transform: scaleY(-1);
+}
+
+.resume-para {
+  height: 17vh;
+  width: 200vw;
+  margin-left: -103vw;
+  position: relative;
+  transform: rotate(0deg) scale(0.5);
+  animation: paraSlideIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: 1s;
+}
+
+.resume-para-bg {
+  position: absolute;
+  inset: 0;
+  background: #9cdcf7;
+  clip-path: polygon(0% 0%, 92% 0%, 100% 100%, 8% 100%);
+  bottom: 10px;
+  top:  -10px;
+  right: -20px;
+}
+
+.resume-para-fg {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  background: #ffffff;
+  clip-path: polygon(0% 0%, 92% 0%, 100% 100%, 8% 100%);
+}
+
+.resume-sub {
+  height: 12vh;
+  width: 100vw;
+  margin-left: -35vw;
+  background: #888;
+  clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 10% 100%);
+  transform: rotate(0deg) scale(0.5);
+  opacity: 0;
+  animation: subDrop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.flip:nth-child(2) .resume-sub { animation-delay: 1.7s; }
+.flip:nth-child(3) .resume-sub { animation-delay: 2.1s; }
+.flip:nth-child(4) .resume-sub { animation-delay: 2.5s; }
+.flip:nth-child(5) .resume-sub { animation-delay: 2.9s; }
+.flip:nth-child(6) .resume-sub { animation-delay: 3.3s; }
+
+@keyframes paraSlideIn {
+  0% { transform: translateX(200vw) rotate(0deg) scale(0.5); }
+  65% { transform: translateX(-3vw) rotate(0deg) scale(0.5); }
+  80% { transform: translateX(1.5vw) rotate(0deg) scale(0.5); }
+  92% { transform: translateX(-0.5vw) rotate(0deg) scale(0.5); }
+  100% { transform: translateX(0) rotate(0deg) scale(0.5); }
+}
+
+@keyframes subDrop {
+  0% { transform: translateY(150%) rotate(0deg) scale(0.5); opacity: 0; }
+  60% { opacity: 1; }
+  65% { transform: translateY(-15%) rotate(0deg) scale(0.5); opacity: 1; }
+  80% { transform: translateY(5%) rotate(0deg) scale(0.5); }
+  92% { transform: translateY(-1%) rotate(0deg) scale(0.5); }
+  100% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 1; }
+}
