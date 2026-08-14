@@ -13,10 +13,16 @@ const OPTIONS = [
 const SEL_PATH = 'M 24.853754,93.31573 135.14625,49.684266 114.14751,97.331142 Z'
 const SEL_BG_PATH = 'M 12.7428765,95.50088 144.25712,47.499123 116.75625,95.465764 Z'
 
+let lastHovered = 0
+
 export default function MainMenu() {
-  const [hovered, setHovered] = useState(0)
+  const [hovered, setHovered] = useState(() => lastHovered)
   const startTransition = useContext(NavContext)
   const soundRef = useRef(null)
+
+  useEffect(() => {
+    lastHovered = hovered
+  }, [hovered])
 
   useEffect(() => {
     soundRef.current = new Audio('/sfx/navigation.wav')
