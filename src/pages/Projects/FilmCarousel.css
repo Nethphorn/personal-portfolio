@@ -1,10 +1,10 @@
 .film-wrap {
-  --bottom: 550px;
-  --x: -5%;
+  --bottom: 60.93vh;
+  --x: -1%;
   --width: 160%;
   --angle: 4deg;
-  --card-size: 100px;
-  --gap: 30px;
+  --card-size: clamp(65px, 5.21vw, 100px);
+  --gap: 1.56vw;
 
   position: fixed;
   bottom: var(--bottom);
@@ -128,3 +128,5 @@
   height: 100%;
   display: block;
 }
+
+

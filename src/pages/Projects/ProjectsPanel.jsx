@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import FilmCarousel from './FilmCarousel'
-import ProjectPanel from './ProjectPanel'
+import ProjectDetail from './ProjectDetail'
 import BigAlbumOverlay from './BigAlbumOverlay'
 import './ProjectsPanel.css'
 
@@ -23,7 +23,7 @@ export default function ProjectsPanel({ selected, onClose, onSelect }) {
     <>
       {selected && !closing && <div className="projects-overlay" onClick={handleClose} />}
 
-      <ProjectPanel selected={selected} closing={closing} onClose={handleClose} />
+      <ProjectDetail selected={selected} closing={closing} onClose={handleClose} />
 
       {(selected || closing) && (
         <BigAlbumOverlay selected={selected} closing={closing} closingAlbum={closingAlbumRef.current} onClose={handleClose} />

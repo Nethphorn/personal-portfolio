@@ -1,6 +1,6 @@
 .big-album-wrap {
   position: fixed;
-  left: 200px;
+  left: 10.42vw;
   top: 50%;
   transform: translateY(-50%);
   z-index: 35;
@@ -23,8 +23,8 @@
 
 .big-album-inner {
   position: relative;
-  width: 600px;
-  height: 600px;
+  width: 31.25vw;
+  height: 31.25vw;
 }
 
 .big-album-cover {
@@ -46,10 +46,10 @@
 
 .vinyl-record {
   position: absolute;
-  right: -200px;
+  right: -10.42vw;
   top: 50%;
-  width: 600px;
-  height: 600px;
+  width: 31.25vw;
+  height: 31.25vw;
   border-radius: 50%;
   background: repeating-radial-gradient(circle at center,
     #0d0d0d 0px, #0d0d0d 1.5px,
@@ -81,7 +81,7 @@
 
 .back-btn {
   position: absolute;
-  left: -56px;
+  left: -2.92vw;
   top: 50%;
   transform: translateY(-50%);
   width: 44px;
@@ -102,3 +102,5 @@
   background: rgba(255,255,255,0.15);
   border-color: #fff;
 }
+
+

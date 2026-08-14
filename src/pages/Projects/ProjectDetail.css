@@ -1,8 +1,8 @@
 .para-deco {
   --para-x: 50%;
-  --para-y: -30px;
-  --para-w: 1000px;
-  --para-h: 1000px;
+  --para-y: -2.78vh;
+  --para-w: 52.08vw;
+  --para-h: 105vh;
   --para-skew: 20deg;
   --pink-light: #ededed;
   --pink-dark: #f49dfa;
@@ -42,8 +42,8 @@
 
 .para-content {
   transform: skewX(var(--para-skew));
-  padding: 60px 160px;
-  padding-top: 500px;
+  padding: 5.56vh 8.33vw;
+  padding-top: 46.3vh;
   color: #fff;
   font-family: 'Inter', system-ui, sans-serif;
   height: 100%;
@@ -104,3 +104,5 @@
 .para-close:hover {
   opacity: 1;
 }
+
+

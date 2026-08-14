@@ -1,4 +1,7 @@
 .rect-tri-deco {
+  width: calc(min(975px, 50.78vw) + 12px) !important;
+  height: auto !important;
+  aspect-ratio: 987 / 112;
   --rt-x: 48.5%;
   --rt-y: 0%;
   --rt-rotation: 0deg;

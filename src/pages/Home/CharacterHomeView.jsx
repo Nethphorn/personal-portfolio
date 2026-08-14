@@ -6,7 +6,6 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import createWelcomeText from './WelcomeText'
-import createShape from './ShapeOverlay'
 import { registerDebug } from '../../lib/debugStore'
 import { onTransition, signalPageReady } from '../../lib/transitionBus'
 
@@ -175,7 +174,6 @@ export default function CharacterHomeView() {
 
     loadModel(scene, camera, clock, mixerRef, cleanupFns, () => running)
     const welcome = createWelcomeText(scene)
-    createShape(scene)
     function animate() {
       if (!running) return
       requestAnimationFrame(animate)
