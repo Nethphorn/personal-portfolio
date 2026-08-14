@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState, useCallback } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { NavContext } from './lib/navContext'
+import { MusicProvider } from './lib/musicContext.jsx'
 import TransitionOverlay from './components/TransitionOverlay'
 import SplashScreen from './components/SplashScreen'
 
@@ -74,7 +75,9 @@ export default function App() {
   return (
     <BrowserRouter>
       {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
-      <AppContent />
+      <MusicProvider>
+        <AppContent />
+      </MusicProvider>
     </BrowserRouter>
   )
 }
