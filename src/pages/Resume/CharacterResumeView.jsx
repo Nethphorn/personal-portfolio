@@ -1,7 +1,8 @@
+import { useCallback } from 'react'
 import CharacterScene from '../../components/CharacterScene'
 
 export default function CharacterResumeView() {
-  function onAnimate(t, mesh) {
+  const onAnimate = useCallback((t, mesh) => {
     const leg = mesh.getObjectByName('J_Bip_R_LowerLeg')
     if (leg) {
       if (leg._initX === undefined) leg._initX = leg.rotation.x
@@ -17,7 +18,7 @@ export default function CharacterResumeView() {
       if (arm._initX === undefined) arm._initX = arm.rotation.x
       arm.rotation.x = arm._initX + Math.sin(t * 0.4) * 0.025
     }
-  }
+  }, [])
 
   return (
     <CharacterScene
@@ -27,6 +28,7 @@ export default function CharacterResumeView() {
       defaultSpin={-112.1}
       defaultTilt={-0.3}
       scaleDivisor={4.0}
+      backgroundColor="#ffa6ea"
       onAnimate={onAnimate}
     />
   )

@@ -53,6 +53,7 @@ export default function CharacterContactView() {
         scaleDivisor={3.0}
         positionControls
         onAnimate={onAnimate}
+        backgroundColor="#ffa6ea"
       />
     </>
   )

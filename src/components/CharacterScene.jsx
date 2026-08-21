@@ -15,7 +15,7 @@ export default function CharacterScene({
   defaultTilt = 0,
   scaleDivisor = 10.0,
   animationIndex = 1,
-  backgroundColor = '#2D0A1E',
+  backgroundColor,
   modelColor = 0xffffff,
   bloomStrength = 0.15,
   positionControls = false,
