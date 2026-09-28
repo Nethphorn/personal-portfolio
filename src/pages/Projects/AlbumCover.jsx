@@ -1,16 +1,14 @@
-import { palette } from './data'
-
-export function AlbumCover({ title, index }) {
-  const [c1, c2] = palette[index % palette.length]
+export function AlbumCover({ title, colors = ['#FF6B6B', '#C0392B'], id = 0 }) {
+  const [c1, c2] = colors
   return (
     <svg viewBox="0 0 200 200" className="album-svg">
       <defs>
-        <linearGradient id={`ag-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id={`ag-${id}`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor={c1} />
           <stop offset="100%" stopColor={c2} />
         </linearGradient>
       </defs>
-      <rect width="200" height="200" fill={`url(#ag-${index})`} rx="14" />
+      <rect width="200" height="200" fill={`url(#ag-${id})`} rx="14" />
       <circle cx="100" cy="100" r="65" fill="rgba(0,0,0,0.15)" />
       <circle cx="100" cy="100" r="28" fill="rgba(255,255,255,0.08)" />
       <circle cx="100" cy="100" r="8" fill="rgba(255,255,255,0.15)" />

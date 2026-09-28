@@ -1,18 +1,67 @@
 export const projects = [
   {
-    title: 'Portfolio OS',
-    desc: 'A fully interactive desktop environment in the browser with window management, file system, and 3D avatar.',
-    tech: ['React', 'Three.js', 'CSS'],
+    title: 'Quiz Game',
+    desc: 'An interactive quiz web app with multiple-choice questions, instant scoring, and a clean responsive interface.',
+    tech: ['JavaScript', 'React', 'CSS'],
+    colors: ['#FF6B6B', '#C0392B'],
+    live: 'https://quiz-game-flame-alpha.vercel.app/',
+    github: 'https://github.com/pich-reamrachna/quiz-game',
   },
   {
-    title: 'Game App',
-    desc: 'A browser-based game built with modern web technologies and smooth animations.',
-    tech: ['JavaScript', 'Canvas', 'WebGL'],
+    title: 'Social Media',
+    desc: 'A social networking platform with user profiles, posts, and a responsive feed built on a modern web stack.',
+    tech: ['React', 'Node.js', 'REST API'],
+    colors: ['#6BCB77', '#2D6A4F'],
+    live: 'https://social-media-one-virid.vercel.app/',
+    github: 'https://github.com/pich-reamrachna/social-media',
   },
   {
-    title: 'E-Commerce Platform',
-    desc: 'Full-featured online store with user authentication, product management, and payment integration.',
-    tech: ['Node.js', 'MongoDB', 'React'],
+    title: 'Pokédex Mobile',
+    desc: 'A mobile Pokédex app to browse, search, and inspect Pokémon with data pulled from a public API.',
+    tech: ['React Native', 'JavaScript', 'REST API'],
+    colors: ['#4D96FF', '#1A3A6B'],
+    live: 'https://pokedex-mobile-s8gt.vercel.app/',
+    github: 'https://github.com/Nethphorn/pokedex-mobile',
+  },
+  {
+    title: 'E-Commerce Return Predictor',
+    desc: 'A machine learning model that predicts whether an e-commerce order is likely to be returned, helping reduce reverse-logistics costs.',
+    tech: ['Python', 'Machine Learning', 'scikit-learn'],
+    colors: ['#A66BFF', '#5B2D8E'],
+    live: null,
+    github: 'https://github.com/Nethphorn/ecommerce-return-predictor',
+  },
+  {
+    title: 'Air Quality Index Forecast',
+    desc: 'A time-series forecasting project that predicts air quality index values from historical environmental data.',
+    tech: ['Python', 'Data Science', 'Forecasting'],
+    colors: ['#4DD0E1', '#00838F'],
+    live: null,
+    github: 'https://github.com/Nethphorn/air-quality-index-forecast',
+  },
+  {
+    title: 'AML Platform',
+    desc: 'An anti-money-laundering analytics platform for detecting and flagging suspicious transaction patterns.',
+    tech: ['Python', 'Data Analytics', 'Machine Learning'],
+    colors: ['#FFB74D', '#B26A00'],
+    live: null,
+    github: 'https://github.com/vizziointerns/AML_Platform',
+  },
+  {
+    title: 'Robot Hand Gesture Control',
+    desc: 'Computer-vision project that recognizes hand gestures in real time and maps them to robot control commands.',
+    tech: ['Python', 'OpenCV', 'Computer Vision'],
+    colors: ['#FF6BCB', '#B02D74'],
+    live: null,
+    github: 'https://github.com/Nethphorn/robot-Hand-gesture-control',
+  },
+  {
+    title: 'Space Shooter Game',
+    desc: 'A fast-paced browser space shooter with enemy waves, scoring, and smooth canvas-based animations.',
+    tech: ['JavaScript', 'Canvas', 'Game Dev'],
+    colors: ['#5C6BC0', '#1A237E'],
+    live: 'https://nethphorn.github.io/space-shooter-game/',
+    github: 'https://github.com/Nethphorn/space-shooter-game',
   },
 ]
 
@@ -25,9 +74,3 @@ export const wmoCodes = {
   80: ['🌦️', 'Rain Showers'], 81: ['🌦️', 'Rain Showers'], 82: ['🌦️', 'Rain Showers'],
   95: ['⛈️', 'Thunderstorm'], 96: ['⛈️', 'Thunderstorm'], 99: ['⛈️', 'Thunderstorm'],
 }
-
-export const palette = [
-  ['#FF6B6B', '#C0392B'],
-  ['#6BCB77', '#2D6A4F'],
-  ['#4D96FF', '#1A3A6B'],
-]

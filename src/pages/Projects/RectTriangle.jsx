@@ -17,11 +17,12 @@ export default function RectTriangle({
 
   return (
     <div className="rect-tri-deco" style={{ width: cw, height: ch }}>
-      <svg viewBox={`${-strokeWidth} ${-strokeWidth} ${cw} ${ch}`} className="rect-tri-svg">
+      <svg viewBox={`${-strokeWidth} ${-strokeWidth} ${cw} ${ch}`} className="rect-tri-svg" preserveAspectRatio="none">
         <polygon
           points={pts(fx, fy, width, height, triWidth)}
           className="rect-tri-poly"
           strokeWidth={strokeWidth * 2}
+          vectorEffect="non-scaling-stroke"
         />
       </svg>
       {children && <div className="rect-tri-content">{children}</div>}
