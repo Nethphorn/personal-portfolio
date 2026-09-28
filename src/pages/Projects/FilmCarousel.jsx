@@ -82,7 +82,7 @@ export default function FilmCarousel({ selected, onSelect }) {
               onMouseLeave={() => setHoveredIdx(null)}
             >
               <div className="film-frame-inner" onClick={() => { if (dragMoved.current) return; onSelect(p) }}>
-                <AlbumCover title={p.title} index={i % projects.length} />
+                <AlbumCover title={p.title} colors={p.colors} id={i} />
                 <div className="film-frame-overlay">
                   <span className="film-frame-title">{p.title}</span>
                 </div>

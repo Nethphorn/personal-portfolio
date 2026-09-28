@@ -1,11 +1,9 @@
 import { BigAlbumCover } from './AlbumCover'
-import { projects, palette } from './data'
 import './BigAlbumOverlay.css'
 
 export default function BigAlbumOverlay({ selected, closing, closingAlbum, onClose }) {
   const album = selected || closingAlbum
-  const selectedIdx = album ? projects.findIndex(p => p.title === album.title) : 0
-  const [palC1, palC2] = album ? palette[selectedIdx % palette.length] : ['#000', '#000']
+  const [palC1, palC2] = album?.colors || ['#000', '#000']
 
   function handleClose() {
     if (closing) return

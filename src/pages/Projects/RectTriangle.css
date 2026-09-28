@@ -1,8 +1,9 @@
 .rect-tri-deco {
-  width: calc(min(975px, 50.78vw) + 12px) !important;
-  height: auto !important;
-  aspect-ratio: 987 / 112;
-  --rt-x: 48.5%;
+  --rt-w: 1300px;
+  --rt-h: 112px;
+  width: var(--rt-w) !important;
+  height: var(--rt-h) !important;
+  --rt-x: 47.5%;
   --rt-y: 0%;
   --rt-rotation: 0deg;
   --rt-bg: #ededed; 
