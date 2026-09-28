@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { NavContext } from '../../lib/navContext'
 import CharacterContactView from './CharacterContactView'
-import ContactPanel from './ContactPanel'
+import ContactOverlay from './ContactOverlay'
 
 export default function Contact() {
   const startTransition = useContext(NavContext)
@@ -19,7 +19,7 @@ export default function Contact() {
         <span className="about-back-key">ESC</span>
         <span className="about-back-label">Back</span>
       </div>
-      <ContactPanel />
+      <ContactOverlay />
     </>
   )
 }
