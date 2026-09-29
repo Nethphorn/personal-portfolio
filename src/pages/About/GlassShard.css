@@ -1,0 +1,52 @@
+.glass-shard {
+  position: fixed;
+  top: 50%;
+  left: 80%;
+  translate: -50% -50%;
+  z-index: 100;
+  width: clamp(160px, 25vw, 400px);
+  aspect-ratio: 5 / 7;
+  scale: 1;
+  clip-path: polygon(85% 0%, 15% 5%, 0% 70%, 90% 100%);
+  background: #3f4040;
+  opacity: 1;
+  transform: rotate(25deg);
+  scale: 2.5;
+  overflow: hidden;
+}
+
+.glass-shard-2 {
+  top: 100%;
+  left: 90%;
+  scale: 1.5;
+  transform: rotate(55deg);
+  background: #545352;
+}
+
+.glass-shard-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  filter: grayscale(1) contrast(1.1);
+  scale: 0.8;
+  rotate: -30deg;
+  transition: transform 0.4s ease;
+}
+
+.glass-shard-img-2 {
+  scale: -0.7 0.7;
+  rotate: -30deg;
+}
+
+.glass-shard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(85% 0%, 15% 5%, 0% 70%, 90% 100%);
+  background: linear-gradient(160deg, rgba(255,255,255,0.15) 0%, transparent 30%, transparent 70%, rgba(255,255,255,0.05) 100%);
+  pointer-events: none;
+}

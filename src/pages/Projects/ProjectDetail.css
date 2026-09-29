@@ -1,0 +1,142 @@
+.para-deco {
+  --para-x: 50%;
+  --para-y: -2.78vh;
+  --para-w: 52.08vw;
+  --para-h: 105vh;
+  --para-skew: 20deg;
+  --pink-light: #ededed;
+  --pink-dark: #f49dfa;
+
+  position: fixed;
+  left: var(--para-x);
+  top: var(--para-y);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.para-bg,
+.para-fg {
+  position: absolute;
+  width: var(--para-w);
+  height: var(--para-h);
+  transform: skewX(calc(-1 * var(--para-skew)));
+  border-radius: 4px;
+}
+
+.para-bg {
+  background: var(--pink-light);
+  width: calc(var(--para-w) + 12px);
+  height: calc(var(--para-h) + 12px);
+  top: -6px;
+  left: -6px;
+  opacity: 0.7;
+}
+
+.para-fg {
+  background: var(--pink-dark);
+  z-index: 1;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.para-content {
+  transform: skewX(var(--para-skew));
+  padding: 5.56vh 8.33vw;
+  padding-top: 46.3vh;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.para-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  font-style: italic;
+  margin: 0 0 16px;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.para-desc {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  margin: 0 0 20px;
+  max-width: 600px;
+}
+
+.para-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.para-tag {
+  padding: 6px 16px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.para-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.para-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.45);
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.para-link:hover {
+  background: rgba(255,255,255,0.35);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+.para-link svg {
+  flex-shrink: 0;
+}
+
+.para-close {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.2rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  font-family: inherit;
+  line-height: 1;
+}
+
+.para-close:hover {
+  opacity: 1;
+}
+
+

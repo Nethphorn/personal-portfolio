@@ -1,0 +1,70 @@
+.rect-tri-deco {
+  --rt-w: 1300px;
+  --rt-h: 112px;
+  width: var(--rt-w) !important;
+  height: var(--rt-h) !important;
+  --rt-x: 47.5%;
+  --rt-y: 0%;
+  --rt-rotation: 0deg;
+  --rt-bg: #ededed; 
+  --rt-fg: #f49dfa;
+  --rt-align: center;
+  --rt-justify: center;
+  --rt-gap: 20px;
+  --rt-pad: 20px;
+
+  position: fixed;
+  left: var(--rt-x);
+  top: var(--rt-y);
+  z-index: 12;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.35));
+  transform: rotate(var(--rt-rotation));
+  transform-origin: center center;
+}
+
+.rect-tri-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  position: absolute;
+  inset: 0;
+}
+
+.rect-tri-poly {
+  fill: var(--rt-fg);
+  stroke: var(--rt-bg);
+  stroke-linejoin: miter;
+}
+
+.rect-tri-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: var(--rt-align);
+  justify-content: var(--rt-justify);
+  gap: var(--rt-gap);
+  padding: var(--rt-pad);
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  z-index: 1;
+}
+
+.rect-tri-content .rt-time {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.rect-tri-content .rt-date {
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.rect-tri-content .rt-weather {
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.8;
+}

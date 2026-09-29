@@ -1,0 +1,45 @@
+.home-para .dw-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  margin-bottom: 23vh;
+  margin-left: 3vw;
+  transform: rotate(-20deg);
+}
+
+.home-para .dw-row {
+  display: flex;
+  gap: 0.5vw;
+  align-items: center;
+}
+
+.home-para .dw-time {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 2vw;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.05vw;
+  text-shadow: 0 0 0.5vw rgba(0,0,0,0.6);
+  white-space: nowrap;
+}
+
+.home-para .dw-date {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75vw;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: 0.03vw;
+  text-shadow: 0 0 0.4vw rgba(0,0,0,0.6);
+  white-space: nowrap;
+}
+
+.home-para .dw-weather {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75vw;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: 0.03vw;
+  text-shadow: 0 0 0.4vw rgba(0,0,0,0.6);
+  white-space: nowrap;
+}
