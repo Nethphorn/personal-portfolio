@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
-import { onPageReady } from '../lib/transitionBus'
+import { onPageReady, onProgress } from '../lib/transitionBus'
 import './SplashScreen.css'
 
 export default function SplashScreen({ onDone }) {
   const [phase, setPhase] = useState('enter')
   const [ready, setReady] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     const unsub = onPageReady(() => setReady(true))
     return unsub
   }, [])
+
+  useEffect(() => onProgress(setProgress), [])
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase('first'), 400)
@@ -47,6 +50,11 @@ export default function SplashScreen({ onDone }) {
           </span>
         </div>
       </div>
+      {!ready && (
+        <div className="splash-progress">
+          <div className="splash-progress-fill" style={{ transform: `scaleX(${progress})` }} />
+        </div>
+      )}
     </div>
   )
 }
