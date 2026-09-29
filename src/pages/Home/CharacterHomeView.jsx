@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import * as THREE from 'three'
-import { createGLTFLoader, loadGLTF } from '../../lib/gltfLoader'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
@@ -92,15 +92,15 @@ function createBackground(scene, w, h) {
 }
 
 function loadModel(scene, camera, clock, mixerRef, cleanupFns, getRunning) {
-  const path = '/assets/3D_model/risa-sitting.glb'
-  const loader = createGLTFLoader()
-  loadGLTF(
-    loader,
+  const path = 'assets/3D_model/risa-sitting.glb'
+  const loader = new GLTFLoader()
+  loader.load(
     path,
     (gltf) => {
       if (!getRunning()) return
       setupModel(gltf)
     },
+    undefined,
     (err) => {
       console.error('Model load failed:', err)
     }

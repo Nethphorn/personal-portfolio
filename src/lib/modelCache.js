@@ -1,9 +1,9 @@
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import * as THREE from 'three'
-import { createGLTFLoader } from './gltfLoader'
 
 const cache = new Map()
 const loading = new Map()
-const loader = createGLTFLoader()
+const loader = new GLTFLoader()
 
 function cloneModel(gltf) {
   const cloned = gltf.scene.clone(true)

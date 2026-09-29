@@ -4,8 +4,8 @@ import CharacterResumeView from './CharacterResumeView'
 import './ResumePara.css'
 
 const RESUMES = [
-  { lang: 'English', file: '/img/resume/Nethphorn Tepbrathna.cv.pdf' },
-  { lang: '日本語', file: '/img/resume/履歴書.pdf' },
+  { lang: 'English', file: 'img/resume/Nethphorn Tepbrathna.cv.pdf' },
+  { lang: '日本語', file: 'img/resume/履歴書.pdf' },
 ]
 
 export default function Resume() {

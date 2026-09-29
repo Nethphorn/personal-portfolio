@@ -1,18 +1,15 @@
 import { useEffect, useState, useRef } from 'react'
-import { fireTransition, onPageReady, onProgress } from '../lib/transitionBus'
+import { fireTransition, onPageReady } from '../lib/transitionBus'
 import './TransitionOverlay.css'
 
 export default function TransitionOverlay({ targetName, onNavigate, onComplete }) {
   const [phase, setPhase] = useState(null)
-  const [progress, setProgress] = useState(0)
   const readyRef = useRef(false)
   const startedAt = useRef(Date.now())
 
   useEffect(() => {
     fireTransition()
   }, [])
-
-  useEffect(() => onProgress(setProgress), [])
 
   useEffect(() => {
     const unsub = onPageReady(() => {
@@ -72,9 +69,6 @@ export default function TransitionOverlay({ targetName, onNavigate, onComplete }
       <div className="p3t-curtain" />
       <div className="p3t-panel-wrap">
         <span className="p3t-label">{targetName}</span>
-        <div className="p3t-progress">
-          <div className="p3t-progress-fill" style={{ transform: `scaleX(${progress})` }} />
-        </div>
       </div>
     </div>
   )
