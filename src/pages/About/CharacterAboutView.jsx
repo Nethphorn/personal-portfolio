@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import { createGLTFLoader, loadGLTF } from '../../lib/gltfLoader'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
@@ -45,14 +45,14 @@ export default function CharacterAboutView() {
 
     const clock = new THREE.Clock()
 
-    const loader = new GLTFLoader()
-    loader.load(
-      'assets/3D_model/risa-laying-pose.glb',
+    const loader = createGLTFLoader()
+    loadGLTF(
+      loader,
+      '/assets/3D_model/risa-laying-pose.glb',
       (gltf) => {
         if (!running) return
         setupModel(gltf)
       },
-      undefined,
       (err) => console.error('Model load failed:', err)
     )
 

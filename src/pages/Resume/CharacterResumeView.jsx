@@ -22,7 +22,7 @@ export default function CharacterResumeView() {
 
   return (
     <CharacterScene
-      modelPath="assets/3D_model/risa-cross-legs.glb"
+      modelPath="/assets/3D_model/risa-cross-legs.glb"
       cameraPosition={[0, -3.06, 13.81]}
       defaultPosition={[5.56, -4.44]}
       defaultSpin={-112.1}

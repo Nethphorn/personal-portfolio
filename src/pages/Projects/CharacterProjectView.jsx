@@ -160,7 +160,7 @@ export default function CharacterProjectView({ onProjectClick }) {
 
   return (
     <CharacterScene
-      modelPath="assets/3D_model/risa-falling.glb"
+      modelPath="/assets/3D_model/risa-falling.glb"
       cameraPosition={CAM_POS}
       defaultPosition={DEF_POS}
       defaultSpin={DEF_SPIN}

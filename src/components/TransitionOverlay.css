@@ -81,3 +81,22 @@
   opacity: 0;
   transform: scale(1.15);
 }
+
+/* ====== LOADING PROGRESS ====== */
+.p3t-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
+.p3t-progress-fill {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.2s ease-out;
+}

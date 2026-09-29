@@ -45,7 +45,7 @@ export default function CharacterContactView() {
   return (
     <>
       <CharacterScene
-        modelPath="assets/3D_model/risa-wallstand.glb"
+        modelPath="/assets/3D_model/risa-wallstand.glb"
         cameraPosition={[6.85, 6.23, 5.11]}
         defaultPosition={[1.92, -5.82]}
         defaultTilt={0}
