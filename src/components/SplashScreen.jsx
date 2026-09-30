@@ -1,14 +1,21 @@
 import { useEffect, useState } from 'react'
 import { onPageReady } from '../lib/transitionBus'
+import Spinner from './Spinner'
 import './SplashScreen.css'
 
 export default function SplashScreen({ onDone }) {
   const [phase, setPhase] = useState('enter')
   const [ready, setReady] = useState(false)
+  const [slow, setSlow] = useState(false)
 
   useEffect(() => {
     const unsub = onPageReady(() => setReady(true))
     return unsub
+  }, [])
+
+  useEffect(() => {
+    const t = setTimeout(() => setSlow(true), 1500)
+    return () => clearTimeout(t)
   }, [])
 
   useEffect(() => {
@@ -46,6 +53,7 @@ export default function SplashScreen({ onDone }) {
             Portfolio
           </span>
         </div>
+        {slow && !ready && <Spinner />}
       </div>
     </div>
   )
