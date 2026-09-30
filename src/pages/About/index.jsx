@@ -8,15 +8,7 @@ import './Para.css'
 import './about.css'
 import './Textbox.css'
 
-const PAGES = ['About', 'Gallery']
-
-const PAGE_CONTENT = [
-  {
-    title: 'About Me',
-    text: "I'm a passionate full-stack developer with expertise in building modern web applications. I enjoy creating interactive experiences that blend functionality with creative design.",
-  },
-  { title: 'Gallery', text: 'A collection of moments and projects.' },
-]
+const PAGES = ['About', '私について']
 
 export default function About() {
   const startTransition = useContext(NavContext)
@@ -54,11 +46,11 @@ export default function About() {
           <div className="text-box-track" style={{ transform: `translateX(${page * -50}%)` }}>
             <div className="text-box">
               <h2>About Me</h2>
-              <p>I'm a passionate full-stack developer with expertise in building modern web applications. I enjoy creating interactive experiences that blend functionality with creative design.</p>
+              <p>I'm a full-stack developer. I build web apps, AI tools, and games — from DevOps and databases to UI/UX and frontend. I love learning new things and taking on challenges. Mistakes are just chances to grow.</p>
             </div>
             <div className="text-box">
-              <h2>Gallery</h2>
-              <p>A collection of moments and projects.</p>
+              <h2>私について</h2>
+              <p>私はフルスタック開発者です。Webアプリ、AIツール、ゲームを作っています。DevOpsやデータベースから、UI/UX、フロントエンドまで幅広く担当します。新しいことを学ぶのが好きで、挑戦するのが好きです。失敗は成長のチャンスです。</p>
             </div>
           </div>
         </div>

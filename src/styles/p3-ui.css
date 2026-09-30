@@ -158,6 +158,10 @@ body {
   margin: 0 auto;
 }
 
+.p3-panel-text + .p3-panel-text {
+  margin-top: 10px;
+}
+
 .p3-tags {
   display: flex;
   flex-wrap: wrap;
