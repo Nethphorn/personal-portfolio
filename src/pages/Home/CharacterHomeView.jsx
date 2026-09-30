@@ -1,6 +1,5 @@
 import { useRef, useEffect } from 'react'
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
@@ -8,6 +7,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import createWelcomeText from './WelcomeText'
 import { registerDebug } from '../../lib/debugStore'
 import { onTransition, signalPageReady } from '../../lib/transitionBus'
+import { loadModel as loadCachedModel } from '../../lib/modelCache'
 
 function centerModel(model) {
   const box = new THREE.Box3().setFromObject(model)
@@ -93,18 +93,14 @@ function createBackground(scene, w, h) {
 
 function loadModel(scene, camera, clock, mixerRef, cleanupFns, getRunning) {
   const path = 'assets/3D_model/risa-sitting.glb'
-  const loader = new GLTFLoader()
-  loader.load(
-    path,
-    (gltf) => {
+  loadCachedModel(path)
+    .then((gltf) => {
       if (!getRunning()) return
       setupModel(gltf)
-    },
-    undefined,
-    (err) => {
+    })
+    .catch((err) => {
       console.error('Model load failed:', err)
-    }
-  )
+    })
 
 function setupModel(gltf) {
     const m = gltf.scene

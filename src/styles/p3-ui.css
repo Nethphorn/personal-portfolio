@@ -72,7 +72,7 @@ body {
 .about-back {
   position: fixed;
   bottom: 3.33vh;
-  right: 1.875vw;
+  left: 1.875vw;
   z-index: 500;
   display: flex;
   align-items: center;
@@ -245,7 +245,7 @@ body {
 }
 
 @media (max-width: 768px) {
-  .about-back { bottom: 20px; right: 20px; padding: 6px 0; gap: 10px; }
+  .about-back { bottom: 20px; left: 20px; padding: 6px 0; gap: 10px; }
   .about-back-label { font-size: 14px; }
   .about-back-key { min-width: 32px; height: 24px; font-size: 10px; padding: 0 6px; }
 }

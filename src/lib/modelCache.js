@@ -1,48 +1,53 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import * as THREE from 'three'
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js'
+import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js'
 
 const cache = new Map()
-const loading = new Map()
+const pending = new Map()
 const loader = new GLTFLoader()
+loader.setMeshoptDecoder(MeshoptDecoder)
 
 function cloneModel(gltf) {
-  const cloned = gltf.scene.clone(true)
   return {
-    scene: cloned,
+    scene: cloneSkeleton(gltf.scene),
     animations: gltf.animations,
     scenes: gltf.scenes,
     cameras: gltf.cameras,
     asset: gltf.asset,
     parser: gltf.parser,
-    userData: gltf.userData
+    userData: gltf.userData,
   }
 }
 
 export function preloadModel(path) {
   if (cache.has(path)) return Promise.resolve(cache.get(path))
-  if (loading.has(path)) return loading.get(path)
+  if (pending.has(path)) return pending.get(path)
 
   const promise = new Promise((resolve, reject) => {
-    loader.load(path, (gltf) => {
-      cache.set(path, gltf)
-      loading.delete(path)
-      resolve(gltf)
-    }, undefined, (err) => {
-      loading.delete(path)
-      reject(err)
-    })
+    loader.load(
+      path,
+      (gltf) => {
+        cache.set(path, gltf)
+        pending.delete(path)
+        resolve(gltf)
+      },
+      undefined,
+      (err) => {
+        pending.delete(path)
+        reject(err)
+      }
+    )
   })
-  loading.set(path, promise)
+  pending.set(path, promise)
   return promise
 }
 
-export function getCachedModel(path) {
-  const gltf = cache.get(path)
-  console.log('[Cache] getCachedModel:', path, 'hit:', !!gltf)
-  return gltf ? cloneModel(gltf) : null
+export async function loadModel(path) {
+  const gltf = await preloadModel(path)
+  return cloneModel(gltf)
 }
 
 export function clearCache() {
   cache.clear()
-  loading.clear()
+  pending.clear()
 }
