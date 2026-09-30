@@ -2,6 +2,7 @@ import { lazy, Suspense, useState, useCallback } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { NavContext } from './lib/navContext'
 import { MusicProvider } from './lib/musicContext.jsx'
+import { preloadModel } from './lib/modelCache'
 import TransitionOverlay from './components/TransitionOverlay'
 import SplashScreen from './components/SplashScreen'
 
@@ -11,6 +12,14 @@ const ROUTE_NAMES = {
   '/projects': 'Projects',
   '/contact': 'Contact',
   '/resume': 'Resume',
+}
+
+const ROUTE_MODELS = {
+  '/': 'assets/3D_model/risa-sitting.glb',
+  '/about': 'assets/3D_model/risa-laying-pose.glb',
+  '/projects': 'assets/3D_model/risa-falling.glb',
+  '/contact': 'assets/3D_model/risa-wallstand.glb',
+  '/resume': 'assets/3D_model/risa-cross-legs.glb',
 }
 
 const Home = lazy(() => import('./pages/Home'))
@@ -33,6 +42,8 @@ function AppContent() {
 
   const startTransition = useCallback((path) => {
     const name = ROUTE_NAMES[path] || 'Page'
+    const model = ROUTE_MODELS[path]
+    if (model) preloadModel(model).catch(() => {})
     setTransition({ path, name })
   }, [])
 

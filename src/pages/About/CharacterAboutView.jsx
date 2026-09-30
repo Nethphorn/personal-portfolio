@@ -1,12 +1,12 @@
 import { useRef, useEffect } from 'react'
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import { registerDebug } from '../../lib/debugStore'
 import { onTransition, signalPageReady } from '../../lib/transitionBus'
+import { loadModel } from '../../lib/modelCache'
 
 export default function CharacterAboutView() {
   const containerRef = useRef(null)
@@ -45,16 +45,12 @@ export default function CharacterAboutView() {
 
     const clock = new THREE.Clock()
 
-    const loader = new GLTFLoader()
-    loader.load(
-      'assets/3D_model/risa-laying-pose.glb',
-      (gltf) => {
+    loadModel('assets/3D_model/risa-laying-pose.glb')
+      .then((gltf) => {
         if (!running) return
         setupModel(gltf)
-      },
-      undefined,
-      (err) => console.error('Model load failed:', err)
-    )
+      })
+      .catch((err) => console.error('Model load failed:', err))
 
     function setupModel(gltf) {
       const m = gltf.scene
