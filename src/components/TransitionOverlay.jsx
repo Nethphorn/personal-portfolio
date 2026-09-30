@@ -1,9 +1,11 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useSyncExternalStore } from 'react'
 import { fireTransition, onPageReady } from '../lib/transitionBus'
+import { subscribe, getSnapshot } from '../lib/loadingBus'
 import './TransitionOverlay.css'
 
 export default function TransitionOverlay({ targetName, onNavigate, onComplete }) {
   const [phase, setPhase] = useState(null)
+  const [slow, setSlow] = useState(false)
   const readyRef = useRef(false)
   const startedAt = useRef(Date.now())
 
@@ -23,6 +25,12 @@ export default function TransitionOverlay({ targetName, onNavigate, onComplete }
     })
     return unsub
   }, [])
+
+  useEffect(() => {
+    if (phase !== 'panel-in') return
+    const t = setTimeout(() => setSlow(true), 1500)
+    return () => clearTimeout(t)
+  }, [phase])
 
   useEffect(() => {
     if (phase === 'curtain-in') {
@@ -64,10 +72,20 @@ export default function TransitionOverlay({ targetName, onNavigate, onComplete }
   const exit = phase === 'curtain-out' ? 'exit' : ''
   const active = phase !== null
 
+  const { total, progress } = useSyncExternalStore(subscribe, getSnapshot)
+  const determinate = total > 0
+  const pct = determinate ? Math.min(100, Math.round(progress * 100)) : 0
+
   return (
-    <div className={`p3t${active ? ' active' : ''} ${cover ? 'cover' : ''} ${exit}${phase === 'panel-in' || phase === 'panel-out' ? ` ${phase}` : ''}`}>
+    <div className={`p3t${active ? ' active' : ''} ${cover ? ' cover' : ''} ${exit}${phase === 'panel-in' || phase === 'panel-out' ? ` ${phase}` : ''}`}>
       <div className="p3t-curtain" />
       <div className="p3t-panel-wrap">
+        {phase === 'panel-in' && slow && (
+          <div
+            className={`p3t-bar-fill${determinate ? '' : ' is-indet'}`}
+            style={determinate ? { width: `${pct}%` } : undefined}
+          />
+        )}
         <span className="p3t-label">{targetName}</span>
       </div>
     </div>

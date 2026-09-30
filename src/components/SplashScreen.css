@@ -52,3 +52,10 @@
 .splash-sub {
   font-size: clamp(1.4rem, 3vw, 2.8rem);
 }
+
+.splash-inner .spinner {
+  position: fixed;
+  left: calc(50% - 26px);
+  bottom: 12vh;
+  margin: 0;
+}
